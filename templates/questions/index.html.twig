@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Questions index{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-md-12 mb-lg-0 mb-4">
+        <div class="card mt-4">
+            <div class="row">  
+                <div class="col-6 d-flex align-items-center">
+                    <h4>Questions table</h4>
+                </div>
+                <div class="col-6 text-end">
+                    <a class="btn bg-gradient-dark mb-0" href="{{ path('app_questions_new') }}"><i class="fas fa-plus"></i> Ajouter Question</a>
+                </div>
+            </div>
+            <div class="card-body p-3">
+                <div class="table-responsive p-0">
+                    <table class="table align-items-center mb-0">
+                        <thead>
+                            <tr>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    IdQuestion</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                    Contenu</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Reponse1</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Reponse2</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Reponse3</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Bonne Reponse</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for question in questions %}
+                            <tr>
+                                <td>
+                                    <p class="text-xs font-weight-bold mb-0">{{ question.idQuestion }}</p>
+                                </td>
+                                <td>
+                                    <p class="text-xs font-weight-bold mb-0">{{ question.contenu }}</p>
+                                </td>
+                                <td>
+                                    <p class="text-xs font-weight-bold mb-0">{{ question.rep1 }}</p>
+                                </td>
+                                <td>
+                                    <p class="text-xs font-weight-bold mb-0">{{ question.rep2 }}</p>
+                                </td>
+                                <td>
+                                    <p class="text-xs font-weight-bold mb-0">{{ question.rep3 }}</p>
+                                </td>
+                                <td>
+                                    <p class="text-xs font-weight-bold mb-0">{{ question.bonRep }}</p>
+                                </td>
+                                <td>
+                                    <a href="{{ path('app_questions_show', {'idQuestion': question.idQuestion}) }}">show</a>
+                                    <a class="btn btn-link text-dark px-3 mb-0" href="{{ path('app_questions_edit', {'idQuestion': question.idQuestion}) }}"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit</a>
+                                    <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;"><i class="far fa-trash-alt me-2"></i>Delete</a>
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="7">no records found</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
