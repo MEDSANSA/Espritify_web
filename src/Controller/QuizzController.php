@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/quizz')]
+#[Route('/quizzback')]
 class QuizzController extends AbstractController
 {
     #[Route('/', name: 'app_quizz_index', methods: ['GET'])]
