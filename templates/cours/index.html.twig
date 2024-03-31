@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Courses index{% endblock %}
+
+{% block body %}
+    <div class="row">
+    <div class="col-md-12 mb-lg-0 mb-4">
+        <div class="card mt-4">
+            <div class="row">  
+                <div class="col-6 d-flex align-items-center">
+                    <h4>Courses table</h4>
+                </div>
+                <div class="col-6 text-end">
+                    <a class="btn bg-gradient-dark mb-0" href="{{ path('app_cours_new') }}"><i class="fas fa-plus"></i> Add Course</a>
+                </div>
+            </div>
+            <div class="card-body p-3">
+                <div class="table-responsive p-0">
+                    <table class="table align-items-center mb-0">
+                        <thead>
+                            <tr>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Id</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                    Title</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Conetnt</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    State</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Rate</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Category</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for cours in cours %}
+                            <tr>
+                                <td>
+                                    <p class="text-xs font-weight-bold mb-0">{{ cours.id }}</p>
+                                </td>
+                                <td>
+                                    <p class="text-xs font-weight-bold mb-0">{{ cours.title }}</p>
+                                </td>
+                                <td>
+                                    <p class="text-xs font-weight-bold mb-0">{{ cours.contenu }}</p>
+                                </td>
+                                <td>
+                                    <p class="text-xs font-weight-bold mb-0">{{ cours.etat }}</p>
+                                </td>
+                                <td>
+                                    <p class="text-xs font-weight-bold mb-0">{{ cours.rate }}</p>
+                                </td>
+                                <td>
+                                    <p class="text-xs font-weight-bold mb-0">{{ cours.idCat }}</p>
+                                </td>
+                                <td>
+                                    <a class="btn btn-link text-dark px-3 mb-0" href="{{ path('app_cours_edit', {'id': cours.id}) }}"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit</a>
+                                    {{ include('cours/_delete_form.html.twig') }}
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="7">no data found</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
