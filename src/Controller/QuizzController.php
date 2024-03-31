@@ -14,14 +14,27 @@ use Symfony\Component\Routing\Annotation\Route;
 class QuizzController extends AbstractController
 {
     #[Route('/', name: 'app_quizz_index', methods: ['GET'])]
-    public function index(EntityManagerInterface $entityManager): Response
+    public function index(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $quizzs = $entityManager
-            ->getRepository(Quizz::class)
-            ->findAll();
+        $searchTerm = $request->query->get('q');
+        
+        if (!$searchTerm) {
+            $quizzs = $entityManager
+                ->getRepository(Quizz::class)
+                ->findAll();
+        } else {
+            $quizzs = $entityManager
+                ->getRepository(Quizz::class)
+                ->createQueryBuilder('q')
+                ->where('q.sujet LIKE :searchTerm')
+                ->setParameter('searchTerm', '%'.$searchTerm.'%')
+                ->getQuery()
+                ->getResult();
+        }
 
         return $this->render('quizz/index.html.twig', [
             'quizzs' => $quizzs,
+            'searchTerm' => $searchTerm,
         ]);
     }
 

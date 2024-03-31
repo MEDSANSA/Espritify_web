@@ -2,6 +2,13 @@
 
 {% block title %}Quizz index{% endblock %}
 
+{% block search %} 
+    <form action="{{ path('app_quizz_index') }}" method="GET" class="input-group">
+        <button type="submit"><span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span></button>
+        <input type="text" class="form-control" name="q" placeholder="Type here..." >
+    </form>
+{% endblock %}
+
 {% block body %}
 <div class="row">
     <div class="col-md-12 mb-lg-0 mb-4">
@@ -53,7 +60,7 @@
                             </tr>
                             {% else %}
                             <tr>
-                                <td colspan="7">no records found</td>
+                                <td colspan="7">no data found</td>
                             </tr>
                             {% endfor %}
                         </tbody>
