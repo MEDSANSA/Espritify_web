@@ -57,9 +57,8 @@
                                     <p class="text-xs font-weight-bold mb-0">{{ question.bonRep }}</p>
                                 </td>
                                 <td>
-                                    <a href="{{ path('app_questions_show', {'idQuestion': question.idQuestion}) }}">show</a>
                                     <a class="btn btn-link text-dark px-3 mb-0" href="{{ path('app_questions_edit', {'idQuestion': question.idQuestion}) }}"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit</a>
-                                    <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;"><i class="far fa-trash-alt me-2"></i>Delete</a>
+                                    {{ include('questions/_delete_form.html.twig') }}
                                 </td>
                             </tr>
                             {% else %}

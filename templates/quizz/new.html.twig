@@ -3,9 +3,10 @@
 {% block title %}New Quizz{% endblock %}
 
 {% block body %}
-    <h1>Create new Quizz</h1>
+    <div class="d-flex justify-content-between align-items-center">
+        <h1>Create new Quizz</h1>
+        <a class="btn btn-round btn-sm mb-0 btn-outline-primary" href="{{ path('app_quizz_index') }}">Back to list</a>
+    </div>
 
     {{ include('quizz/_form.html.twig') }}
-
-    <a href="{{ path('app_quizz_index') }}">back to list</a>
 {% endblock %}

@@ -3,35 +3,64 @@
 {% block title %}Quizz index{% endblock %}
 
 {% block body %}
-    <h1>Quizz index</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>IdQuizz</th>
-                <th>Sujet</th>
-                <th>Description</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for quizz in quizzs %}
-            <tr>
-                <td>{{ quizz.idQuizz }}</td>
-                <td>{{ quizz.sujet }}</td>
-                <td>{{ quizz.description }}</td>
-                <td>
-                    <a href="{{ path('app_quizz_show', {'idQuizz': quizz.idQuizz}) }}">show</a>
-                    <a href="{{ path('app_quizz_edit', {'idQuizz': quizz.idQuizz}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_quizz_new') }}">Create new</a>
+<div class="row">
+    <div class="col-md-12 mb-lg-0 mb-4">
+        <div class="card mt-4">
+            <div class="row">  
+                <div class="col-6 d-flex align-items-center">
+                    <h4>Quizz table</h4>
+                </div>
+                <div class="col-6 text-end">
+                    <a class="btn bg-gradient-dark mb-0" href="{{ path('app_quizz_new') }}"><i class="fas fa-plus"></i> Ajouter Quizz</a>
+                </div>
+            </div>
+            <div class="card-body p-3">
+                <div class="table-responsive p-0">
+                    <table class="table align-items-center mb-0">
+                        <thead>
+                            <tr>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    IdQuizz</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                    Sujet</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Description</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Question</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for quizz in quizzs %}
+                            <tr>
+                                <td>
+                                    <p class="text-xs font-weight-bold mb-0">{{ quizz.idQuizz }}</p>
+                                </td>
+                                <td>
+                                    <p class="text-xs font-weight-bold mb-0">{{ quizz.sujet }}</p>
+                                </td>
+                                <td>
+                                    <p class="text-xs font-weight-bold mb-0">{{ quizz.description }}</p>
+                                </td>
+                                <td>
+                                    <p class="text-xs font-weight-bold mb-0">{{ quizz.idQuestion }}</p>
+                                </td>
+                                <td>
+                                    <a class="btn btn-link text-dark px-3 mb-0" href="{{ path('app_quizz_edit', {'idQuizz': quizz.idQuizz}) }}"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit</a>
+                                    {{ include('quizz/_delete_form.html.twig') }}
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="7">no records found</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
