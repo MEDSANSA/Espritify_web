@@ -1,0 +1,11 @@
+{% extends 'Adminbase.html.twig' %}
+
+{% block title %}New Club{% endblock %}
+
+{% block body %}
+    <h1>Create new Club</h1>
+
+    {{ include('Admin/club/_form.html.twig') }}
+
+    <a href="{{ path('app_club_index') }}">back to list</a>
+{% endblock %}

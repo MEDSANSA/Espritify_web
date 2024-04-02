@@ -1,0 +1,6 @@
+index:
+  path: /
+  controller: App\Controller\AccueilController::index
+generate_qr_code:
+  path: /generate-qr-code/{id}
+  controller: App\Controller\ClubController::generateQrCodeAction
