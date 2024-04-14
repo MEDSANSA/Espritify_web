@@ -3,6 +3,8 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Evenement;
+use App\Entity\Utilisateur;
+use App\Entity\ParticipationEvenement;
 use App\Form\EvenementType;
 use App\Repository\EvenementRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -19,6 +21,7 @@ class EvenementController extends AbstractController
     {
         return $this->render('Admin/evenement/index.html.twig', [
             'evenements' => $evenementRepository->findAll(),
+
         ]);
     }
 
@@ -59,7 +62,7 @@ class EvenementController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('Admin/evenement/app_evenement_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_evenement_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('Admin/evenement/edit.html.twig', [
@@ -76,6 +79,33 @@ class EvenementController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('Admin/evenement/app_evenement_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_evenement_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+
+
+    #[Route('/evenement/{id}/participer', name: 'participer_evenement', methods: ['POST'])]
+    public function participer(Evenement $evenement, EntityManagerInterface $entityManager): Response
+    {
+       // $user = $this->getUser();
+        $user = $entityManager->getRepository(Utilisateur::class)->find(1);
+
+        //créer une nouvelle entité de participation
+        $participation = new ParticipationEvenement();
+
+
+        //Enregistrer la nouvelle participation dans la base de données
+        $participation->setIdUser($user);
+        $participation->setIdEvenement($evenement);
+
+// Ajoutez cette participation à l'utilisateur
+        $user->addParticipationEvenement($participation);
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $entityManager->persist($participation);
+        $entityManager->flush();
+        return $this->redirectToRoute('app_club_details', [], Response::HTTP_SEE_OTHER);
+
+
     }
 }

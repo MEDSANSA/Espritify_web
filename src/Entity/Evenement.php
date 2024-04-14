@@ -25,9 +25,10 @@ class Evenement
     #[Assert\NotNull]
     private ?Club $id_club;
 
-    #[ORM\Column(length: 255)]
-    #[Assert\NotBlank]
+    #[ORM\Column( type:"string",length: 255, nullable: false, name:'titre')]
+    #[Assert\NotBlank(allowNull: true)]
     #[Assert\NotNull]
+
     private ?string $titre;
 
     #[ORM\Column(length: 255)]
@@ -49,6 +50,10 @@ class Evenement
     #[ORM\Column(type: Types::DATE_MUTABLE, name:'date_fin')]
     #[Assert\NotBlank]
     #[Assert\NotNull]
+    #[Assert\Expression(
+        "(this.getDateFin() >= this.getDateDebut())",
+        message : "La date de fin doit être postérieure à la date de début"
+    )]
     #[Assert\DateTimeInterface]
     private ?\DateTimeInterface $date_fin;
 
@@ -167,4 +172,5 @@ class Evenement
 
         return $this;
     }
+
 }

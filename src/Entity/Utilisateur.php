@@ -413,22 +413,22 @@ class Utilisateur
         return $this->participationEvenement;
     }
 
-    public function addparticipationEvenement(ParticipationEvenement $idEvenement): static
+    public function addparticipationEvenement(ParticipationEvenement $participationEvenement): static
     {
-        if (!$this->participationEvenement->contains($idEvenement)) {
-            $this->participationEvenement->add($idEvenement);
-            $idEvenement->setIdUser($this);
+        if (!$this->participationEvenement->contains($participationEvenement)) {
+            $this->participationEvenement->add($participationEvenement);
+            $participationEvenement->setIdUser($this);
         }
 
         return $this;
     }
 
-    public function removeparticipationEvenement(ParticipationEvenement $idEvenement): static
+    public function removeparticipationEvenement(ParticipationEvenement $participationEvenement): static
     {
-        if ($this->participationEvenement->removeElement($idEvenement)) {
+        if ($this->participationEvenement->removeElement($participationEvenement)) {
             // set the owning side to null (unless already changed)
-            if ($idEvenement->getIdUser() === $this) {
-                $idEvenement->setIdUser(null);
+            if (participationEvenement->getIdUser() === $this) {
+                participationEvenement->setIdUser(null);
             }
         }
 

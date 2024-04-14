@@ -89,6 +89,8 @@ class ClubController extends AbstractController
             }
         return $this->render('Admin/club/index.html.twig', [
             'clubs' => $clubRepository->findAll(),
+            'uploads_directory' => $this->getParameter('uploads_directory'),
+
         ]);
     }
 
@@ -121,6 +123,7 @@ class ClubController extends AbstractController
         return $this->renderForm('/Admin/club/new.html.twig', [
             'club' => $club,
             'form' => $form,
+            'uploads_directory' => $this->getParameter('uploads_directory'),
         ]);
     }
 
@@ -134,15 +137,29 @@ class ClubController extends AbstractController
 
     #[Route('/{id}/edit', name: 'app_club_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Club $club, EntityManagerInterface $entityManager): Response
-    {
-        $form = $this->createForm(ClubType::class, $club);
+    {   $clubImageUrl = $club->getLogo();
+        $form = $this->createForm(ClubType::class, $club, ['current_logo_path' => $clubImageUrl]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
 
-            return $this->redirectToRoute('app_club_index', [], Response::HTTP_SEE_OTHER);
+            if (!is_null($club->getLogo())) {
+                $file = $form->get('logo')->getData();
+
+                $fileName = md5(uniqid()) . 'Property-.' . $file->guessExtension();
+                $file->move(
+                    $this->getParameter('uploads_directory'),
+                    $fileName
+                );
+
+                $club->setLogo($fileName);
+
+                $entityManager->flush();
+
+                return $this->redirectToRoute('app_club_index', [], Response::HTTP_SEE_OTHER);
+            }
         }
+        dump($request->request->all());
 
         return $this->renderForm('Admin/club/edit.html.twig', [
             'club' => $club,
@@ -181,5 +198,7 @@ class ClubController extends AbstractController
             // Return the QR code image as a response
             return new Response($qrCode->writeString(), 200, ['Content-Type' => $qrCode->getContentType()]);
         }
+
+
 }
 

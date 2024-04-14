@@ -16,7 +16,7 @@ class Club
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     #[Assert\NotBlank]
     private ?string $intitule;
 
@@ -25,7 +25,7 @@ class Club
     private ?string $logo;
 
     #[ORM\Column(length: 255, name:'emailClub')]
-    #[Assert\NotBlank]
+    #[Assert\NotBlank( message: 'The email is required.')]
     #[Assert\Email(
             message: 'The email {{ value }} is not a valid email.',
         )]
@@ -139,5 +139,9 @@ class Club
         }
 
         return $this;
+    }
+    public function __toString(): string
+    {
+        return $this->intitule ?? ''; // Return the 'intitule' property or an empty string if it's null
     }
 }

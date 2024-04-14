@@ -1,0 +1,120 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}meetings!{% endblock %}
+ {% block header %}
+    <header class="header-area header-sticky">
+      <div class="container">
+          <div class="row">
+              <div class="col-12">
+                  <nav class="main-nav">
+                      <!-- ***** Logo Start ***** -->
+                      <a href="index.html" class="logo">
+                          Espritify
+                      </a>
+                      <!-- ***** Logo End ***** -->
+                      <!-- ***** Menu Start ***** -->
+                      <ul class="nav">
+                          <li class="scroll-to-section"><a href="{{path('app_accueil')}}" >Home</a></li>
+                          <li><a href="#top" class="active">Meetings</a></li>
+                          <li class="scroll-to-section"><a href="#apply">Apply Now</a></li>
+                          <li class="has-sub">
+                              <a href="javascript:void(0)">Pages</a>
+                              <ul class="sub-menu">
+                                  <li><a href="{{path('app_meetings')}}">Upcoming Meetings</a></li>
+                                  <li><a href="{{path('app_meeting-details')}}">Meeting Details</a></li>
+                              </ul>
+                          </li>
+                          <li class="scroll-to-section"><a href="#courses">Courses</a></li>
+                          <li class="scroll-to-section"><a href="#contact">Contact Us</a></li>
+                      </ul>
+                      <a class='menu-trigger'>
+                          <span>Menu</span>
+                      </a>
+                      <!-- ***** Menu End ***** -->
+                  </nav>
+              </div>
+          </div>
+      </div>
+  </header>
+
+    {% endblock %}
+{% block banner %}
+{% endblock %}
+    {% block body %}
+
+  <section class="heading-page header-text" id="top">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <h6>Here are our upcoming meetings</h6>
+          <h2>Upcoming Meetings</h2>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="meetings-page" id="meetings">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="filters">
+                <ul>
+                  <li data-filter="*"  class="active">All Meetings</li>
+                  <li data-filter=".soon">Soon</li>
+                  <li data-filter=".imp">Important</li>
+                  <li data-filter=".att">Attractive</li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-lg-12">
+              <div class="row grid">
+              {% for club in clubs %}
+                <div class="col-lg-8 templatemo-item-col all soon">
+                  <div class="meeting-item">
+                    <div class="thumb">
+                      <a href="{{path('app_evenements_details', {'id': club.id})}}"><img src="{{ asset('/uploads/brochures/' ~ club.logo)}}" height="200" width="100"alt=""></a>
+                    </div>
+                    <div class="down-content">
+                      <div class="date">
+                      </div>
+                        <h4><img src="{{ asset("assets/img/logos/icons8-ruban.png")}}" style="height: 30px; width: 30px; vertical-align: middle;"> <a href="{{path('app_meeting-details')}}">{{ club.intitule }}</h4></a>
+                        <div></br></div>
+                      <h4><img src="{{ asset("assets/img/logos/icons8-email-50.png")}}" style="height: 30px; width: 30px; vertical-align: middle;">{{ club.emailClub }}</h4>
+
+                        <h4><img src="{{ asset("assets/img/logos/icons8-fb-50.png")}}" style="height: 30px; width: 30px; vertical-align: middle;"><a href="{{ club.pageFb }}">{{ club.pageFb }}</a></h4>
+                        <h4><img src="{{ asset("assets/img/logos/icons8-instagram-50.png")}}" style="height: 30px; width: 30px; vertical-align: middle;"> <a href="{{ club.pageInsta }}">{{ club.pageInsta }}</a></h4>
+
+                        <div></br></div><a href="{{path('app_evenements_details', {'id': club.id})}}" class="filters" style="horizental-align: right;">
+                                <ul>
+                                    <li data-filter="*"  class="active">Voir les évènements</li>
+
+                                </ul>
+                                </a>
+                    </div>
+                  </div>
+                </div>
+                {% endfor %}
+
+
+
+
+            </div>
+            <div class="col-lg-12">
+              <div class="pagination">
+                <ul>
+                  <li><a href="#">1</a></li>
+                  <li class="active"><a href="#">2</a></li>
+                  <li><a href="#">3</a></li>
+                  <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    {% endblock %}

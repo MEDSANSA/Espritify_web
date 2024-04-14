@@ -27,11 +27,11 @@
                 <td>{{ club.intitule }}</td>
                 <td><img src="{{asset('/uploads/brochures/' ~ club.logo) }}" width="100" height="100"/></td>
                 <td>{{ club.emailClub }}</td>
-                <td>{{ club.pageFb }}</td>
+                <td><a href="{{ club.pageFb }}">{{ club.pageFb }}</a></td>
                 <td  > <svg style="text-align: center;" width="150" height="150" xmlns="http://www.w3.org/2000/svg">
                                 <image xlink:href="{{ asset('/qrcodes/' ~ club.qrCodeFbUrl) }}" width="100" height="100" />
                             </svg> </td>
-                 <td>{{ club.pageInsta }}</td>
+                 <td><a href="{{ club.pageInsta }}">{{ club.pageInsta }}</a></td>
                 <td> <svg style="center" width="200" height="200" xmlns="http://www.w3.org/2000/svg">
                                 <image xlink:href="{{ asset('/qrcodes/' ~ club.qrCodeInstaUrl) }}" width="100" height="100" />
                             </svg> </td>

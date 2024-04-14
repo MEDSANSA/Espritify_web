@@ -18,14 +18,14 @@
     <h1>Create New Evenement</h1>
 
     {# Form for creating an event #}
-    {{ form_start(form) }}
+    {{ form_start(form,{'attr' : {'novalidate' : 'novalidate' }}) }}
      {{ form_row(form.id_club) }}
     {{ form_row(form.titre) }}
     {{ form_row(form.description) }}
    {{ form_row(form.date_debut) }}
     {{ form_row(form.date_fin) }}
     {# Hidden input field for capturing the selected location coordinates #}
-{{ form_row(form.lieu, {'attr': {'style': 'display: none;'}, 'id': 'lieu'}) }}
+{{ form_row(form.lieu,  {'id': 'lieu'}) }}
 
     <div id="map"></div>
 

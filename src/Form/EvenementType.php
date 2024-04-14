@@ -10,6 +10,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\TextType; // Importer le type TextType
+
 
 
 class EvenementType extends AbstractType
@@ -17,9 +19,13 @@ class EvenementType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('titre')
+            ->add('titre', TextType::class, [
+
+            ])
             ->add('description')
-            ->add('lieu')
+            ->add('lieu', TextType::class, [
+                'label' => 'Lieu de l\'événement',
+            ])
             ->add('date_debut', DateType::class, [
             'widget' => 'choice',])
             ->add('date_fin')

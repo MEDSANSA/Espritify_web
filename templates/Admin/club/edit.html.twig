@@ -1,11 +1,15 @@
 {% extends 'Adminbase.html.twig' %}
 
+
 {% block title %}Edit Club{% endblock %}
 
 {% block body %}
     <h1>Edit Club</h1>
-
-    {{ include('Admin/club/_form.html.twig', {'button_label': 'Update'}) }}
+ 
+    {{ form_start(form, { 'attr' : {'novalidate' : 'novalidate' }}) }}
+    {{ form_widget(form) }}
+    <button class="btn">{{ button_label|default('Save') }}</button>
+    {{ form_end(form) }}
 
     <a href="{{ path('app_club_index') }}">back to list</a>
 

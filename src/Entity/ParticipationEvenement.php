@@ -9,7 +9,9 @@ use Doctrine\ORM\Mapping as ORM;
 class ParticipationEvenement
 {
 
-      
+    #[ORM\Id]
+
+    #[ORM\ManyToOne(inversedBy: 'participationEvenements')]
     #[ORM\JoinColumn(name: 'id_user', referencedColumnName: 'id')]
     private ?Utilisateur $id_user = null;
     #[ORM\Id]
