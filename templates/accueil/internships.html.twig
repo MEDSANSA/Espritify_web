@@ -1,0 +1,106 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}internships{% endblock %}
+ {% block header %} 
+    <header class="header-area header-sticky">
+      <div class="container">
+          <div class="row">
+              <div class="col-12">
+                  <nav class="main-nav">
+                      <!-- ***** Logo Start ***** -->
+                      <a href="index.html" class="logo">
+                          Espritify
+                      </a>
+                      <!-- ***** Logo End ***** -->
+                      <!-- ***** Menu Start ***** -->
+                      <ul class="nav">
+                          <li class="scroll-to-section"><a href="{{path('app_accueil')}}" >Home</a></li>
+                          <li><a href="meetings.html">Meetings</a></li>
+                          <li class="scroll-to-section"><a href="#apply">Apply Now</a></li>
+                           <li class="has-sub">
+                              <a href="javascript:void(0)" href="#top" class="active">Internships</a>
+                              <ul class="sub-menu">
+                                  <li><a  href="{{path('app_internships')}}">Available Internships</a></li>
+                                  <li><a href="">Upcoming Interviews</a></li>
+                              </ul>
+                          </li>
+                          <li class="scroll-to-section"><a href="#courses">Courses</a></li> 
+                          <li class="scroll-to-section"><a href="#contact">Contact Us</a></li> 
+                      </ul>        
+                      <a class='menu-trigger'>
+                          <span>Menu</span>
+                      </a>
+                      <!-- ***** Menu End ***** -->
+                  </nav>
+              </div>
+          </div>
+      </div>
+  </header>
+  
+    {% endblock %}
+{% block banner %}
+{% endblock %}
+    {% block body %}
+    
+  <section class="heading-page header-text" id="top">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <h6>Here are our Available Internships</h6>
+          <h2>Available Internships</h2>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="meetings-page" id="meetings">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="filters">
+                <ul>
+                  <li data-filter="*"  class="active">All Internships</li>
+                  <li data-filter=".soon">Soon</li>
+                  <li data-filter=".imp">Important</li>
+                  <li data-filter=".att">Attractive</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="col-lg-12">
+              <div class="row grid">
+              {% for i in offreStage %}
+             
+                <div class="col-lg-4 templatemo-item-col all soon"> 
+                  <div class="meeting-item">
+                  
+                    <div class="down-content"><a href="{{path('app_internship-details' , {'id': i.id})}}">
+                   
+                      <a href="{{path('app_internship-details' , {'id': i.id})}}"><h4>{{i.titre}}</h4></a>
+                      <p><b>Description: </b> <br>{{i.description}}</p>
+    </a>
+                    </div>
+                  </div> 
+                </div>
+               
+                {% endfor %}
+
+            <div class="col-lg-12">
+              <div class="pagination">
+                <ul>
+                  <li class="active"><a href="#" >1</a></li>
+                  <li ><a href="#">2</a></li>
+                  <li><a href="#">3</a></li>
+                  <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+   
+
+    {% endblock %}

@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 #[ORM\Entity(repositoryClass: OffrestageRepository::class)]
 class Offrestage
 {
@@ -16,21 +18,28 @@ class Offrestage
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    
+    #[Assert\NotBlank(allowNull: true,message: "Internship title is required")]
     private ?string $titre = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(allowNull: true,message: "Internship description is required")]
     private ?string $description = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(allowNull: true,message: "Internship skills are required")]
     private ?string $competance = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(allowNull: true,message: "Internship company description is required")]
     private ?string $desc_soc = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(allowNull: true,message: "Internship company name is required")]
     private ?string $nom_soc = null;
 
     #[ORM\Column(type: "type_enum")]
+    #[Assert\NotBlank(allowNull: true,message: "Internship type is required")]
     private ?string $type = null;
 
     #[ORM\OneToMany(targetEntity: DossierStage::class, mappedBy: 'id_offre')]
@@ -180,5 +189,10 @@ class Offrestage
         }
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->id ;
     }
 }

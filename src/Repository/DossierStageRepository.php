@@ -20,7 +20,17 @@ class DossierStageRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, DossierStage::class);
     }
-
+    /**
+     * Find DossierStage by id_user and id_offre.
+     *
+     * @param int $userId
+     * @param int $offreId
+     * @return DossierStage|null
+     */
+    public function findByUserIdAndOffreId(int $userId, int $offreId): ?DossierStage
+    {
+        return $this->findOneBy(['id_user' => $userId, 'id_offre' => $offreId]);
+    }
 //    /**
 //     * @return DossierStage[] Returns an array of DossierStage objects
 //     */

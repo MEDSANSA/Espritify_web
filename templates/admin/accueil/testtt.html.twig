@@ -1,0 +1,5 @@
+{% for dossier in dossierStage %}
+    <img src="{{ asset('uploads/' ~ dossier.cv) }}" alt="CV Image">
+    <img src="{{ asset('uploads/' ~ dossier.convention) }}" alt="Convention Image">
+    <img src="{{ asset('uploads/' ~ dossier.copieCin) }}" alt="ID Card Image">
+{% endfor %}

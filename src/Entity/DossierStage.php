@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\DossierStageRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: DossierStageRepository::class)]
 class DossierStage
@@ -22,12 +23,15 @@ class DossierStage
     private ?Offrestage $id_offre = null;
 
     #[ORM\Column(length: 255, nullable:true)]
+    #[Assert\NotBlank(message: "CV file is required")]
     private ?string $cv = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Internship convention file is required")]
     private ?string $convention = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "ID card copy file is required")]
     private ?string $copie_cin = null;
 
     

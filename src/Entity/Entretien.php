@@ -6,6 +6,7 @@ use App\Repository\EntretienRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: EntretienRepository::class)]
 class Entretien
 {
@@ -15,48 +16,54 @@ class Entretien
     #[ORM\ManyToOne(inversedBy: 'entretiens')]
       
     #[ORM\JoinColumn(name: 'id_user', referencedColumnName: 'id')]
-    private ?utilisateur $id_user = null;
+ 
+    private ?Utilisateur $id_user = null;
     #[ORM\Id]
     #[ORM\ManyToOne(inversedBy: 'entretiens')]
       
     #[ORM\JoinColumn(name: 'id_stage', referencedColumnName: 'id')]
-    private ?offrestage $id_stage = null;
+    private ?Offrestage $id_stage = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Interview type is required")]
     private ?string $type = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Interview description is required")]
     private ?string $description = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Assert\NotBlank(message: "Internship date is required")]
     private ?\DateTimeInterface $date = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Interview place is required")]
     private ?string $lieu = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: "Interview state is required")]
     private ?bool $etat = null;
 
     
 
-    public function getIdUser(): ?utilisateur
+    public function getIdUser(): ?Utilisateur
     {
         return $this->id_user;
     }
 
-    public function setIdUser(?utilisateur $id_user): static
+    public function setIdUser(?Utilisateur $id_user): static
     {
         $this->id_user = $id_user;
 
         return $this;
     }
 
-    public function getIdStage(): ?offrestage
+    public function getIdStage(): ?Offrestage
     {
         return $this->id_stage;
     }
 
-    public function setIdStage(?offrestage $id_stage): static
+    public function setIdStage(?Offrestage $id_stage): static
     {
         $this->id_stage = $id_stage;
 

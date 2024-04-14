@@ -20,6 +20,17 @@ class EntretienRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Entretien::class);
     }
+    /**
+     * Find Entretien by id_user and id_offre.
+     *
+     * @param int $userId
+     * @param int $offreId
+     * @return Entretien|null
+     */
+    public function findByUserIdAndOffreId(int $userId, int $offreId): ?Entretien
+    {
+        return $this->findOneBy(['id_user' => $userId, 'id_stage' => $offreId]);
+    }
 
 //    /**
 //     * @return Entretien[] Returns an array of Entretien objects
