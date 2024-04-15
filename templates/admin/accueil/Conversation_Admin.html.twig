@@ -1,0 +1,66 @@
+{% extends 'back.html.twig' %}
+{% block title %} Complaints {% endblock %}
+{% block body %}
+<div class="row">
+        <div class="col-12">
+          <div class="card mb-4">
+            <div class="card-header pb-0">
+              <h6>Publication table</h6>
+            <Last Name          <div class="card-body px-0 pt-0 pb-2">
+              <div cTitletable-responsive p-0">
+
+                <table class="table align-items-center mb-0">
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">First Name</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Last Name</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Title</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Description </th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date </th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">options </th>
+                      <th class="text-secondary opacity-7"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for conversation in Conversation %}
+                  {% set user = conversation.getIdUser() %}
+                    <tr>
+                    <td>
+                          <div class="d-flex flex-column justify-content-center">
+
+                            <p class="text-xs font-weight-bold mb-0"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ user.getNom() }}</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <p class="text-xs font-weight-bold mb-0">&nbsp;&nbsp;&nbsp;&nbsp;{{ user.getNom() }}</p>
+                      
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0">{{ conversation.titre}}</p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0">{{ conversation.description}}</p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0">{{ conversation.date|date('Y-m-d') }}</p>
+                      </td>
+                    
+                     <td class="align-middle">
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;&nbsp;
+                     <a href="{{ path('app_admin_conversation_delete', {'id': conversation.id}) }}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Delete Complaint">Delete</a>
+                     &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+                     <a href="{{ path('app_admin_conversation_comments', {'id': conversation.id}) }}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Delete Complaint">Show Comments</a>
+                    </td>
+                    </tr>
+                     {% endfor %}
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {% endblock %}

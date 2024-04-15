@@ -1,0 +1,12 @@
+<h2>HOLA</h2>
+<table>
+{% for i in list %}
+            <tr>
+                <td>{{ i.id }}</td>
+                <td>{{ i.nom }}</td> 
+                <td>{{ i.prenom }}</td>
+            <td>{{ i.email }}</td>
+            <td>{{ i.mdp }}</td>
+            </tr>
+        {% endfor %}
+        </table>

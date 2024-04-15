@@ -1,0 +1,58 @@
+{% extends 'back.html.twig' %}
+{% block title %} Complaints {% endblock %}
+{% block body %}
+<div class="row">
+        <div class="col-12">
+          <div class="card mb-4">
+            <div class="card-header pb-0">
+              <h6>Complaint responses table</h6>
+            <Last Name          <div class="card-body px-0 pt-0 pb-2">
+              <div cTitletable-responsive p-0">
+
+                <table class="table align-items-center mb-0">
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Reclmation title</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Answer Title</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Answer Description </th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Answer Date </th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">options </th>
+                      <th class="text-secondary opacity-7"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for Reponse in Reponse %}
+                  {% set Reclmation = Reponse.getIdRec() %}
+                    <tr>
+                    <td>
+                          <div class="d-flex flex-column justify-content-center">
+                           <p class="text-xs font-weight-bold mb-0">{{ Reclmation.getTitre() }}</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0">{{ Reponse.titre}}</p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0">{{ Reponse.description}}</p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0">{{ Reponse.date|date('Y-m-d') }}</p>
+                      </td>
+                   
+                     <td class="align-middle">
+                     &nbsp;&nbsp;&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;&nbsp;
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                       &nbsp;&nbsp;&nbsp;&nbsp;
+                      <a href="{{ path('app_admin_message_delete', {'id': Reponse.id}) }}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Delete Complaint">Delete</a>
+                    </td>
+                    </tr>
+                     {% endfor %}
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {% endblock %}

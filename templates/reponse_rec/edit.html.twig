@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit ReponseRec{% endblock %}
+
+{% block body %}
+    <h1>Edit ReponseRec</h1>
+
+    {{ include('reponse_rec/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_reponse_rec_index') }}">back to list</a>
+
+    {{ include('reponse_rec/_delete_form.html.twig') }}
+{% endblock %}

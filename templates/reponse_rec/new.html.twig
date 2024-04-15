@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New ReponseRec{% endblock %}
+
+{% block body %}
+    <h1>Create new ReponseRec</h1>
+
+    {{ include('reponse_rec/_form.html.twig') }}
+
+    <a href="{{ path('app_reponse_rec_index') }}">back to list</a>
+{% endblock %}
