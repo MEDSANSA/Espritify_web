@@ -60,20 +60,16 @@
 <section class="meetings-page" id="cours">
     <div class="container">
         <div class="row">
-            {%for courses in cours%}
             <div class="col-md-6 col-lg-4 column">
                 <div class="card gr-1">
                     <div class="txt">
-                        <h1>{{courses.title}}</h1>
-                        <p>{{courses.contenu}}</p>
+                        <h1>{{course.title}}</h1>
+                        <p>{{course.contenu}}</p>
                     </div>
                     <div class="mt-5">
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" style="width: {{courses.rate * 2}}0%; background:rgb(189,9,9);" aria-valuenow="70"
-                                aria-valuemin="0" aria-valuemax="100" ></div>
-                        </div>
+                         <img src="{{ asset('uploads/' ~ course.contenu) }}" alt="">
                     </div>
-                    <a href="{{ path('cours_detail', {'id': courses.id}) }}" >more</a>
+                    <a href="#" >more</a>
                     <div class="ico-card">
                         <i class="fa fa-graduation-cap" aria-hidden="true"></i>
                     </div>
@@ -81,7 +77,6 @@
             </div>
             
 
-            {%endfor%}
         </div>
     </div>
 

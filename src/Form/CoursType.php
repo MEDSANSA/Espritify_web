@@ -6,6 +6,7 @@ use App\Entity\Cours;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class CoursType extends AbstractType
 {
@@ -13,7 +14,10 @@ class CoursType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('contenu')
+            ->add('contenu', FileType::class,  [
+                'data_class' => null,
+            
+            ])
             ->add('etat')
             ->add('rate')
             ->add('idCat')

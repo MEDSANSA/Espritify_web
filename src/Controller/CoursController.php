@@ -25,6 +25,23 @@ class CoursController extends AbstractController
         ]);
     }
 
+    #[Route('/detail/{id}', name: 'cours_detail')]
+public function coursdetail($id, EntityManagerInterface $entityManager): Response
+{   
+    $cours = $entityManager
+        ->getRepository(Cours::class)
+        ->find($id);
+
+    if (!$cours) {
+        throw $this->createNotFoundException('Course not found');
+    }
+
+    return $this->render('Front/coursDetail.html.twig', [
+        'course' => $cours,
+    ]);
+}
+    
+
     #[Route('/coursfront', name: 'app_cours')]
     public function cours(EntityManagerInterface $entityManager): Response
     {
@@ -36,14 +53,22 @@ class CoursController extends AbstractController
         ]);
     }
 
+    
+
     #[Route('/new', name: 'app_cours_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $cour = new Cours();
+        
         $form = $this->createForm(CoursType::class, $cour);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $contenuFile = $form['contenu']->getData();
+            $uploadsDirectory = $this->getParameter('kernel.project_dir') . '/public/uploads'; 
+            $contenuFileName = md5(uniqid()) . '.' . $contenuFile->guessExtension();
+            $contenuFile->move($uploadsDirectory, $contenuFileName);
+            $cour->setContenu($contenuFileName);
             $entityManager->persist($cour);
             $entityManager->flush();
 
@@ -92,4 +117,5 @@ class CoursController extends AbstractController
 
         return $this->redirectToRoute('app_cours_index', [], Response::HTTP_SEE_OTHER);
     }
+    
 }
