@@ -115,8 +115,10 @@ class ClubController extends AbstractController
 
             $entityManager->persist($club);
             $entityManager->flush();
+             $this->addFlash('success', 'Le club a été ajouté avec succès !');
 
-            return $this->redirectToRoute('app_club_index', [], Response::HTTP_SEE_OTHER);
+
+             return $this->redirectToRoute('app_club_index', [], Response::HTTP_SEE_OTHER);
           }
         }
 
@@ -155,6 +157,8 @@ class ClubController extends AbstractController
                 $club->setLogo($fileName);
 
                 $entityManager->flush();
+                $this->addFlash('success', 'Le club a été modifié avec succès !');
+
 
                 return $this->redirectToRoute('app_club_index', [], Response::HTTP_SEE_OTHER);
             }
@@ -173,6 +177,8 @@ class ClubController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$club->getId(), $request->request->get('_token'))) {
             $entityManager->remove($club);
             $entityManager->flush();
+            $this->addFlash('success', 'Le club a été supprimé avec succès !');
+
         }
 
         return $this->redirectToRoute('app_club_index', [], Response::HTTP_SEE_OTHER);

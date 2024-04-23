@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Events Catalog</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .event {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+        }
+        .event-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .event-club {
+            color: #666;
+            margin-bottom: 5px;
+        }
+        .event-description {
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+<h1>Weekly Events Catalog</h1>
+{% for event in events %}
+        <div class="event">
+            <div class="event-title">{{ event.titre }}</div>
+            <div class="event-description">{{ event.description }}</div>
+            <div class="event-club">Club: {{ event.idClub }}</div>
+
+            <div class="event-start">Start Date: {{ event.dateDebut|date("Y-m-d H:i:s") }}</div>
+            <div class="event-start">End Date: {{ event.dateFin|date("Y-m-d H:i:s") }}</div>
+
+        </div>
+{% endfor %}
+</body>
+</html>

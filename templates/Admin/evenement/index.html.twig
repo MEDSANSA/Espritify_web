@@ -18,6 +18,11 @@
             </tr>
         </thead>
         <tbody>
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success" role="alert">
+                {{ message }}
+            </div>
+            {% endfor %}
         {% for evenement in evenements %}
             <tr>
                 <td>{{ evenement.id }}</td>

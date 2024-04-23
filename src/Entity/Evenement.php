@@ -22,34 +22,27 @@ class Evenement
       
     #[ORM\JoinColumn(name: 'id_club', referencedColumnName: 'id')]
     #[Assert\NotBlank]
-    #[Assert\NotNull]
     private ?Club $id_club;
 
     #[ORM\Column( type:"string",length: 255, nullable: false, name:'titre')]
-    #[Assert\NotBlank(allowNull: true)]
-    #[Assert\NotNull]
-
+    #[Assert\NotBlank( message: 'The title is required.')]
     private ?string $titre;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank]
-    #[Assert\NotNull]
+    #[Assert\NotBlank( message: 'The description is required.')]
     private ?string $description;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank]
-    #[Assert\NotNull]
+    #[Assert\NotBlank( message: 'Lieu is required.')]
     private ?string $lieu;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, name:'date_debut')]
     #[Assert\NotBlank]
-    #[Assert\NotNull]
     #[Assert\DateTimeInterface]
     private ?\DateTimeInterface $date_debut;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, name:'date_fin')]
     #[Assert\NotBlank]
-    #[Assert\NotNull]
     #[Assert\Expression(
         "(this.getDateFin() >= this.getDateDebut())",
         message : "La date de fin doit être postérieure à la date de début"

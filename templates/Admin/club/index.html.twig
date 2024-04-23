@@ -21,6 +21,11 @@
             </tr>
         </thead>
         <tbody>
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
         {% for club in clubs %}
             <tr>
                 <td>{{ club.id }}</td>

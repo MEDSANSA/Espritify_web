@@ -1,11 +1,117 @@
 {% extends 'Adminbase.html.twig' %}
-
-{% block title %}New Club{% endblock %}
-
 {% block body %}
-    <h1>Create new Club</h1>
 
-    {{ include('Admin/club/_form.html.twig') }}
+    {{ form_start(form, { 'attr' : {'novalidate' : 'novalidate' }}) }}
 
-    <a href="{{ path('app_club_index') }}">back to list</a>
+    <label for="{{ form.intitule.vars.id }}">Intitule:</label>
+    {{ form_widget(form.intitule) }}
+    {{ form_errors(form.intitule) }}<br><br>
+
+    <div id="logo_div" style="display: none;">
+        <label for="{{ form.logo.vars.id }}">Logo:</label>
+        {{ form_widget(form.logo) }}
+        {{ form_errors(form.logo) }}<br><br>
+    </div>
+
+    <div id="email_div" style="display: none;">
+        <label for="{{ form.emailClub.vars.id }}">Email:</label>
+        {{ form_widget(form.emailClub) }}
+        {{ form_errors(form.emailClub) }}<br><br>
+    </div>
+
+    <div id="pagefb_div" style="display: none;">
+        <label for="{{ form.pageFb.vars.id }}">Page Facebook:</label>
+        {{ form_widget(form.pageFb) }}
+        {{ form_errors(form.pageFb) }}<br><br>
+    </div>
+
+    <div id="pageinsta_div" style="display: none;">
+        <label for="{{ form.pageInsta.vars.id }}">Page Instagram:</label>
+        {{ form_widget(form.pageInsta) }}
+        {{ form_errors(form.pageInsta) }}<br><br>
+    </div>
+
+    <button class="btn">{{ button_label|default('Save') }}</button>
+    {{ form_end(form) }}
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var intituleInput = document.getElementById('{{ form.intitule.vars.id }}');
+            var logoInput = document.getElementById('{{ form.logo.vars.id }}');
+            var emailInput = document.getElementById('{{ form.emailClub.vars.id }}');
+            var pageFbInput = document.getElementById('{{ form.pageFb.vars.id }}');
+            var pageInstaInput = document.getElementById('{{ form.pageInsta.vars.id }}');
+
+            var logoDiv = document.getElementById('logo_div');
+            var emailDiv = document.getElementById('email_div');
+            var pageFbDiv = document.getElementById('pagefb_div');
+            var pageInstaDiv = document.getElementById('pageinsta_div');
+
+            if (intituleInput) {
+                intituleInput.addEventListener('input', function() {
+                    var fieldValue = this.value.trim();
+                    var validationPassed = fieldValue !== '';
+
+                    if (validationPassed) {
+                        logoDiv.style.display = 'block';
+                    } else {
+                        logoDiv.style.display = 'none';
+                        emailDiv.style.display = 'none';
+                        pageFbDiv.style.display = 'none';
+                        pageInstaDiv.style.display = 'none';
+                    }
+                });
+            }
+
+            if (logoInput) {
+                logoInput.addEventListener('input', function() {
+                    var fieldValue = this.value.trim();
+                    var validationPassed = fieldValue !== '';
+
+                    if (validationPassed) {
+                        emailDiv.style.display = 'block';
+                    } else {
+                        emailDiv.style.display = 'none';
+                        pageFbDiv.style.display = 'none';
+                        pageInstaDiv.style.display = 'none';
+                    }
+                });
+            }
+
+            if (emailInput) {
+                emailInput.addEventListener('input', function() {
+                    var fieldValue = this.value.trim();
+                    var validationPassed = fieldValue !== '';
+
+                    if (validationPassed) {
+                        pageFbDiv.style.display = 'block';
+                    } else {
+                        pageFbDiv.style.display = 'none';
+                        pageInstaDiv.style.display = 'none';
+                    }
+                });
+            }
+
+            if (pageFbInput) {
+                pageFbInput.addEventListener('input', function() {
+                    var fieldValue = this.value.trim();
+                    var validationPassed = fieldValue !== '';
+
+                    if (validationPassed) {
+                        pageInstaDiv.style.display = 'block';
+                    } else {
+                        pageInstaDiv.style.display = 'none';
+                    }
+                });
+            }
+
+            // Masquer les champs à l'initialisation
+            logoDiv.style.display = 'none';
+            emailDiv.style.display = 'none';
+            pageFbDiv.style.display = 'none';
+            pageInstaDiv.style.display = 'none';
+        });
+    </script>
+
 {% endblock %}

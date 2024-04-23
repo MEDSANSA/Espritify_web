@@ -19,7 +19,8 @@ class ClubType extends AbstractType
             ->add('intitule', TextType::class)
             ->add('logo', FileType::class, [
                 'data_class' => null, // Indiquer que le champ n'est lié à aucune propriété de l'entité
-                'data' => $options['current_logo_path'], // Définir l'URL actuelle de l'image comme valeur par défaut
+                'data' => $options['current_logo_path'], // Définir l'URL actuelle de l'image comme valeur par défaut,
+                'required' => false,
             ])
             ->add('emailClub')
             ->add('pageFb')

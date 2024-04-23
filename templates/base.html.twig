@@ -6,6 +6,7 @@
         <link rel="icon" href="{{ asset("assets/front/assets/images/logo.png")}}" type="image/png">
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
         {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
          <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900" rel="stylesheet">
 
 
@@ -21,6 +22,7 @@
         {% endblock %}
 
         {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
            <script src="{{ asset("assets/front/vendor/jquery/jquery.min.js")}}"></script>
     <script src="{{ asset("assets/front/vendor/bootstrap/js/bootstrap.bundle.min.js")}}"></script>
 

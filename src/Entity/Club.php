@@ -17,11 +17,11 @@ class Club
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Assert\NotBlank]
+    #[Assert\NotBlank( message: 'The intitule is required.')]
     private ?string $intitule;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank]
+    #[Assert\NotBlank( message: 'Logo is required.')]
     private ?string $logo;
 
     #[ORM\Column(length: 255, name:'emailClub')]
@@ -32,10 +32,11 @@ class Club
     private ?string $emailClub;
 
     #[ORM\Column(length: 255, name:'pageFb')]
-    #[Assert\NotBlank]
+    #[Assert\NotBlank( message: 'Page facebook is required.')]
     private ?string $pageFb;
 
     #[ORM\Column(length: 255, name:'pageInsta')]
+    #[Assert\NotBlank( message: 'Page instagram is required.')]
     private ?string $pageInsta;
 
     #[ORM\OneToMany(targetEntity: Evenement::class, mappedBy: 'id_club')]

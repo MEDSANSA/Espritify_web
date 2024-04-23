@@ -14,6 +14,7 @@
     "doctrine/doctrine-bundle": "^2.12",
     "doctrine/doctrine-migrations-bundle": "^3.3",
     "doctrine/orm": "^3.1",
+    "dompdf/dompdf": "^2.0",
     "endroid/qr-code-bundle": "^5.0",
     "endroid/qrcode": "^5.0",
     "phpdocumentor/reflection-docblock": "^5.3",
@@ -47,6 +48,7 @@
     "symfony/ux-turbo": "^2.16",
     "symfony/validator": "5.4.*",
     "symfony/web-link": "5.4.*",
+    "symfony/webpack-encore-bundle": "^2.1",
     "symfony/yaml": "5.4.*",
     "twig/extra-bundle": "^2.12|^3.0",
     "twig/twig": "^2.12|^3.0"

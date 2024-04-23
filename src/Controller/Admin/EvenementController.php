@@ -35,6 +35,7 @@ class EvenementController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($evenement);
             $entityManager->flush();
+            $this->addFlash('success', 'L Evènement a été ajouté avec succès !');
 
             return $this->redirectToRoute('app_evenement_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -61,6 +62,7 @@ class EvenementController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
+            $this->addFlash('success', 'L Evènement a été modifié avec succès !');
 
             return $this->redirectToRoute('app_evenement_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -77,6 +79,8 @@ class EvenementController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$evenement->getId(), $request->request->get('_token'))) {
             $entityManager->remove($evenement);
             $entityManager->flush();
+            $this->addFlash('success', 'L Evènement a été supprimé avec succès !');
+
         }
 
         return $this->redirectToRoute('app_evenement_index', [], Response::HTTP_SEE_OTHER);
@@ -98,7 +102,7 @@ class EvenementController extends AbstractController
         $participation->setIdUser($user);
         $participation->setIdEvenement($evenement);
 
-// Ajoutez cette participation à l'utilisateur
+       // Ajoutez cette participation à l'utilisateur
         $user->addParticipationEvenement($participation);
         $entityManager = $this->getDoctrine()->getManager();
 
