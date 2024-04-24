@@ -60,6 +60,12 @@
 <section class="meetings-page" id="cours">
     <div class="container">
         <div class="row">
+      {% block search %} 
+    <form action="{{ path('app_cours') }}" method="GET" class="input-group">
+        <button type="submit"><span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span></button>
+        <input type="text" class="form-control" name="q" placeholder="Type here..." >
+    </form>
+    {% endblock %}
             {%for courses in cours%}
             <div class="col-md-6 col-lg-4 column">
                 <div class="card gr-1">
@@ -82,6 +88,12 @@
             
 
             {%endfor%}
+            <div class="pagination">
+                <ul><li class="active">
+                  {{ knp_pagination_render(cours) }}</li>
+              
+                </ul>
+              </div>
         </div>
     </div>
 

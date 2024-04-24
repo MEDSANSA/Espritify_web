@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Knp\Component\Pager\PaginatorInterface;
 
 #[Route('/cours')]
 class CoursController extends AbstractController
@@ -43,11 +44,29 @@ public function coursdetail($id, EntityManagerInterface $entityManager): Respons
     
 
     #[Route('/coursfront', name: 'app_cours')]
-    public function cours(EntityManagerInterface $entityManager): Response
+    public function cours(EntityManagerInterface $entityManager, PaginatorInterface $paginatorInterface, Request $req
+    ): Response
     {
+        $searchTerm = $req->query->get('q');
+        if (!$searchTerm) {
+
         $cours = $entityManager
             ->getRepository(Cours::class)
             ->findAll();
+        } else {
+            $cours= $entityManager
+                ->getRepository(cours::class)
+                ->createQueryBuilder('q')
+                ->where('q.title LIKE :searchTerm')
+                ->setParameter('searchTerm', '%' . $searchTerm . '%')
+                ->getQuery()
+                ->getResult();
+        }
+        $cours = $paginatorInterface->paginate(
+                $cours, /* query NOT result */
+                $req->query->getInt('page', 1),
+                3
+            );
         return $this->render('Front/cours.html.twig', [
             'cours' => $cours,
         ]);
