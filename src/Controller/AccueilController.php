@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\DossierStage;
 use App\Entity\Offrestage;
 use App\Form\DossierStageType;
+use App\Repository\DossierStageRepository;
+use App\Repository\EntretienRepository;
 use App\Repository\OffrestageRepository;
 use App\Repository\UtilisateurRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -15,9 +17,14 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\HttpFoundation\Request;
 
+use App\Service\RevAiService;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\JsonResponse;
+
 class AccueilController extends AbstractController
 {
-    #[Route('/accueil', name: 'app_accueil')]
+    #[Route('/accueil', name: 'app_accueil_user')]
     public function index(): Response
     {
         return $this->render('accueil/index.html.twig', [
@@ -25,10 +32,23 @@ class AccueilController extends AbstractController
         ]);
     }
     #[Route('/internships', name: 'app_internships')]
-    public function internships(OffrestageRepository $offrestageRepository): Response
+    public function internships(OffrestageRepository $offrestageRepository,DossierStageRepository $dossierStageRepository, PaginatorInterface $paginatorInterface, Request $req): Response
     {
+        $dossier=$dossierStageRepository->findDossiersByUserIdWithOffreStage(55);
+        $dossier = $paginatorInterface->paginate(
+            $dossier, /* query NOT result */
+            $req->query->getInt('page', 1),
+            1
+        );
+        $offrestage=  $offrestageRepository->findAll();
+        $offrestage = $paginatorInterface->paginate(
+            $offrestage, /* query NOT result */
+            $req->query->getInt('page', 1),
+            1
+        );
         return $this->render('accueil/internships.html.twig', [
-            'offreStage' => $offrestageRepository->findAll(),
+            'offreStage' => $offrestage,
+            'dossier'=>$dossier,
         ]);
     }
     #[Route('/internship-details/{id}', name: 'app_internship-details')]
@@ -45,7 +65,7 @@ class AccueilController extends AbstractController
     {
         $em = $manager->getManager();
         $dossier = new DossierStage();
-        $dossier->setIdUser($utilisateurRepository->find(55));
+        $dossier->setIdUser($utilisateurRepository->find(60));
         $dossier->setIdOffre($offrestageRepository->find($id));
         $form = $this->createForm(DossierStageType::class, $dossier);
     
@@ -76,7 +96,7 @@ class AccueilController extends AbstractController
             $em->flush();
     
             // Redirect to the homepage or any other route
-            return $this->redirectToRoute('app_accueil');
+            return $this->redirectToRoute('app_accueil_user');
         }
     
         return $this->render("accueil/apply.html.twig", [
@@ -98,5 +118,75 @@ class AccueilController extends AbstractController
         ]);
     }
     
+    #[Route('/speech-recognition', name: 'speech_recognition')]
+    public function speechRecognition(Request $request, RevAiService $revAiService): JsonResponse
+    {
+        // Handle file upload
+        $audioFile = $request->files->get('audio_file');
 
+        if (!$audioFile instanceof UploadedFile) {
+            // Return error response
+            return new JsonResponse(['error' => 'No audio file uploaded'], Response::HTTP_BAD_REQUEST);
+        }
+
+        // Process speech recognition
+        try {
+            $partialTranscription = $revAiService->transcribePartialAudio($audioFile);
+            $finalTranscription = $revAiService->transcribeFinalAudio($audioFile);
+
+            // Return response with partial and final transcriptions
+            return new JsonResponse([
+                'partial_transcription' => $partialTranscription,
+                'final_transcription' => $finalTranscription,
+            ]);
+        } catch (\Exception $e) {
+            // Return error response
+            return new JsonResponse(['error' => 'Speech recognition failed: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+    #[Route('/speechi', name: 'app_accueil_user')]
+    public function speechi(): Response
+    {
+        return $this->render('accueil/ai.html.twig', [
+            'controller_name' => 'AccueilController',
+        ]);
+    }
+
+    #[Route('/upcoming', name: 'app_upcoming')]
+    public function upcomingInterviews(EntretienRepository $entretienRepository,PaginatorInterface $paginatorInterface, Request $req ): Response
+    {
+        $currentDate = new \DateTime();
+        // wa9t twali fama session bch nbdl l 55 bl IDUSER ELI CONNECTE
+        $interviews=$entretienRepository->findInterviewsByIdUserAndDateGreaterThan(55,$currentDate);
+        $interviews = $paginatorInterface->paginate(
+            $interviews, /* query NOT result */
+            $req->query->getInt('page', 1),
+            1
+        );
+        return $this->render('accueil/upcoming.html.twig', [
+            'controller_name' => 'AccueilController',
+            'interviews'=>$interviews,
+        ]);
+    }
+    #[Route('/myinternships', name: 'app_myinternships')]
+    public function myinternships(DossierStageRepository $dossierStageRepository , PaginatorInterface $paginatorInterface, Request $req, OffrestageRepository $offrestageRepository): Response
+    {
+        $offrestage=  $offrestageRepository->findAll();
+        $offrestage = $paginatorInterface->paginate(
+            $offrestage, /* query NOT result */
+            $req->query->getInt('page', 1),
+            1
+        );
+            $dossier=$dossierStageRepository->findDossiersByUserIdWithOffreStage(55);
+            $dossier = $paginatorInterface->paginate(
+                $dossier, /* query NOT result */
+                $req->query->getInt('page', 1),
+                1
+            );
+        return $this->render('accueil/myinternships.html.twig', [
+            'controller_name' => 'AccueilController',
+            'dossier'=>$dossier,
+            'offreStage' => $offrestage,
+        ]);
+    }
 }

@@ -258,11 +258,15 @@
           </ol>
           <h6 class="font-weight-bolder mb-0">Internships</h6>
         </nav>
+     
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
           <div class="ms-md-auto pe-md-3 d-flex align-items-center">
             <div class="input-group">
-              <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
-              <input type="text" class="form-control" placeholder="Type here...">
+            <form action="{{ path('app_admin_offrestage') }}" method="GET" class="input-group">
+               <button type="submit"><span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span></button>
+        <input type="text" class="form-control" name="q" placeholder="Type here..." >
+    </form>
+              
             </div>
           </div>
           <ul class="navbar-nav  justify-content-end">
@@ -372,7 +376,8 @@
         <div class="col-12">
           <div class="card mb-4">
             <div class="card-header pb-0">
-              <h6>Internship Offers Available</h6> <button data-toggle="modal" data-target="#myModal">Add</button>
+              <h6>Internship Offers Available</h6> <button  class="btn bg-gradient-primary " data-toggle="modal" data-target="#myModal">Add</button>
+              
             </div>
             <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalCenterTitle" aria-hidden="true">
                       <div class="modal-dialog modal-dialog-centered" role="document">

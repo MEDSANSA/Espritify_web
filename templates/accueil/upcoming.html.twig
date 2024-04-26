@@ -47,8 +47,8 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-12">
-          <h6>Here are our Available Internships</h6>
-          <h2>Available Internships</h2>
+          <h6>Here are our Upcoming Interviews</h6>
+          <h2>Upcoming Interviews</h2>
         </div>
       </div>
     </div>
@@ -62,8 +62,8 @@
             <div class="col-lg-12">
               <div class="filters">
                 <ul>
-                 <a  href="{{path('app_internships')}}"><li data-filter="*"  class="active">All Internships {{ offreStage.getTotalItemCount }}</li></a>
-                  <a  href="{{path('app_myinternships')}}"><li data-filter=".soon">My Internships {{ dossier.getTotalItemCount }}</li></a>
+                  <li data-filter="*"  class="active">All upcoming Interviews {{ interviews.getTotalItemCount }}</li>
+                  <li data-filter=".soon">Soon</li>
                   <li data-filter=".imp">Important</li>
                   <li data-filter=".att">Attractive</li>
                 </ul>
@@ -72,24 +72,39 @@
 
             <div class="col-lg-12">
               <div class="row grid">
-              {% for i in offreStage %}
-             
-                <div class="col-lg-4 templatemo-item-col all soon"> 
-                  <div class="meeting-item">
-                  
-                    <div class="down-content"><a href="{{path('app_internship-details' , {'id': i.id})}}">
-                   
-                      <a href="{{path('app_internship-details' , {'id': i.id})}}"><h4>{{i.titre}}</h4></a>
-                      <p><b>Description: </b> <br>{{i.description}}</p>
-    </a>
+              {% if interviews is empty %}
+              <div class="col-lg-4 templatemo-item-col all soon"> 
+                <div class="meeting-item">
+                    <div class="down-content">
+                    <p>No records found</p>
                     </div>
-                  </div> 
                 </div>
-                
-                {% endfor %}<div class="col-lg-12">
+              </div>
+            {% else %}
+             {% for i in interviews %}
+                <div class="col-lg-4 templatemo-item-col all soon"> 
+                    <div class="meeting-item">
+                        <div class="down-content">
+                            <h4>{{i.type}}</h4>
+                            <p><b>Internship: </b> <br>{{i.idStage.titre}}</p>
+                            <p><b>Company Name: </b> <br>{{i.idStage.nomSoc}}</p>
+                            <p><b>Description: </b> <br>{{i.description}}</p>
+                            <p><b>Place: </b> <br>{{i.lieu}}</p>
+                            <p><b>Date: </b> <br>{{i.date | date}}</p>
+                            <p><b>State: </b> <br>{{i.etat}}</p>
+                             {% if i.type == 'en ligne' %}
+                             <div class="filters">
+                    <a class="btn bg-gradient-primary">      <li data-filter=".imp">Passer entretien</li></a></div>
+                {% endif %}
+                        </div>
+                    </div> 
+                </div>
+            {% endfor %}
+        {% endif %}
+<div class="col-lg-12">
               <div class="pagination">
                 <ul><li class="active">
-                  {{ knp_pagination_render(offreStage) }}</li>
+                  {{ knp_pagination_render(interviews) }}</li>
            
                   
                   

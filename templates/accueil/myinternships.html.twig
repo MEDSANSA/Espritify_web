@@ -62,7 +62,7 @@
             <div class="col-lg-12">
               <div class="filters">
                 <ul>
-                 <a  href="{{path('app_internships')}}"><li data-filter="*"  class="active">All Internships {{ offreStage.getTotalItemCount }}</li></a>
+                  <a  href="{{path('app_internships')}}"><li data-filter="*"  class="active">All Internships {{ offreStage.getTotalItemCount }}</li></a>
                   <a  href="{{path('app_myinternships')}}"><li data-filter=".soon">My Internships {{ dossier.getTotalItemCount }}</li></a>
                   <li data-filter=".imp">Important</li>
                   <li data-filter=".att">Attractive</li>
@@ -72,16 +72,27 @@
 
             <div class="col-lg-12">
               <div class="row grid">
-              {% for i in offreStage %}
+              {% for i in dossier %}
              
                 <div class="col-lg-4 templatemo-item-col all soon"> 
                   <div class="meeting-item">
                   
-                    <div class="down-content"><a href="{{path('app_internship-details' , {'id': i.id})}}">
+                    <div class="down-content">
                    
-                      <a href="{{path('app_internship-details' , {'id': i.id})}}"><h4>{{i.titre}}</h4></a>
-                      <p><b>Description: </b> <br>{{i.description}}</p>
-    </a>
+                     
+                      <p><b>Internship: </b> <br>{{i.idOffre.titre}}</p>
+                      <p><b>Company: </b> <br>{{i.idOffre.nomSoc}}</p>
+                      <p><b>Company: </b>
+                        <span class="text-secondary text-xs font-weight-bold">
+                          <img src="{{ asset('uploads/' ~ i.cv) }}" alt="CV Image" style="max-width: 200px; max-height: 200px;"></p>
+                          <p><b>Convention: </b>
+                            <span class="text-secondary text-xs font-weight-bold">
+                          <img src="{{ asset('uploads/' ~ i.convention) }}" alt="CV Image" style="max-width: 200px; max-height: 200px;"></p>
+                          <p><b>ID Card Copy: </b>
+                            <span class="text-secondary text-xs font-weight-bold">
+                          <img src="{{ asset('uploads/' ~ i.copieCin) }}" alt="CV Image" style="max-width: 200px; max-height: 200px;">
+                          </p>
+                 
                     </div>
                   </div> 
                 </div>
@@ -89,7 +100,7 @@
                 {% endfor %}<div class="col-lg-12">
               <div class="pagination">
                 <ul><li class="active">
-                  {{ knp_pagination_render(offreStage) }}</li>
+                  {{ knp_pagination_render(dossier) }}</li>
            
                   
                   

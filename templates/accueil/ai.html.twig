@@ -1,0 +1,75 @@
+<!-- templates/accueil/transcription.html.twig -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speech Recognition</title>
+</head>
+<body>
+     <h1>Real-time Speech Recognition</h1>
+
+    <button id="start-recognition">Start Recognition</button>
+    <button id="stop-recognition" disabled>Stop Recognition</button>
+
+    <div>
+        <textarea id="speech-input" rows="5" cols="50" readonly></textarea>
+    </div>
+{# In your Twig template #}
+<a href="{{ path('app_internships') }}" id="internships-link" style="display: none;"></a>
+
+    <script>
+        // JavaScript code
+const speechInput = document.getElementById('speech-input');
+let recognition;
+
+document.getElementById('start-recognition').addEventListener('click', startRecognition);
+document.getElementById('stop-recognition').addEventListener('click', stopRecognition);
+
+function startRecognition() {
+    recognition = new window.webkitSpeechRecognition();
+    recognition.continuous = true;
+    recognition.lang = 'en-US';
+
+    recognition.onresult = function(event) {
+        const transcript = event.results[event.results.length - 1][0].transcript;
+        speechInput.value += transcript;
+
+        // Check if recognized speech contains specific phrases
+        if (transcript.toLowerCase().includes('hello')) {
+            respond('Hey to you too');
+        }
+        if (transcript.toLowerCase().includes('who are you')) {
+            respond('I am espritify voice assistant!');
+        }
+        if (transcript.toLowerCase().includes('internships')) {
+             navigateToInternships();
+        }
+    };
+
+    recognition.start();
+    document.getElementById('start-recognition').disabled = true;
+    document.getElementById('stop-recognition').disabled = false;
+}
+
+function stopRecognition() {
+    if (recognition) {
+        recognition.stop();
+        document.getElementById('start-recognition').disabled = false;
+        document.getElementById('stop-recognition').disabled = true;
+    }
+}
+
+function respond(message) {
+    // Display response message in textarea
+    speechInput.value += '\n' + message + '\n';
+}
+function navigateToInternships() {
+    // Trigger click event on the anchor link for /internships
+    document.getElementById('internships-link').click();
+}
+
+    </script>
+</body>
+</html>

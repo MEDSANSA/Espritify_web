@@ -31,6 +31,30 @@ class DossierStageRepository extends ServiceEntityRepository
     {
         return $this->findOneBy(['id_user' => $userId, 'id_offre' => $offreId]);
     }
+
+    public function findDossiersByUserIdWithOffreStage($userId)
+{
+    $qb = $this->createQueryBuilder('d')
+        ->leftJoin('d.id_offre', 'o', 'WITH', 'o.id = d.id_offre')
+        ->where('d.id_user = :userId')
+        ->setParameter('userId', $userId);
+
+    $qbRightJoin = clone $qb;
+    $qbRightJoin->select('d') // Selecting the whole DossierStage entity
+        ->leftJoin('d.id_offre', 'o2', 'WITH', 'o2.id = d.id_offre')
+        ->andWhere($qbRightJoin->expr()->isNull('d.id_offre')); // Assuming id_offre is the association with OffreStage
+
+    $result = $qb->getQuery()->getResult();
+    $resultRight = $qbRightJoin->getQuery()->getResult();
+
+    // Merge the results of left join and right join
+    $mergedResult = array_merge($result, $resultRight);
+
+    return $mergedResult;
+}
+
+    
+
 //    /**
 //     * @return DossierStage[] Returns an array of DossierStage objects
 //     */

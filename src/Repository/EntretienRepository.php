@@ -31,6 +31,16 @@ class EntretienRepository extends ServiceEntityRepository
     {
         return $this->findOneBy(['id_user' => $userId, 'id_stage' => $offreId]);
     }
+    public function findInterviewsByIdUserAndDateGreaterThan($id, \DateTimeInterface $date)
+    {
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.id_user = :id')
+            ->andWhere('e.date > :date')
+            ->setParameter('id', $id)
+            ->setParameter('date', $date)
+            ->getQuery()
+            ->getResult();
+    }
 
 //    /**
 //     * @return Entretien[] Returns an array of Entretien objects

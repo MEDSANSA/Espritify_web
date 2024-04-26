@@ -13,12 +13,14 @@ use App\Repository\DossierStageRepository;
 use App\Repository\EntretienRepository;
 use App\Repository\OffrestageRepository;
 use App\Repository\UtilisateurRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\JsonResponse;
 class accueilController extends AbstractController
 {
     #[Route('/admin/accueil', name: 'app_admin_accueil')]
@@ -30,15 +32,31 @@ class accueilController extends AbstractController
     }
 
     #[Route('/admin/offrestage', name: 'app_admin_offrestage')]
-    public function offrestage(OffrestageRepository $offrestageRepository, DossierStageRepository $dossierStageRepository, EntretienRepository $entretienRepository): Response
-    {   $offrestage = new Offrestage();
+    public function offrestage(EntityManagerInterface $entityManager, Request $request, OffrestageRepository $offrestageRepository, DossierStageRepository $dossierStageRepository, EntretienRepository $entretienRepository): Response
+    {   $search = $request->query->get('q');
+        if (!$search) {
+            $offre = $offrestageRepository->findAll();
+        } else {
+            $offre = $entityManager
+                ->getRepository(Offrestage::class)
+                ->createQueryBuilder('q')
+                ->where('q.titre LIKE :searchTerm')
+                ->setParameter('searchTerm', '%' . $search . '%')
+                ->getQuery()
+                ->getResult();
+        }
+        usort($offre, function ($a, $b) {
+            return $a->getTitre() <=> $b->getTitre();
+        });
+        $offrestage = new Offrestage();
         $form = $this->createForm(OffreStageType::class, $offrestage);
         return $this->render('admin/accueil/offrestage.html.twig', [
             'controller_name' => 'accueilController',
-            'offreStage' => $offrestageRepository->findAll(),
+            'offreStage' => $offre,
             'dossierStage' => $dossierStageRepository->findAll(),
             'entretien' => $entretienRepository->findAll(),
             'form' => $form->createView(),
+            'search' => $search,
         ]);
     }
 
@@ -96,13 +114,16 @@ class accueilController extends AbstractController
         'entretien' => $entretienRepository->findAll(),]);
     }
     #[Route('/admin/dossierstage', name: 'app_admin_dossier_stage')]
-    public function dossierstage(DossierStageRepository $dossierStageRepository): Response
+    public function dossierstage(DossierStageRepository $dossierStageRepository, OffrestageRepository $offrestageRepository): Response
     {
+        $dossier=$dossierStageRepository->findAll();
+       
         $dossier= new DossierStage();
         $form= $this->createForm(AddDossierStageType::class,$dossier );
         return $this->render('admin/accueil/dossierstage.html.twig', [
             'form' => $form->createView(),
-            'dossierStage' => $dossierStageRepository->findAll(),
+            'dossierStage' => $dossier,
+            'offreStage'=>$offrestageRepository->findAll(),
 
         ]);
     }
@@ -209,16 +230,24 @@ class accueilController extends AbstractController
         'form'=> $form]);
     }
     #[Route('/admin/entretien', name: 'app_admin_entretien')]
-    public function entretien( EntretienRepository $entretienRepository): Response
+    public function entretien(EntretienRepository $entretienRepository, Request $request): Response
     {
-        
-        $entretien= new Entretien();
-        $form= $this->createForm(EntretienType::class,$entretien );
+        // Récupérer les entretiens depuis le repository
+        $entretiens = $entretienRepository->findAll();
+
+        // Trier les entretiens par description
+        usort($entretiens, function ($a, $b) {
+            return $a->getDescription() <=> $b->getDescription();
+        });
+
+        // Créer un nouvel objet Entretien pour le formulaire
+        $entretien = new Entretien();
+        $form = $this->createForm(EntretienType::class, $entretien);
+
         return $this->render('admin/accueil/interview.html.twig', [
             'controller_name' => 'accueilController',
-            'entretien' => $entretienRepository->findAll(),
-            'form'=>$form->createView(),
-
+            'entretien' => $entretiens, // Passer les entretiens triés à la vue
+            'form' => $form->createView(),
         ]);
     }
     #[Route('/admin/editInterview/{idUser}/{idOffre}', name: 'app_admin_edit_interview')]
@@ -288,4 +317,28 @@ class accueilController extends AbstractController
           
         ]);
     }
+
+    #[Route('/admin/getDossierByOffreId/{offreId}', name: 'app_admin_dossier_stageee')]
+    public function getDossierByOffreId($offreId, DossierStageRepository $dossierStageRepository): JsonResponse
+{
+    $dossiers = $dossierStageRepository->findBy(['id_offre' => $offreId]);
+    $data = [];
+    foreach ($dossiers as $dossier) {
+        // Assuming you have some properties you want to include in the response
+        $data[] = [
+            'cv' => $dossier->getCv(),
+            'convention' => $dossier->getConvention(),
+            'cin'=>$dossier->getCopieCin(),
+            'titre'=>$dossier->getIdOffre()->getTitre(),
+            'descriptionSoc'=>$dossier->getIdOffre()->getDescSoc(),
+            'nom' => $dossier->getIdUser()->getNom(),
+            'prenom' => $dossier->getIdUser()->getPrenom(),
+            'email'=>$dossier->getIdUser()->getEmail(),
+            'idUser'=>$dossier->getIdUser(),
+            // Add more properties as needed
+        ];
+    }
+
+    return new JsonResponse($data);
+}
 }
