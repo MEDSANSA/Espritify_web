@@ -17,26 +17,24 @@ class QuestionsController extends AbstractController
     public function index(Request $request, EntityManagerInterface $entityManager): Response
     {
         $searchTerm = $request->query->get('q');
-        
-        if (!$searchTerm) {
-            $questions = $entityManager
-                ->getRepository(Questions::class)
-                ->findAll();
-        } else {
-            $questions = $entityManager
-                ->getRepository(Questions::class)
-                ->createQueryBuilder('q')
-                ->where('q.contenu LIKE :searchTerm')
-                ->setParameter('searchTerm', '%'.$searchTerm.'%')
-                ->getQuery()
-                ->getResult();
+        $sortBy = $request->query->get('sort_by', 'idQuestion');
+        $sortOrder = $request->query->get('sort_order', 'asc');
+
+        $queryBuilder = $entityManager->getRepository(Questions::class)->createQueryBuilder('q');
+        if ($searchTerm) {
+            $queryBuilder->where('q.contenu LIKE :searchTerm')
+                ->setParameter('searchTerm', '%' . $searchTerm . '%');
         }
+        $queryBuilder->orderBy('q.' . $sortBy, $sortOrder);
+
+        $questions = $queryBuilder->getQuery()->getResult();
 
         return $this->render('questions/index.html.twig', [
             'questions' => $questions,
             'searchTerm' => $searchTerm,
         ]);
     }
+
 
     #[Route('/new', name: 'app_questions_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
@@ -87,7 +85,7 @@ class QuestionsController extends AbstractController
     #[Route('/{idQuestion}', name: 'app_questions_delete', methods: ['POST'])]
     public function delete(Request $request, Questions $question, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$question->getIdQuestion(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $question->getIdQuestion(), $request->request->get('_token'))) {
             $entityManager->remove($question);
             $entityManager->flush();
         }

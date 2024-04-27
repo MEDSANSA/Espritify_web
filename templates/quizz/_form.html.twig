@@ -3,13 +3,19 @@
     <div class="card-body">
 
         <div class="mb-3">
-            {{ form_row(form.sujet, {'label': 'sujet', 'attr': {'class': 'form-control', 'placeholder': 'sujet'}}) }}
+            {{ form_label(form.sujet, 'Sujet') }}
+			{{ form_widget(form.sujet, { 'attr': {'class': 'form-control','placeholder': 'sujet'} }) }}
+			{{ form_errors(form.sujet)}}
         </div>
         <div class="mb-3">
-            {{ form_row(form.description, {'label': 'Description', 'attr': {'class': 'form-control', 'placeholder': 'description'}}) }}
+            {{ form_label(form.description, 'Description') }}
+			{{ form_widget(form.description, { 'attr': {'class': 'form-control','placeholder': 'description'} }) }}
+			{{ form_errors(form.description)}}
         </div>
         <div class="mb-3">
-            {{ form_row(form.idQuestion, {'label': 'Question', 'attr': {'class': 'form-control', 'placeholder': 'Question'}}) }}
+            {{ form_label(form.idQuestion, 'Question') }}
+			{{ form_widget(form.idQuestion, { 'attr': {'class': 'form-control','placeholder': 'Question'} }) }}
+			{{ form_errors(form.idQuestion)}}
         </div>
 
         <div class="text-center">

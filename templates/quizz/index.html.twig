@@ -22,6 +22,12 @@
                 </div>
             </div>
             <div class="card-body p-3">
+                <!-- Sorting buttons -->
+                <div class="btn-group" role="group" aria-label="Sort by idQuizz">
+                    <a href="{{ path('app_quizz_index', {'sort_order': 'asc'}) }}" class="btn btn-secondary"><i class="fa fa-sort-alpha-asc" aria-hidden="true"></i></a>
+                    <a href="{{ path('app_quizz_index', {'sort_order': 'desc'}) }}" class="btn btn-secondary"><i class="fa fa-sort-alpha-desc" aria-hidden="true"></i></a>
+                </div>
+                <!-- Table displaying quizzs -->
                 <div class="table-responsive p-0">
                     <table class="table align-items-center mb-0">
                         <thead>
@@ -32,7 +38,7 @@
                                     Sujet</th>
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                     Description</th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                     Question</th>
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                     actions</th>

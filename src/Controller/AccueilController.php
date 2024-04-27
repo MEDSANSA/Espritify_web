@@ -22,11 +22,5 @@ class AccueilController extends AbstractController
             'controller_name' => 'AccueilController',
         ]);
     }
-    #[Route('/quizz', name: 'app_quizz')]
-    public function quizz(): Response
-    {
-        return $this->render('Front/quizz.html.twig', [
-            'controller_name' => 'AccueilController',
-        ]);
-    }
+    
 }

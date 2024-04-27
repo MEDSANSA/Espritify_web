@@ -1,0 +1,13 @@
+
+{% block title %}Quiz Result{% endblock %}
+
+
+
+{% block body %}
+    <h1>Your Quiz Result</h1>
+        <p>Score: {{ score }}</p>
+        <p>Percentage: {{ percentage }}</p>
+    <pre>
+        {{ dump(data) }}
+    </pre>
+{% endblock %}

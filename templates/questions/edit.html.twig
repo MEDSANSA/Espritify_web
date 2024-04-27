@@ -8,5 +8,5 @@
         <a class="btn btn-round btn-sm mb-0 btn-outline-primary" href="{{ path('app_questions_index') }}">Back to list</a>
     </div>
 
-    {{ include('questions/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('questions/_form.html.twig', {'button_label': 'Update',attr:{novalidate:'novalidate'}}) }}
 {% endblock %}
