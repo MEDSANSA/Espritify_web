@@ -45,4 +45,13 @@ class ReponseRecRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+public function findReponseById_Rec(int $userRec): ?ReponseRec
+{
+    return $this->createQueryBuilder('r')
+        ->where('r.id_rec = :userRec')
+        ->setParameter('userRec', $userRec)
+        ->getQuery()
+        ->getOneOrNullResult();  // Use getOneOrNullResult for a single result
+}
 }

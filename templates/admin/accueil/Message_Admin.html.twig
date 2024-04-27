@@ -1,5 +1,11 @@
 {% extends 'back.html.twig' %}
 {% block title %} Complaints {% endblock %}
+{% block search %} 
+    <form action="{{ path('app_admin_message') }}" method="GET" class="input-group">
+        <button type="submit"><span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span></button>
+        <input type="text" class="form-control" name="q" placeholder="Type here..." >
+    </form>
+{% endblock %}
 {% block body %}
 <div class="row">
         <div class="col-12">
@@ -50,7 +56,7 @@
                         &nbsp;&nbsp;&nbsp;&nbsp;
                      &nbsp;&nbsp;&nbsp;&nbsp;
                       &nbsp;&nbsp;&nbsp;&nbsp;
-                     <a href="{{ path('app_admin_message_delete', {'id': Message.id}) }}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Delete Complaint"> &nbsp;&nbsp; Delete</a>
+                      <a href="{{ path('app_admin_message_delete', {'id': Message.id}) }}" class="text-secondary font-weight-bold text-xs delete-reclamation" data-id="{{ Message.getId() }}" data-toggle="tooltip" data-original-title="Delete Complaint">Delete</a>
                     </td>
                     </tr>
                      {% endfor %}

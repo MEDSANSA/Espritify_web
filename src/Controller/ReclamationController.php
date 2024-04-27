@@ -28,6 +28,7 @@ class ReclamationController extends AbstractController
     #[Route('/new', name: 'app_reclamation_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager,UtilisateurRepository $UtilisateurRepository): Response
     {
+
         $currentDate = new \DateTime();
         $user = $UtilisateurRepository->findOneBy(['id' => 56]);
         $reclamation = new Reclamation();
@@ -40,8 +41,9 @@ class ReclamationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($reclamation);
             $entityManager->flush();
-
-            return $this->redirectToRoute('app_accueil', [], Response::HTTP_SEE_OTHER);
+            pnotify()->addSuccess('Your complaint has been addded successfully !.');
+            return $this->redirectToRoute('app_reclamation_new', [], Response::HTTP_SEE_OTHER);
+            
         }
 
         return $this->renderForm('reclamation/new.html.twig', [

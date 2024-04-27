@@ -13,6 +13,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Twilio\Rest\Client;
+
 
 #[Route('/message')]
 class MessageController extends AbstractController
@@ -45,6 +47,25 @@ class MessageController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entitymanager->persist($message);
             $entitymanager->flush();
+            $this->addFlash('success', 'Comment Added successfully');
+   
+        $account_sid = $_ENV['TWILIO_ACCOUNT_SID'];
+        $auth_token = $_ENV['TWILIO_AUTH_TOKEN'];
+        $twilio_number = $_ENV['TWILIO_PHONE_NUMBER'];
+        $client = new Client($account_sid, $auth_token);
+
+    
+        $recipient_phone_number = '+21695103375';  
+
+        $client->messages->create(
+            $recipient_phone_number,
+            [
+                'from' => $twilio_number,
+                'body' => 'A new comment has been added to your conversation! ,
+                 login and check it',
+            ]
+        );
+
 
             return $this->redirectToRoute('app_message_show_by_id_conv', ['id_conv' => $id_conv], Response::HTTP_SEE_OTHER);
         }
@@ -69,32 +90,22 @@ class MessageController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_message_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Message $message, EntityManagerInterface $entityManager): Response
+    
+
+    #[Route('/delete/{id}', name: 'app_message_delete')]
+    public function delete($id,Request $request, Message $message, EntityManagerInterface $entityManager,MessageRepository $messageRepository): Response
     {
-        $form = $this->createForm(MessageType::class, $message);
-        $form->handleRequest($request);
+        $message = $messageRepository->find($id);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+    $conversation = $message->getIdConv(); // This is the Conversation entity
+    $id_conv = $conversation ? $conversation->getId() : null; // Get the actual ID as an integer
 
-            return $this->redirectToRoute('app_message_index', [], Response::HTTP_SEE_OTHER);
-        }
+    
+        $entityManager->remove($message);
+        $entityManager->flush();
 
-        return $this->renderForm('message/edit.html.twig', [
-            'message' => $message,
-            'form' => $form,
-        ]);
-    }
-
-    #[Route('/{id}', name: 'app_message_delete', methods: ['POST'])]
-    public function delete(Request $request, Message $message, EntityManagerInterface $entityManager): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$message->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($message);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('app_message_show_by_id_conv', [], Response::HTTP_SEE_OTHER);
-    }
+        $this->addFlash('success', 'Comment deleted successfully');
+    
+    return $this->redirectToRoute('app_message_show_by_id_conv', ['id_conv' => $id_conv], Response::HTTP_SEE_OTHER);
+}
 }

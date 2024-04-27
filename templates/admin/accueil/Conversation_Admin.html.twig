@@ -1,5 +1,21 @@
 {% extends 'back.html.twig' %}
 {% block title %} Complaints {% endblock %}
+{% block search %} 
+
+   <form action="{{ path('app_admin_conversation') }}" method="GET" class="input-group">
+    <button type="submit">
+        <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
+    </button>
+    <div>
+    <input type="text" class="form-control" name="q" placeholder="Type here..." value="{{ app.request.query.get('q') }}">
+    </div>
+    &nbsp;&nbsp;
+    <div>
+    <input type="checkbox" name="sort_likes" value="1" {{ app.request.query.get('sort_likes') ? 'checked' : '' }}>
+    most interactions
+    </div>
+</form>
+{% endblock %}
 {% block body %}
 <div class="row">
         <div class="col-12">
@@ -17,12 +33,13 @@
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Title</th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Description </th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date </th>
+                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">likes </th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">options </th>
                       <th class="text-secondary opacity-7"></th>
                     </tr>
                   </thead>
                   <tbody>
-                  {% for conversation in Conversation %}
+                  {% for conversation in conversations %}
                   {% set user = conversation.getIdUser() %}
                     <tr>
                     <td>
@@ -44,6 +61,9 @@
                       </td>
                       <td class="align-middle text-center text-sm">
                         <p class="text-xs font-weight-bold mb-0">{{ conversation.date|date('Y-m-d') }}</p>
+                      </td>
+                        <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0">{{ conversation.likes}}</p>
                       </td>
                     
                      <td class="align-middle">

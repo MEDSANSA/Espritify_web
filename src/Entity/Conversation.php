@@ -20,6 +20,7 @@ class Conversation
 
     #[ORM\Column(length: 50)]
     #[assert\NotBlank(message:"please insert your title")]
+    
 
     private ?string $titre = null;
 

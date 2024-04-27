@@ -7,11 +7,14 @@
     "php": ">=7.2.5",
     "ext-ctype": "*",
     "ext-iconv": "*",
+    "consoletvs/profanity": "^3.4",
     "doctrine/annotations": "^2.0",
     "doctrine/dbal": "^3",
     "doctrine/doctrine-bundle": "^2.12",
     "doctrine/doctrine-migrations-bundle": "^3.3",
     "doctrine/orm": "^3.1",
+    "php-flasher/flasher-pnotify-laravel": "^1.15",
+    "php-flasher/flasher-pnotify-symfony": "^1.15",
     "phpdocumentor/reflection-docblock": "^5.3",
     "phpstan/phpdoc-parser": "^1.27",
     "sensio/framework-extra-bundle": "^6.2",
@@ -45,7 +48,8 @@
     "symfony/web-link": "5.4.*",
     "symfony/yaml": "5.4.*",
     "twig/extra-bundle": "^2.12|^3.0",
-    "twig/twig": "^2.12|^3.0"
+    "twig/twig": "^2.12|^3.0",
+    "twilio/sdk": "^8.0"
   },
   "config": {
     "allow-plugins": {

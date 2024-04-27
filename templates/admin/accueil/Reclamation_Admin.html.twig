@@ -1,6 +1,29 @@
 {% extends 'back.html.twig' %}
 {% block title %} Complaints {% endblock %}
+{% block search %} 
+   <form action="{{ path('app_admin_reclamation') }}" method="GET" class="input-group">
+    <button type="submit">
+        <span class="input-group-text text-body">
+            <i class="fas fa-search" aria-hidden="true"></i>
+        </span>
+    </button>
+    <input type="text" class="form-control" name="q" placeholder="Type here..." value="{{ searchTerm|default('') }}" />
+    &nbsp;&nbsp;
+    <div style="display: flex; flex-direction: column; margin-left: 10px;">
+        <label for="show_non_traite">
+            <input type="checkbox" name="show_non_traite" id="show_non_traite" {{ showNonTraite ? 'checked' : '' }} /> 
+            non treated only
+        </label>
+        <label for="show_traite">
+            <input type="checkbox" name="show_traite" id="show_traite" {{ showTraite ? 'checked' : '' }} /> 
+            treated only
+        </label>
+    </div>
+</form>
+
+{% endblock %}
 {% block body %}
+
 
 <div class="row">
     <div class="col-12">
@@ -52,6 +75,7 @@
                                         <a href="#" class="text-secondary font-weight-bold text-xs answer-btn" data-toggle="modal" data-target="#myModal" data-id="{{ reclamation.id }}" data-original-title="Edit compliant">Answer</a>
                                         &nbsp;&nbsp;&nbsp;&nbsp;
                                         <a href="{{ path('app_admin_reclamation_delete', {'id': reclamation.id}) }}" class="text-secondary font-weight-bold text-xs delete-reclamation" data-id="{{ reclamation.getId() }}" data-toggle="tooltip" data-original-title="Delete Complaint">Delete</a>
+                                        
                                     </td>
                                 </tr>
                             {% endfor %}
@@ -104,3 +128,4 @@
     });
 </script>
 {% endblock %}
+

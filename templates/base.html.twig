@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="{{ asset("assets/front/assets/css/templatemo-edu-meeting.css")}}">
     <link rel="stylesheet" href="{{ asset("assets/front/assets/css/owl.css")}}">
     <link rel="stylesheet" href="{{ asset("assets/front/assets/css/lightbox.css")}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
         {% endblock %}
 
         {% block javascripts %}
@@ -93,7 +94,7 @@
                       <!-- ***** Logo End ***** -->
                       <!-- ***** Menu Start ***** -->
                       <ul class="nav">
-                          <li class="scroll-to-section"><a href="#top">Home</a></li>
+                          <li class="scroll-to-section"><a href="{{path('app_accueil')}}">Home</a></li>
                           <li><a href="{{path('app_conversation_index')}}"  class="active">Live Chat</a></li>
                           <li><a href="{{path('app_meetings')}}">Meetings</a></li>
                           <li class="scroll-to-section"><a href="#apply">Apply Now</a></li>
@@ -106,6 +107,11 @@
                           </li>
                           <li class="scroll-to-section"><a href="#courses">Courses</a></li> 
                           <li class="scroll-to-section"><a href="#contact">Contact Us</a></li> 
+                          <li>
+                          <a href="{{ path('app_notifs') }}">
+                          <i class="fas fa-bell"></i> <!-- FontAwesome bell icon -->
+                          </a>
+                          </li>
                       </ul>        
                       <a class='menu-trigger'>
                           <span>Menu</span>
@@ -118,6 +124,7 @@
   </header>
   
     {% endblock %}
+    
 
     {% block banner %}
      <section class="section main-banner" id="top" data-section="section1">
@@ -727,37 +734,40 @@
   </section>
 
   <section class="contact-us" id="contact">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-9 align-self-center">
-          <div class="row">
-            <div class="col-lg-12">
-              <form id="contact" action="" method="post">
+      <div class="container">
+        <div class="row">
+            <div class="col-lg-9 align-self-center">
                 <div class="row">
-                  <div class="col-lg-12">
-                    <h2>Tap in Your Complaitns Details</h2>
-                  </div>
-                  
-                  <div class="col-lg-12">
-                    <fieldset>
-                      <input name="subject" type="text" id="subject" placeholder="Title...*" required="">
-                    </fieldset>
-                  </div>
-                  <div class="col-lg-12">
-                    <fieldset>
-                      <textarea name="message" type="text" class="form-control" id="message" placeholder="YOUR Reclamation..." required=""></textarea>
-                    </fieldset>
-                  </div>
-                  <div class="col-lg-12">
-                    <fieldset>
-                      <button type="submit" id="form-submit" class="button">SEND NOW</button>
-                    </fieldset>
-                  </div>
+                    <div class="col-lg-12">
+                        <div id="contact" >
+                            {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <h2>Tap in Your Complaints Details</h2>
+                                </div>
+                               
+                                <div class="col-lg-12">
+                                    
+                                    {{ form_widget(form.titre, {'attr': {'class' : 'form-control', 'placeholder': 'Title ...'}}) }}
+
+                                     <span style="font-size: 13px; color: red;">{{ form_errors(form.titre) }}</span>
+                                </div>
+                                <div class="col-lg-12">
+                                   
+                                    {{ form_widget(form.description, {'attr': {'class' : 'form-control', 'placeholder': ' Description...'}}) }}
+                                     <span style="font-size: 13px; color: red;">{{ form_errors(form.description) }}</span>
+                                </div>
+                                <div class="col-lg-12">
+                                    <fieldset>
+                                        <button type="submit" id="form-submit" class="button">SEND NOW</button>
+                                    </fieldset>
+                                </div>
+                            </div>
+                            {{ form_end(form) }}
+                        </div>
+                    </div>
                 </div>
-              </form>
             </div>
-          </div>
-        </div>
         <div class="col-lg-3">
           <div class="right-info">
             <ul>
@@ -793,5 +803,6 @@
 
 
         {% endblock %}
+ 
     </body>
 </html>
