@@ -46,6 +46,7 @@ class QuestionsController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($question);
             $entityManager->flush();
+            $this->addFlash('success', 'Ajout avec succès!');
 
             return $this->redirectToRoute('app_questions_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -72,6 +73,7 @@ class QuestionsController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
+            $this->addFlash('success', 'Edit avec succès!');
 
             return $this->redirectToRoute('app_questions_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -88,6 +90,7 @@ class QuestionsController extends AbstractController
         if ($this->isCsrfTokenValid('delete' . $question->getIdQuestion(), $request->request->get('_token'))) {
             $entityManager->remove($question);
             $entityManager->flush();
+            $this->addFlash('success', 'Delete avec succès!');
         }
 
         return $this->redirectToRoute('app_questions_index', [], Response::HTTP_SEE_OTHER);

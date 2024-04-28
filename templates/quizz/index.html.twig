@@ -10,8 +10,15 @@
 {% endblock %}
 
 {% block body %}
-<div class="row">
+<div class="row" id="quizzList">
     <div class="col-md-12 mb-lg-0 mb-4">
+    {% for label, messages in app.session.flashbag.all() %}
+                <div class="alert alert-{{ label }}">
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endfor %}
         <div class="card mt-4">
             <div class="row">  
                 <div class="col-6 d-flex align-items-center">
@@ -26,10 +33,16 @@
                 <div class="btn-group" role="group" aria-label="Sort by idQuizz">
                     <a href="{{ path('app_quizz_index', {'sort_order': 'asc'}) }}" class="btn btn-secondary"><i class="fa fa-sort-alpha-asc" aria-hidden="true"></i></a>
                     <a href="{{ path('app_quizz_index', {'sort_order': 'desc'}) }}" class="btn btn-secondary"><i class="fa fa-sort-alpha-desc" aria-hidden="true"></i></a>
+                    <select class="form-select form-select-sm me-2" id="filterSelect" aria-label="Default select example" style="width: 200px; height:40px;">
+                        <option selected disabled>Filter by Subject</option>
+                        {% for quizz in quizzs %}
+                            <option value="{{ quizz.sujet }}">{{ quizz.sujet }}</option>
+                        {% endfor %}
+                    </select>
                 </div>
                 <!-- Table displaying quizzs -->
                 <div class="table-responsive p-0">
-                    <table class="table align-items-center mb-0">
+                    <table class="table align-items-center mb-0" >
                         <thead>
                             <tr>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -76,4 +89,23 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.getElementById('filterSelect').addEventListener('change', function() {
+    // Récupérer la valeur sélectionnée
+    var selectedSubject = this.value;
+
+    // Envoyer une requête AJAX au serveur
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '{{ path('app_quizz_index') }}?subject=' + selectedSubject, true);
+    xhr.onload = function() {
+        if (xhr.status >= 200 && xhr.status < 400) {
+            // Mettre à jour la page avec les nouvelles données
+            var response = xhr.responseText;
+            document.getElementById('quizzList').innerHTML = response;
+        }
+    };
+    xhr.send();
+    });
+</script>
 {% endblock %}

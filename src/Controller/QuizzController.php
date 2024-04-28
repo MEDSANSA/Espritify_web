@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use GuzzleHttp\Client;
 use App\Entity\Questions;
 use App\Entity\Quizz;
 use App\Form\QuizzType;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpClient\HttpClient;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Console\Question\Question;
@@ -13,6 +15,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Laracasts\Flash\Flash;
 
 #[Route('/quizzback')]
 class QuizzController extends AbstractController
@@ -20,15 +23,23 @@ class QuizzController extends AbstractController
     #[Route('/', name: 'app_quizz_index', methods: ['GET'])]
     public function index(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $subject = $request->query->get('subject');
         $searchTerm = $request->query->get('q');
         $sortBy = $request->query->get('sort_by', 'idQuizz');
         $sortOrder = $request->query->get('sort_order', 'asc');
 
         $queryBuilder = $entityManager->getRepository(Quizz::class)->createQueryBuilder('q');
+
+        if ($subject) {
+            $queryBuilder->andWhere('q.sujet = :subject')
+                ->setParameter('subject', $subject);
+        }
+
         if ($searchTerm) {
             $queryBuilder->where('q.sujet LIKE :searchTerm')
                 ->setParameter('searchTerm', '%' . $searchTerm . '%');
         }
+
         $queryBuilder->orderBy('q.' . $sortBy, $sortOrder);
 
         $quizzs = $queryBuilder->getQuery()->getResult();
@@ -39,9 +50,107 @@ class QuizzController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/quizzs/filter", name="quizz_filter", methods={"GET"})
+     */
+    public function filterQuizzs(EntityManagerInterface $entityManager, Request $request): Response
+    {
+        $subject = $request->query->get('subject');
+
+        // Récupérer les données des quizzs filtrées par sujet depuis la base de données
+        $quizzs = $entityManager->getRepository(Quizz::class)->findBy(['sujet' => $subject]);
+
+        // Convertir les données en format JSON et les renvoyer en réponse
+        $jsonData = $this->serializeQuizzs($quizzs);
+
+        return new Response($jsonData, Response::HTTP_OK, [
+            'Content-Type' => 'application/json'
+        ]);
+    }
+
+    private function serializeQuizzs($quizzs)
+    {
+        $data = [];
+        foreach ($quizzs as $quizz) {
+            $data[] = [
+                'idQuizz' => $quizz->getIdQuizz(),
+                'sujet' => $quizz->getSujet(),
+                'description' => $quizz->getDescription(),
+                'idQuestion' => $quizz->getIdQuestion(),
+            ];
+        }
+        return json_encode(['quizzs' => $data]);
+    }
+
+    //guzzle-bundle and trivia api
+    #[Route('/other', name: 'app_other_quizzes')]
+    public function fetchTriviaQuestions(Request $request): Response
+    {
+        $category = $request->query->get('category');
+
+        $client = new Client([
+            'base_uri' => 'https://opentdb.com/',
+            'timeout'  => 3.0,
+        ]);
+
+        $response = $client->request('GET', 'api.php', [
+            'query' => [
+                'amount' => 20,
+                'category' => $category, // General Knowledge
+                'type' => 'multiple',
+            ]
+        ]);
+
+        $data = json_decode($response->getBody()->getContents(), true);
+
+        return $this->render('Front/trivia.html.twig', ['questions' => $data['results']]);
+    }
+
+    #[Route('/quiz/submit', name: 'trivia_quiz_submit', methods: ['POST'])]
+    public function submitTriviaQuiz(Request $request): Response
+    {
+        $formData = $request->request->all();
+
+        $client = new Client([
+            'base_uri' => 'https://opentdb.com/',
+            'timeout'  => 3.0,
+        ]);
+
+        $response = $client->request('GET', 'api.php', [
+            'query' => [
+                'amount' => 20,
+                'category' => 9,
+                'type' => 'multiple',
+            ]
+        ]);
+
+        $data = json_decode($response->getBody()->getContents(), true);
+
+        if (isset($data['results']) && !empty($data['results'])) {
+            $totalQuestions = count($formData);
+            $correctAnswers = 0;
+
+            foreach ($formData as $userQuestionId => $userAnswer) {
+                foreach ($data['results'] as $question) {
+                    if ($userAnswer == $question['correct_answer']) {
+                        $correctAnswers++;
+                        break;
+                    }
+                }
+            }
+            $percentage = ($correctAnswers / $totalQuestions) * 100;
+            $integerPart = (int)$percentage;
+
+            return $this->render('Front/result.html.twig', [
+                'score' => $correctAnswers,
+                'percentage' => $integerPart,
+                'data' => $data
+            ]);
+        }
+    }
+
 
     //front controller
-
     #[Route('/quizz', name: 'app_quizz', methods: ['GET'])]
     public function Quizz(EntityManagerInterface $entityManager)
     {
@@ -56,7 +165,6 @@ class QuizzController extends AbstractController
     public function startQuiz(SessionInterface $session, EntityManagerInterface $entityManager)
     {
         $quizz = $entityManager->getRepository(Quizz::class)->findAll();
-        //$questions = $entityManager->getRepository(Questions::class)->findOneBy([]);
 
         $currentQuizzIndex = $session->get('current_quizz_index', 0);
         $currentQuizz = $quizz[$currentQuizzIndex];
@@ -64,7 +172,6 @@ class QuizzController extends AbstractController
         $session->set('user_answers', []);
 
         return $this->render('Front/quizz.html.twig', [
-            //'questions' => $questions,
             'quizzs' => $currentQuizz,
             'totalQuizz' => count($quizz),
             'currentQuizzIndex' => $currentQuizzIndex,
@@ -97,10 +204,11 @@ class QuizzController extends AbstractController
         $result = $this->calculateScore($formData, $entityManager);
         $score = $result['score'];
         $percentage = $result['percentage'];
+        $integerPart = (int)$percentage;
 
-        return new JsonResponse([
+        return $this->render('Front/result.html.twig', [
             'score' => $score,
-            'percentage' => $percentage,
+            'percentage' => $integerPart
         ]);
     }
 
@@ -130,6 +238,7 @@ class QuizzController extends AbstractController
         ];
     }
 
+    //backend controller
     #[Route('/new', name: 'app_quizz_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -140,6 +249,8 @@ class QuizzController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($quizz);
             $entityManager->flush();
+
+            $this->addFlash('success', 'Ajout avec succès!');
 
             return $this->redirectToRoute('app_quizz_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -167,6 +278,8 @@ class QuizzController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
+            $this->addFlash('success', 'Edit avec succès!');
+
             return $this->redirectToRoute('app_quizz_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -182,6 +295,7 @@ class QuizzController extends AbstractController
         if ($this->isCsrfTokenValid('delete' . $quizz->getIdQuizz(), $request->request->get('_token'))) {
             $entityManager->remove($quizz);
             $entityManager->flush();
+            $this->addFlash('success', 'Delete avec succès!');
         }
 
         return $this->redirectToRoute('app_quizz_index', [], Response::HTTP_SEE_OTHER);

@@ -12,6 +12,13 @@
 {% block body %}
 <div class="row">
     <div class="col-md-12 mb-lg-0 mb-4">
+    {% for label, messages in app.session.flashbag.all() %}
+                <div class="alert alert-{{ label }}">
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endfor %}
         <div class="card mt-4">
             <div class="row">  
                 <div class="col-6 d-flex align-items-center">

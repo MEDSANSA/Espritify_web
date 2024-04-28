@@ -2,40 +2,40 @@
 
 {% block title %}Hello AccueilController!{% endblock %}
 
- {% block header %} 
-    <header class="header-area header-sticky">
-      <div class="container">
-          <div class="row">
-              <div class="col-12">
-                  <nav class="main-nav">
-                      <!-- ***** Logo Start ***** -->
-                      <a href="index.html" class="logo">
-                          Espritify
-                      </a>
-                      <!-- ***** Logo End ***** -->
-                      <!-- ***** Menu Start ***** -->
-                      <ul class="nav">
-                          <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
-                          <li><a href="{{path('app_quizz')}}">Quizz</a></li>
-                          <li class="scroll-to-section"><a href="#apply">Apply Now</a></li>
-                          <li class="has-sub">
-                              <a href="javascript:void(0)">Pages</a>
-                              <ul class="sub-menu">
-                                  <li><a href="#">Upcoming Meetings</a></li>
-                                  <li><a href="#">Meeting Details</a></li>
-                              </ul>
-                          </li>
-                          <li class="scroll-to-section"><a href="#courses">Courses</a></li> 
-                          <li class="scroll-to-section"><a href="#contact">Contact Us</a></li> 
-                      </ul>        
-                      <a class='menu-trigger'>
-                          <span>Menu</span>
-                      </a>
-                      <!-- ***** Menu End ***** -->
-                  </nav>
-              </div>
-          </div>
-      </div>
-  </header>
-  
-    {% endblock %}
+{% block header %}
+<header class="header-area header-sticky">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav class="main-nav">
+                    <!-- ***** Logo Start ***** -->
+                    <a href="{{path('app_acceuil')}}" class="logo">
+                        Espritify
+                    </a>
+                    <!-- ***** Logo End ***** -->
+                    <!-- ***** Menu Start ***** -->
+                    <ul class="nav">
+                        <li class="scroll-to-section"><a href="{{path('app_acceuil')}}" class="active">Home</a></li>
+                        <li class="has-sub">
+                            <a href="javascript:void(0)">Quizz</a>
+                            <ul class="sub-menu">
+                                <li><a href="{{path('app_quizz')}}">Quizz</a></li>
+                                <li><a href="{{path('app_other_quizzes')}}">Other Quizzes</a></li>
+                            </ul>
+                        </li>
+                        <li class="scroll-to-section"><a href="#apply">Apply Now</a></li>
+
+                        <li class="scroll-to-section"><a href="#courses">Courses</a></li>
+                        <li class="scroll-to-section"><a href="#contact">Contact Us</a></li>
+                    </ul>
+                    <a class='menu-trigger'>
+                        <span>Menu</span>
+                    </a>
+                    <!-- ***** Menu End ***** -->
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+{% endblock %}

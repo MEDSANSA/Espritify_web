@@ -19,19 +19,19 @@
                             </div>
                             <div class="ans ml-2">
                                 <label class="radio"> 
-                                    <input type="radio" name="{{ quizzs.idQuestion.idQuestion }}" value="{{ quizzs.idQuestion.rep1 }}">
+                                    <input type="radio" name="{{ quizzs.idQuestion.idQuestion }}" value="{{ quizzs.idQuestion.rep1 }}" required>
                                     <span>{{ quizzs.idQuestion.rep1 }}</span>
                                 </label>
                             </div>
                             <div class="ans ml-2">
                                 <label class="radio"> 
-                                    <input type="radio" name="{{ quizzs.idQuestion.idQuestion }}" value="{{ quizzs.idQuestion.rep2 }}">
+                                    <input type="radio" name="{{ quizzs.idQuestion.idQuestion }}" value="{{ quizzs.idQuestion.rep2 }}" required>
                                     <span>{{ quizzs.idQuestion.rep2 }}</span>
                                 </label>
                             </div>
                             <div class="ans ml-2">
                                 <label class="radio"> 
-                                    <input type="radio" name="{{ quizzs.idQuestion.idQuestion }}" value="{{ quizzs.idQuestion.rep3 }}">
+                                    <input type="radio" name="{{ quizzs.idQuestion.idQuestion }}" value="{{ quizzs.idQuestion.rep3 }}" required>
                                     <span>{{ quizzs.idQuestion.rep3 }}</span>
                                 </label>
                             </div>
@@ -40,7 +40,7 @@
                         <!-- Buttons for previous, submit, and next -->
                         <div class="d-flex flex-row justify-content-between align-items-center p-3 bg-white">
                             <a class="btn btn-primary d-flex align-items-center btn-danger" href="{{ path('previous_question') }}">Previous</a>
-                            <button type="submit" class="btn btn-primary btn-danger">Submit</button>
+                            <button type="submit" class="btn btn-primary btn-danger">Repondre</button>
                             <a class="btn btn-primary border-success align-items-center btn-success" href="{{ path('next_question') }}">Next</a>
                         </div>
                     </div>

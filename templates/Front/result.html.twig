@@ -1,13 +1,33 @@
+{% extends 'basefront.html.twig' %}
 
 {% block title %}Quiz Result{% endblock %}
-
-
+{% block banner %}{% endblock %}
 
 {% block body %}
-    <h1>Your Quiz Result</h1>
-        <p>Score: {{ score }}</p>
-        <p>Percentage: {{ percentage }}</p>
-    <pre>
-        {{ dump(data) }}
-    </pre>
+<section class="meetings-page" id="quizz">
+    <div class="container mt-5">
+        <div class="card text-center">
+            <div class="card-header">
+                Your Quiz Result
+            </div>
+            {% if percentage >= 50 %}
+            <div class="card-body">
+                <h5 class="card-title">Nice job, you passed!</h5>
+                <i class="fa fa-check-circle" aria-hidden="true" style="color: green; font-size: 100px;"></i>
+                <p class="card-text">Score: {{ score }}</p>
+                <p class="card-text">Percentage: {{ percentage }}%</p>
+                <a href="{{ path('app_acceuil') }}" class="btn btn-success">Back Home</a>
+            </div>
+            {% else %}
+            <div class="card-body">
+                <h5 class="card-title">you failed, Next time!</h5>
+                <i class="fa fa-times-circle" aria-hidden="true" style="color: red; font-size: 100px;"></i>
+                <p class="card-text">Score: {{ score }}</p>
+                <p class="card-text">Percentage: {{ percentage }}%</p>
+                <a href="{{ path('app_quizz') }}" class="btn btn-danger">Try again</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
 {% endblock %}

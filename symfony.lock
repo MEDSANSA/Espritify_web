@@ -38,6 +38,18 @@
             "./migrations/.gitignore"
         ]
     },
+    "eightpoints/guzzle-bundle": {
+        "version": "8.5",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "7.0",
+            "ref": "7babb21a3928e44e485391907e3abc346804e0d2"
+        },
+        "files": [
+            "./config/packages/eight_points_guzzle.yaml"
+        ]
+    },
     "phpunit/phpunit": {
         "version": "9.6",
         "recipe": {
