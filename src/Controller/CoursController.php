@@ -10,6 +10,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Knp\Component\Pager\PaginatorInterface;
+use App\Entity\Categorie;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Repository\CoursRepository;
+use Laracasts\Flash\Flash;
+//use Stichoza\GoogleTranslateBundle\StichozaGoogleTranslateBundle;
+
+
 
 #[Route('/cours')]
 class CoursController extends AbstractController
@@ -17,12 +24,16 @@ class CoursController extends AbstractController
     #[Route('/', name: 'app_cours_index', methods: ['GET'])]
     public function index(EntityManagerInterface $entityManager): Response
     {
+        $categorie = $entityManager
+        ->getRepository(Categorie::class)
+        ->findAll();
         $cours = $entityManager
             ->getRepository(Cours::class)
             ->findAll();
 
         return $this->render('cours/index.html.twig', [
             'cours' => $cours,
+            'categorie' => $categorie,
         ]);
     }
 
@@ -47,6 +58,7 @@ public function coursdetail($id, EntityManagerInterface $entityManager): Respons
     public function cours(EntityManagerInterface $entityManager, PaginatorInterface $paginatorInterface, Request $req
     ): Response
     {
+       
         $searchTerm = $req->query->get('q');
         if (!$searchTerm) {
 
@@ -57,7 +69,7 @@ public function coursdetail($id, EntityManagerInterface $entityManager): Respons
             $cours= $entityManager
                 ->getRepository(cours::class)
                 ->createQueryBuilder('q')
-                ->where('q.title LIKE :searchTerm')
+                ->where('q.title LIKE :searchTerm OR q.contenu LIKE :searchTerm')
                 ->setParameter('searchTerm', '%' . $searchTerm . '%')
                 ->getQuery()
                 ->getResult();
@@ -69,6 +81,7 @@ public function coursdetail($id, EntityManagerInterface $entityManager): Respons
             );
         return $this->render('Front/cours.html.twig', [
             'cours' => $cours,
+           
         ]);
     }
 
@@ -90,6 +103,7 @@ public function coursdetail($id, EntityManagerInterface $entityManager): Respons
             $cour->setContenu($contenuFileName);
             $entityManager->persist($cour);
             $entityManager->flush();
+            $this->addFlash('success', 'Your success message here.');
 
             return $this->redirectToRoute('app_cours_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -132,9 +146,33 @@ public function coursdetail($id, EntityManagerInterface $entityManager): Respons
         if ($this->isCsrfTokenValid('delete'.$cour->getId(), $request->request->get('_token'))) {
             $entityManager->remove($cour);
             $entityManager->flush();
+            $this->addFlash('success', 'Your success message here.');
+            $this->addFlash('error', 'Your error message here.');
         }
 
         return $this->redirectToRoute('app_cours_index', [], Response::HTTP_SEE_OTHER);
     }
-    
+   
+   
+   
+   /* #[Route('/CoursFilter/{categorieId}', name: 'app_admin_cours_filter')]
+    public function getCoursFilter($categorieId, CoursRepository $CoursRepository): JsonResponse
+{
+    $courses = $CoursRepository->findBy(['id_cat' => $categorieId]);
+    $data = [];
+    foreach ($cours as $cour) {
+        // Assuming you have some properties you want to include in the response
+        $data[] = [
+            'titre' => $cour->getTitle(),
+            'contenu' => $cour->getContenu(),
+            'etat'=>$cour->isEtat(),
+            'rate'=>$cour->getRate(),
+            'categorie'=>$cour->getIdCat()->getType(),
+            // Add more properties as needed
+        ];
+    }
+
+    return new JsonResponse($data);
+}*/
+
 }
