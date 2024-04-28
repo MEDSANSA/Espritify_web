@@ -5,6 +5,8 @@
   <title>
     Internships
   </title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
   {% endblock %}
   {% block body %}
 
@@ -377,6 +379,7 @@
           <div class="card mb-4">
             <div class="card-header pb-0">
               <h6>Internship Offers Available</h6> <button  class="btn bg-gradient-primary " data-toggle="modal" data-target="#myModal">Add</button>
+              <a  class="btn bg-gradient-primary " href="{{ path('app_admin_sort') }}"><i class="fa-solid fa-sort"></i></a>
               
             </div>
             <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalCenterTitle" aria-hidden="true">
@@ -534,7 +537,9 @@
             </div>
           </div>
         </div>
-      </div><!-- Include necessary JavaScript libraries and initialize the modal -->
+      </div>
+      
+      <!-- Include necessary JavaScript libraries and initialize the modal -->
  <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script>
@@ -553,156 +558,10 @@
     });
 </script>
    
-         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-        Launch demo modal
-    </button>
+      
     <!-- Modal -->
     <!-- Button trigger modal -->
 
-
-
-    <div class="row">
-      <div class="col-12">
-          <div class="card mb-4">
-            <div class="card-header pb-0">
-              <h6>Internship folder</h6>
-            </div>
-            <div class="card-body px-0 pt-0 pb-2">
-              <div class="table-responsive p-0">
-                <table class="table align-items-center mb-0">
-                  <thead>
-                    <tr> 
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Student</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Internship company</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">CV</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Convention</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID card Copy</th>
-
-                      <th class="text-secondary opacity-7">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                  {% for i in dossierStage %}
-                    <tr>
-                      <td>
-                        <div class="d-flex px-2 py-1">
-                          <div>
-                            <img src="{{ asset('assets/back//img/team-2.jpg')}}" class="avatar avatar-sm me-3" alt="user1">
-                          </div>
-                          <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">{{i.idUser.nom}}  {{i.idUser.prenom}}</h6>
-                            <p class="text-xs text-secondary mb-0">{{i.idUser.email}}</p>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <p class="text-xs font-weight-bold mb-0">{{i.idOffre.titre}}</p>
-                        <p class="text-xs text-secondary mb-0">{{i.idOffre.descSoc}}</p>
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <span class="badge badge-sm bg-gradient-success">{{i.cv}}</span>
-                      </td>
-                      <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold"> {{i.convention}} </span>
-                      </td>
-                      <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold"> {{i.copieCin}} </span>
-                      </td>
-                      <td class="align-middle">
-                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                          Edit
-                        </a>
-                      </td>
-                    </tr>
-                    {% endfor %}
-                   
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
- <div class="row">
-      <div class="col-12">
-          <div class="card mb-4">
-            <div class="card-header pb-0">
-              <h6>Interviews</h6>
-            </div>
-            <div class="card-body px-0 pt-0 pb-2">
-              <div class="table-responsive p-0">
-                <table class="table align-items-center mb-0">
-                  <thead>
-                    <tr> 
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Student</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Internship company</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Type</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Description</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date</th>
-                      
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Place</th>
-                      
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Etat</th>
-                      <th class="text-secondary opacity-7">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                  {% for i in entretien %}
-                    <tr>
-                      <td>
-                        <div class="d-flex px-2 py-1">
-                          <div>
-                            <img src="{{ asset('assets/back//img/team-2.jpg')}}" class="avatar avatar-sm me-3" alt="user1">
-                          </div>
-                          <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">{{i.idUser.nom}}  {{i.idUser.prenom}}</h6>
-                            <p class="text-xs text-secondary mb-0">{{i.idUser.email}}</p>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                      
-                      
-                        <p class="text-xs font-weight-bold mb-0">{{i.idStage.titre}}</p>
-                        <p class="text-xs text-secondary mb-0">{{i.idStage.descSoc}}</p>
-                      
-                     
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <span class="badge badge-sm bg-gradient-success">{{i.type}}</span>
-                      </td>
-                      <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold"> {{i.description}} </span>
-                      </td>
-                      <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold"> {{i.date|date('Y-m-d')}} </span>
-                      </td>
-                      <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold"> {{i.lieu}}</span>
-                      </td>
-                      <td class="align-middle text-center text-sm">{% if i.etat == 0 %}
-                        <span class="badge badge-sm bg-gradient-secondary">
-                          Rejected </span>
-                          {% else %}  <span class="badge badge-sm bg-gradient-success">
-                              Accepted</span>
-                          {% endif %} 
-                      </td>
-                      <td class="align-middle">
-                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                          Edit
-                        </a>
-                      </td>
-                    </tr>
-                    {% endfor %}
-                   
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
 
       <footer class="footer pt-3  ">
         <div class="container-fluid">

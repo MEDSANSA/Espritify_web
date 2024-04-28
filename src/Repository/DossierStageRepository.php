@@ -52,7 +52,13 @@ class DossierStageRepository extends ServiceEntityRepository
 
     return $mergedResult;
 }
-
+public function countRows(): int
+    {
+        return $this->createQueryBuilder('d')
+            ->select('COUNT(d.id_user)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
     
 
 //    /**

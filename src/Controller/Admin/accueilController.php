@@ -13,6 +13,7 @@ use App\Repository\DossierStageRepository;
 use App\Repository\EntretienRepository;
 use App\Repository\OffrestageRepository;
 use App\Repository\UtilisateurRepository;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,19 +22,43 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use MathPHP\Statistics\Average;
 class accueilController extends AbstractController
 {
     #[Route('/admin/accueil', name: 'app_admin_accueil')]
-    public function index(): Response
+    public function index(OffrestageRepository $offreRepository,  DossierStageRepository $dossierStageRepository, EntretienRepository $entretienRepository): Response
     {
+        $results = $offreRepository->countApplicationsPerOffer();
+        $nmbrOfApplications= $dossierStageRepository->countRows();
+        $entretiens = $entretienRepository->findAll();
+
+        // Initialize an array to store the count of entretiens for each day
+        $entretiensPerDay = [];
+    
+        // Loop through each entretien and count the number of entretiens for each day
+        foreach ($entretiens as $entretien) {
+            $date = $entretien->getDate()->format('Y-m-d'); // Format the date to 'Y-m-d' format
+            if (!isset($entretiensPerDay[$date])) {
+                $entretiensPerDay[$date] = 0; // Initialize count to 0 for new day
+            }
+            $entretiensPerDay[$date]++; // Increment the count for the day
+        }
+    
+        // Calculate the average number of entretiens per day
+        $averageEntretiensPerDay = Average::mean(array_values($entretiensPerDay));
         return $this->render('admin/accueil/index.html.twig', [
+            'results' => $results,
+            'nmbrApplications'=>$nmbrOfApplications,
             'controller_name' => 'accueilController',
+            'entretiensPerDay' => $entretiensPerDay,
+            'averageEntretiensPerDay' => $averageEntretiensPerDay,
         ]);
     }
 
     #[Route('/admin/offrestage', name: 'app_admin_offrestage')]
     public function offrestage(EntityManagerInterface $entityManager, Request $request, OffrestageRepository $offrestageRepository, DossierStageRepository $dossierStageRepository, EntretienRepository $entretienRepository): Response
-    {   $search = $request->query->get('q');
+    {    $results = $offrestageRepository->countApplicationsPerOffer();
+        $search = $request->query->get('q');
         if (!$search) {
             $offre = $offrestageRepository->findAll();
         } else {
@@ -45,9 +70,7 @@ class accueilController extends AbstractController
                 ->getQuery()
                 ->getResult();
         }
-        usort($offre, function ($a, $b) {
-            return $a->getTitre() <=> $b->getTitre();
-        });
+       
         $offrestage = new Offrestage();
         $form = $this->createForm(OffreStageType::class, $offrestage);
         return $this->render('admin/accueil/offrestage.html.twig', [
@@ -57,6 +80,7 @@ class accueilController extends AbstractController
             'entretien' => $entretienRepository->findAll(),
             'form' => $form->createView(),
             'search' => $search,
+            'results' => $results,
         ]);
     }
 
@@ -341,4 +365,77 @@ class accueilController extends AbstractController
 
     return new JsonResponse($data);
 }
+
+
+#[Route('/admin/sort', name: 'app_admin_sort')]
+public function sort( EntityManagerInterface $entityManager, Request $request, OffrestageRepository $offrestageRepository, DossierStageRepository $dossierStageRepository, EntretienRepository $entretienRepository): Response
+{
+    $offre = $offrestageRepository->findAll();
+    
+    $search = $request->query->get('q');
+        if (!$search) {
+            usort($offre, function ($a, $b) {
+                return $a->getTitre() <=> $b->getTitre();
+            });
+        } else {
+            $offre = $entityManager
+                ->getRepository(Offrestage::class)
+                ->createQueryBuilder('q')
+                ->where('q.titre LIKE :searchTerm')
+                ->setParameter('searchTerm', '%' . $search . '%')
+                ->getQuery()
+                ->getResult();
+        }
+       
+        $offrestage = new Offrestage();
+        $form = $this->createForm(OffreStageType::class, $offrestage);
+        return $this->render('admin/accueil/offrestage.html.twig', [
+            'controller_name' => 'accueilController',
+            'offreStage' => $offre,
+            'dossierStage' => $dossierStageRepository->findAll(),
+            'entretien' => $entretienRepository->findAll(),
+            'form' => $form->createView(),
+            'search' => $search,
+        ]);
+   
+    
+}
+    #[Route('/admin/stat', name: 'app_admin_stat')]
+    public function average(OffrestageRepository $offreRepository, DossierStageRepository $dossierStageRepository, EntretienRepository $entretienRepository): Response
+    {
+        $results = $offreRepository->countApplicationsPerOffer();
+        $nmbrOfApplications= $dossierStageRepository->countRows();
+        
+        $entretiens = $entretienRepository->findAll();
+
+        // Initialize an array to store the count of entretiens for each day
+        $entretiensPerDay = [];
+    
+        // Loop through each entretien and count the number of entretiens for each day
+        foreach ($entretiens as $entretien) {
+            $date = $entretien->getDate()->format('Y-m-d'); // Format the date to 'Y-m-d' format
+            if (!isset($entretiensPerDay[$date])) {
+                $entretiensPerDay[$date] = 0; // Initialize count to 0 for new day
+            }
+            $entretiensPerDay[$date]++; // Increment the count for the day
+        }
+    
+        // Calculate the average number of entretiens per day
+        $averageEntretiensPerDay = Average::mean(array_values($entretiensPerDay));
+    
+        // Return the data to the Twig template
+        return $this->render('admin/accueil/teststat.html.twig', [
+            'entretiensPerDay' => $entretiensPerDay,
+            'averageEntretiensPerDay' => $averageEntretiensPerDay,
+        ]);
+    }
+
+   /* #[Route('/admin/stat', name: 'app_admin_stat')]
+    public function yourAction(OffrestageRepository $offreRepository): Response
+    {   $results = $offreRepository->countApplicationsPerOffer();
+
+        return $this->render('admin/accueil/teststat.html.twig', [
+            'results' => $results,
+        ]);
+    }*/
 }

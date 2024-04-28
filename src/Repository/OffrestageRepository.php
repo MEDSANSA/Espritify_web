@@ -20,7 +20,16 @@ class OffrestageRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Offrestage::class);
     }
+    public function countApplicationsPerOffer(): array
+    {
+        $qb = $this->createQueryBuilder('o')
+            ->select('o.id, o.nom_soc, COUNT(d.id_user) AS num_applications')
+            ->leftJoin('o.dossierStages', 'd')
+            ->groupBy('o.id');
 
+        return $qb->getQuery()->getResult();
+    }
+    
 //    /**
 //     * @return Offrestage[] Returns an array of Offrestage objects
 //     */

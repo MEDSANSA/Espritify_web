@@ -511,115 +511,115 @@
                     {% endfor %}
 
                   <script>
-  document.getElementById('filterSelect').addEventListener('change', function() {
-    var selectedOfferId = this.value;
-    var tableBody = document.getElementById('stageTableBody');
+                    document.getElementById('filterSelect').addEventListener('change', function() {
+                      var selectedOfferId = this.value;
+                      var tableBody = document.getElementById('stageTableBody');
 
-    // Clear existing table rows
-    tableBody.innerHTML = '';
+                      // Clear existing table rows
+                      tableBody.innerHTML = '';
 
-    // Send AJAX request to fetch dossier de stage records for the selected offer
-    fetch('/admin/getDossierByOffreId/' + selectedOfferId)
-      .then(response => response.json())
-      .then(data => {
-        if (data.length === 0) {
-                // If no data, create a single row with message
-                var noDataRow = document.createElement('tr');
-                var noDataCell = document.createElement('td');
-                noDataCell.textContent = "No records found";
-                noDataCell.style.textAlign = "center";
-                noDataCell.colSpan = 6; // Span across all columns
-                noDataRow.appendChild(noDataCell);
-                tableBody.appendChild(noDataRow);
-            } else {
-        // Add new table rows based on fetched data
-        data.forEach(dossier => {
-          console.log(dossier)
-          var row = document.createElement('tr');
-          // Create table cells and populate them with dossier data
-          var nomCell = document.createElement('td');
-          nomCell.textContent = dossier.nom;
-          var userCell = document.createElement('td');
-                userCell.innerHTML = `
-                    <div class="d-flex px-2 py-1">
-                        <div>
-                            <img src="{{ asset('assets/back//img/team-2.jpg')}}" class="avatar avatar-sm me-3" alt="user1">
-                        </div>
-                        <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">${dossier.nom} ${dossier.prenom}</h6>
-                            <p class="text-xs text-secondary mb-0">${dossier.email}</p>
-                        </div>
-                    </div>
-                `;
-                row.appendChild(userCell);
+                      // Send AJAX request to fetch dossier de stage records for the selected offer
+                      fetch('/admin/getDossierByOffreId/' + selectedOfferId)
+                        .then(response => response.json())
+                        .then(data => {
+                          if (data.length === 0) {
+                                  // If no data, create a single row with message
+                                  var noDataRow = document.createElement('tr');
+                                  var noDataCell = document.createElement('td');
+                                  noDataCell.textContent = "No records found";
+                                  noDataCell.style.textAlign = "center";
+                                  noDataCell.colSpan = 6; // Span across all columns
+                                  noDataRow.appendChild(noDataCell);
+                                  tableBody.appendChild(noDataRow);
+                              } else {
+                          // Add new table rows based on fetched data
+                          data.forEach(dossier => {
+                            console.log(dossier)
+                            var row = document.createElement('tr');
+                            // Create table cells and populate them with dossier data
+                            var nomCell = document.createElement('td');
+                            nomCell.textContent = dossier.nom;
+                            var userCell = document.createElement('td');
+                                  userCell.innerHTML = `
+                                      <div class="d-flex px-2 py-1">
+                                          <div>
+                                              <img src="{{ asset('assets/back//img/team-2.jpg')}}" class="avatar avatar-sm me-3" alt="user1">
+                                          </div>
+                                          <div class="d-flex flex-column justify-content-center">
+                                              <h6 class="mb-0 text-sm">${dossier.nom} ${dossier.prenom}</h6>
+                                              <p class="text-xs text-secondary mb-0">${dossier.email}</p>
+                                          </div>
+                                      </div>
+                                  `;
+                                  row.appendChild(userCell);
 
-                var offreCell = document.createElement('td');
-                offreCell.innerHTML = `
-                    <p class="text-xs font-weight-bold mb-0">${dossier.titre}</p>
-                    <p class="text-xs text-secondary mb-0">${dossier.descriptionSoc}</p>
-                `;
-                row.appendChild(offreCell);
-                //CV 
-                 var cvCell = document.createElement('td');
-                var cvSrc = "{{ asset('uploads/') }}" + dossier.cv;
+                                  var offreCell = document.createElement('td');
+                                  offreCell.innerHTML = `
+                                      <p class="text-xs font-weight-bold mb-0">${dossier.titre}</p>
+                                      <p class="text-xs text-secondary mb-0">${dossier.descriptionSoc}</p>
+                                  `;
+                                  row.appendChild(offreCell);
+                                  //CV 
+                                  var cvCell = document.createElement('td');
+                                  var cvSrc = "{{ asset('uploads/') }}" + dossier.cv;
 
-                var cvImage = document.createElement('img');
-                cvImage.src = cvSrc;
-                cvImage.alt = "CV Image";
-                cvImage.style.maxWidth = "200px";
-                cvImage.style.maxHeight = "200px";
+                                  var cvImage = document.createElement('img');
+                                  cvImage.src = cvSrc;
+                                  cvImage.alt = "CV Image";
+                                  cvImage.style.maxWidth = "200px";
+                                  cvImage.style.maxHeight = "200px";
 
-                var cvSpan = document.createElement('span');
-                cvSpan.className = "text-secondary text-xs font-weight-bold";
-                cvSpan.appendChild(cvImage);
+                                  var cvSpan = document.createElement('span');
+                                  cvSpan.className = "text-secondary text-xs font-weight-bold";
+                                  cvSpan.appendChild(cvImage);
 
-                cvCell.appendChild(cvSpan);
-                row.appendChild(cvCell);
-               
-               // convention
-              var conventionSrc = "{{ asset('uploads/') }}" + dossier.convention;
+                                  cvCell.appendChild(cvSpan);
+                                  row.appendChild(cvCell);
+                                
+                                // convention
+                                var conventionSrc = "{{ asset('uploads/') }}" + dossier.convention;
 
-              var conventionImage = document.createElement('img');
-              conventionImage.src = conventionSrc;
-              conventionImage.alt = "Convention Image";
-              conventionImage.style.maxWidth = "200px";
-              conventionImage.style.maxHeight = "200px";
+                                var conventionImage = document.createElement('img');
+                                conventionImage.src = conventionSrc;
+                                conventionImage.alt = "Convention Image";
+                                conventionImage.style.maxWidth = "200px";
+                                conventionImage.style.maxHeight = "200px";
 
-              var conventionSpan = document.createElement('span');
-              conventionSpan.className = "text-secondary text-xs font-weight-bold";
-              conventionSpan.appendChild(conventionImage);
+                                var conventionSpan = document.createElement('span');
+                                conventionSpan.className = "text-secondary text-xs font-weight-bold";
+                                conventionSpan.appendChild(conventionImage);
 
-              var conventionCell = document.createElement('td');
-              conventionCell.appendChild(conventionSpan);
-              row.appendChild(conventionCell);
-              // CIN 
-              var cinSrc = "{{ asset('uploads/') }}" + dossier.cin;
+                                var conventionCell = document.createElement('td');
+                                conventionCell.appendChild(conventionSpan);
+                                row.appendChild(conventionCell);
+                                // CIN 
+                                var cinSrc = "{{ asset('uploads/') }}" + dossier.cin;
 
-              var cinImage = document.createElement('img');
-              cinImage.src = cinSrc;
-              cinImage.alt = "ID Card Image";
-              cinImage.style.maxWidth = "200px";
-              cinImage.style.maxHeight = "200px";
+                                var cinImage = document.createElement('img');
+                                cinImage.src = cinSrc;
+                                cinImage.alt = "ID Card Image";
+                                cinImage.style.maxWidth = "200px";
+                                cinImage.style.maxHeight = "200px";
 
-              var cinSpan = document.createElement('span');
-              cinSpan.className = "text-secondary text-xs font-weight-bold";
-              cinSpan.appendChild(cinImage);
+                                var cinSpan = document.createElement('span');
+                                cinSpan.className = "text-secondary text-xs font-weight-bold";
+                                cinSpan.appendChild(cinImage);
 
-              var cinCell = document.createElement('td');
-              cinCell.appendChild(cinSpan);
-              row.appendChild(cinCell);
+                                var cinCell = document.createElement('td');
+                                cinCell.appendChild(cinSpan);
+                                row.appendChild(cinCell);
 
-       
-          // Append the row to the table body
-          tableBody.appendChild(row);
-        });
-            }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
-  });
-</script>
+                        
+                            // Append the row to the table body
+                            tableBody.appendChild(row);
+                          });
+                              }
+                        })
+                        .catch(error => {
+                          console.error('Error:', error);
+                        });
+                    });
+                  </script>
                     <script>
                         document.addEventListener('click', function (event) {
                             // Check if the clicked element has the delete-btn class
