@@ -1,0 +1,111 @@
+{% extends 'base.html.twig' %}
+
+
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #ffffff 0%, #e8e8e8 100%);
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="email"],
+        input[type="password"] {
+            display: block;
+            width: 380px;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            transition: border-color 0.2s;
+            margin-bottom: 20px;
+        }
+
+        input[type="email"]:focus,
+        input[type="password"]:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        button[type="submit"] {
+            display: block;
+            width: 100%;
+            max-width: 300px; /* Change the maximum width to your desired value */
+            padding: 8px;
+            margin-top: 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            font-size: 14px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0069d9;
+        }
+
+        a {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        var count = 5;
+        var timer = setInterval(function() {
+            count--;
+            if (count === 0) {
+                clearInterval(timer);
+                window.location.href = "{{ path('app_login') }}";
+            }
+            document.getElementById("countdown").innerHTML = "Redirection dans " + count + " secondes...";
+        }, 1000);
+    </script>
+{% endblock %}
+{% block body %}
+
+    <h1>Mot de passe réinitialisé</h1>
+
+    <p>Votre mot de passe a été réinitialisé et envoyé à votre adresse email.</p>
+    <p id="countdown">Redirection dans 5 secondes...</p>
+
+{% endblock %}

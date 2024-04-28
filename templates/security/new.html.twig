@@ -1,0 +1,32 @@
+
+
+<head>
+<link href="{{ asset("assets/front/vendor/bootstrap/css/bootstrap.min.css")}}" rel="stylesheet">
+<style>
+        .container-register {
+            
+            display: flex;
+    justify-content: center;
+    align-items: center;
+        }
+
+        .content {
+            width: 60%;
+        }
+    </style>
+</head>
+
+{% block body %}
+    <div class="container-register">
+    <div class="content">
+    <h1> Register</h1>
+    {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
+    {% endif %}
+    {{ include('security/_form.html.twig') }}
+    
+
+    <a href="{{ path('app_login') }}">back to list</a>
+    </div>
+    </div>
+{% endblock %}
