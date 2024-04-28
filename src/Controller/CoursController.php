@@ -22,14 +22,23 @@ use Laracasts\Flash\Flash;
 class CoursController extends AbstractController
 {
     #[Route('/', name: 'app_cours_index', methods: ['GET'])]
-    public function index(EntityManagerInterface $entityManager): Response
+    public function index(Request $request,EntityManagerInterface $entityManager): Response
     {
+        $sortby=$request->query->get('sortby' ,'title');
+        $sortOrder=$request->query->get('sort_order' , 'asc');
+
+        $queryBuilder= $entityManager ->getRepository(Cours::class) ->createQueryBuilder('c');
         $categorie = $entityManager
         ->getRepository(Categorie::class)
         ->findAll();
         $cours = $entityManager
             ->getRepository(Cours::class)
             ->findAll();
+
+        $queryBuilder->orderBy('c.' . $sortby, $sortOrder);
+
+        $cours=$queryBuilder->getQuery()->getResult();
+
 
         return $this->render('cours/index.html.twig', [
             'cours' => $cours,
@@ -103,7 +112,7 @@ public function coursdetail($id, EntityManagerInterface $entityManager): Respons
             $cour->setContenu($contenuFileName);
             $entityManager->persist($cour);
             $entityManager->flush();
-            $this->addFlash('success', 'Your success message here.');
+            $this->addFlash('success', 'Course succesfully added.');
 
             return $this->redirectToRoute('app_cours_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -146,33 +155,42 @@ public function coursdetail($id, EntityManagerInterface $entityManager): Respons
         if ($this->isCsrfTokenValid('delete'.$cour->getId(), $request->request->get('_token'))) {
             $entityManager->remove($cour);
             $entityManager->flush();
-            $this->addFlash('success', 'Your success message here.');
-            $this->addFlash('error', 'Your error message here.');
+            $this->addFlash('success', 'Course successfully deleted.');
+            
         }
 
         return $this->redirectToRoute('app_cours_index', [], Response::HTTP_SEE_OTHER);
     }
    
    
-   
-   /* #[Route('/CoursFilter/{categorieId}', name: 'app_admin_cours_filter')]
-    public function getCoursFilter($categorieId, CoursRepository $CoursRepository): JsonResponse
-{
-    $courses = $CoursRepository->findBy(['id_cat' => $categorieId]);
-    $data = [];
-    foreach ($cours as $cour) {
-        // Assuming you have some properties you want to include in the response
-        $data[] = [
-            'titre' => $cour->getTitle(),
-            'contenu' => $cour->getContenu(),
-            'etat'=>$cour->isEtat(),
-            'rate'=>$cour->getRate(),
-            'categorie'=>$cour->getIdCat()->getType(),
-            // Add more properties as needed
-        ];
+    
+    #[Route('/CoursFilter', name: 'app_admin_cours_filter', methods:['GET'])]
+    public function getCoursFilter(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $categorieId = $request->query->get('idCat');
+        $courses = $entityManager->getRepository(Cours::class)->findBy(['idCat' => $categorieId]);
+    
+        $jsonData = $this->jsonCours($courses);
+    
+        return new JsonResponse($jsonData, JsonResponse::HTTP_OK, [], true);
     }
-
-    return new JsonResponse($data);
-}*/
+    
+    public function jsonCours($cours)
+    {
+        $data = [];
+        foreach ($cours as $cour) {
+            // Assuming you have some properties you want to include in the response
+            $data[] = [
+                'titre' => $cour->getTitle(),
+                'contenu' => $cour->getContenu(),
+                'etat' => $cour->isEtat(),
+                'rate' => $cour->getRate(),
+                'categorie' => $cour->getIdCat()->getType(),
+                // Add more properties as needed
+            ];
+        }
+    
+        return $data; // Return the array directly, JsonResponse will handle JSON encoding
+    }
 
 }

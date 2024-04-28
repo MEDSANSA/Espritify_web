@@ -11,6 +11,7 @@
         "doctrine/doctrine-bundle": "^2.11",
         "doctrine/doctrine-migrations-bundle": "^3.3",
         "doctrine/orm": "^2.19",
+        "google/apiclient": "*",
         "knplabs/knp-paginator-bundle": "^5.9",
         "laracasts/flash": "^3.2",
         "phpdocumentor/reflection-docblock": "^5.3",

@@ -16,18 +16,23 @@
             <div class="row">  
                 <div class="col-6 d-flex align-items-center">
                     <h4>Courses table</h4>
-                    <select class="form-select form-select-sm me-2" id="filterSelect" aria-label="Default select example" style="width: 200px;">
-                    <option selected disabled>Filter by Catogries</option>
-                    {% for categorie in categorie %}
-                    <option value="{{ categorie.id }}">{{ categorie.type }}</option>
-                    {% endfor %}
-                </select>
+                    
                 </div>
                 <div class="col-6 text-end">
                     <a class="btn bg-gradient-dark mb-0" href="{{ path('app_cours_new') }}"><i class="fas fa-plus"></i> Add Course</a>
                 </div>
             </div>
             <div class="card-body p-3">
+            <div class="btn-group" role="group" aria-label="Sort by idCat">
+                    <a href="{{ path('app_cours_index', {'sort_order': 'asc'}) }}" class="btn btn-secondary"><i class="fa fa-sort-alpha-asc" aria-hidden="true"></i></a>
+                    <a href="{{ path('app_cours_index', {'sort_order': 'desc'}) }}" class="btn btn-secondary"><i class="fa fa-sort-alpha-desc" aria-hidden="true"></i></a>
+                    <select class="form-select form-select-sm me-2" id="filterSelect" aria-label="Default select example" style="width: 200px; height:40px;">
+                        <option selected disabled>Filter by Category</option>
+                        {% for cours in cours %}
+                            <option value="{{ cours.idCat }}">{{ cours.idCat }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
                 <div class="table-responsive p-0">
                     <table class="table align-items-center mb-0">
                         <thead>
@@ -87,7 +92,8 @@
     </div>
 </div>
 
-<script> document.getElementById('filterSelect').addEventListener('change', function() {
+<script>
+document.getElementById('filterSelect').addEventListener('change', function() {
     var selectedCategorieId = this.value;
     var tableBody = document.getElementById('cours_table');
 
@@ -95,41 +101,40 @@
     tableBody.innerHTML = '';
 
     // Send AJAX request to fetch dossier de stage records for the selected offer
-    fetch('/cours/CoursFilter/' + selectedCategorieId)
+    fetch('{{ path('app_admin_cours_filter') }}?idCat=' + selectedCategorieId)
       .then(response => response.json())
       .then(data => {
         console.log(data);
         if (data.length === 0) {
-                // If no data, create a single row with message
-                var noDataRow = document.createElement('tr');
-                var noDataCell = document.createElement('td');
-                noDataCell.textContent = "No records found";
-                noDataCell.style.textAlign = "center";
-                noDataCell.colSpan = 6; // Span across all columns
-                noDataRow.appendChild(noDataCell);
-                tableBody.appendChild(noDataRow);
-            } else {
-        // Add new table rows based on fetched data
-        data.forEach(course => {
-          console.log(course)
-          var row = document.createElement('tr');
-          // Create table cells and populate them with dossier data
-          var titleCell = document.createElement('td');
-          titleCell.textContent = course.title;
-          row.appendChild(titleCell);
-          var contenuCell = document.createElement('td');
-          contenuCell.textContent = course.contenu;
-          row.appendChild(contenuCell);
+            // If no data, create a single row with message
+            var noDataRow = document.createElement('tr');
+            var noDataCell = document.createElement('td');
+            noDataCell.textContent = "No records found";
+            noDataCell.style.textAlign = "center";
+            noDataCell.colSpan = 6; // Span across all columns
+            noDataRow.appendChild(noDataCell);
+            tableBody.appendChild(noDataRow);
+        } else {
+            // Add new table rows based on fetched data
+            data.forEach(course => {
+                console.log(course)
+                var row = document.createElement('tr');
+                // Create table cells and populate them with dossier data
+                var titleCell = document.createElement('td');
+                titleCell.textContent = course.title;
+                row.appendChild(titleCell);
+                var contenuCell = document.createElement('td');
+                contenuCell.textContent = course.contenu;
+                row.appendChild(contenuCell);
 
-           
-          // Append the row to the table body
-          tableBody.appendChild(row);
-        });
-            }
+                // Append the row to the table body
+                tableBody.appendChild(row);
+            });
+        }
       })
       .catch(error => {
         console.error('Error:', error);
       });
-  });
+});
 </script>
 {% endblock %}
