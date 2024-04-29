@@ -1,21 +1,19 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Espritify!{% endblock %}</title>
-        <link rel="icon" href="{{ asset("assets/front/assets/images/logo.png")}}" type="image/png">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-        {% block stylesheets %}
-         <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+<html lang="en">
 
-
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Espritify!{% endblock %}</title>
+    <link rel="icon" href="{{ asset('assets/front/assets/images/logo.png') }}" type="image/png">
+    {% block stylesheets %}
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css">
     <!-- Bootstrap core CSS -->
-    <link href="{{ asset("assets/front/vendor/bootstrap/css/bootstrap.min.css")}}" rel="stylesheet">
-
+    <link href="{{ asset('assets/front/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <style>
-@import url('https://fonts.googleapis.com/css?family=Oswald:300,400,500,700');
+        @import url('https://fonts.googleapis.com/css?family=Oswald:300,400,500,700');
+        @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800');
 
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800');
 
 $gr-1:linear-gradient(170deg, #01E4F8 0%, #1D3EDE 100%);
 $gr-2:linear-gradient(170deg, #B4EC51 0%, #429321 100%);
@@ -125,17 +123,15 @@ $gr-3:linear-gradient(170deg, #C86DD7 0%, #3023AE 100%);
 </style>
 
 
-    <!-- Additional CSS Files -->
-    <link rel="stylesheet" href="{{ asset("assets/front/assets/css/fontawesome.css")}}">
-    <link rel="stylesheet" href="{{ asset("assets/front/assets/css/templatemo-edu-meeting.css")}}">
-    <link rel="stylesheet" href="{{ asset("assets/front/assets/css/owl.css")}}">
-    <link rel="stylesheet" href="{{ asset("assets/front/assets/css/lightbox.css")}}">
+     <link rel="stylesheet" href="{{ asset('assets/front/assets/css/fontawesome.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/front/assets/css/templatemo-edu-meeting.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/front/assets/css/owl.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/front/assets/css/lightbox.css') }}">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" />
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" rel="stylesheet" />
-<link href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" rel="stylesheet" />
-<link href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" rel="stylesheet" />
-        {% endblock %}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" rel="stylesheet" />
+    {% endblock %}
 
         {% block javascripts %}
            <script src="{{ asset("assets/front/vendor/jquery/jquery.min.js")}}"></script>
@@ -920,3 +916,5 @@ $gr-3:linear-gradient(170deg, #C86DD7 0%, #3023AE 100%);
         {% endblock %}
     </body>
 </html>
+
+

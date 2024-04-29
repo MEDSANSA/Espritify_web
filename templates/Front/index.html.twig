@@ -16,6 +16,7 @@
                       <!-- ***** Menu Start ***** -->
                       <ul class="nav">
                           <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
+                            <div id="translation"></div>
                           <li><a href="{{path('app_cours')}}">Courses</a></li>
                           <li class="scroll-to-section"><a href="#apply">Apply Now</a></li>
                           <li class="has-sub">
@@ -37,5 +38,15 @@
           </div>
       </div>
   </header>
+  <script>
+  $.ajax(settings).done(function(response) {
+            const translationElement = document.getElementById('translation');
+            if (response && response.translatedText) {
+                translationElement.innerText = 'Traduction: ' + response.translatedText;
+            } else {
+                translationElement.innerText = 'Erreur: Impossible de récupérer la traduction.';
+            }
+        });
+  </script>
   
     {% endblock %}

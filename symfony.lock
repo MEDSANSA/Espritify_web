@@ -44,6 +44,15 @@
     "knplabs/knp-paginator-bundle": {
         "version": "v5.9.0"
     },
+    "liip/imagine-bundle": {
+        "version": "2.12",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "1.8",
+            "ref": "d1227d002b70d1a1f941d91845fcd7ac7fbfc929"
+        }
+    },
     "phpunit/phpunit": {
         "version": "9.6",
         "recipe": {
