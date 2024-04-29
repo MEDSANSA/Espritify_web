@@ -2,45 +2,85 @@
 
 {% block title %}Evenement index{% endblock %}
 
+{% block search %}
+
+    <form action="{{ path('app_evenement_index') }}" method="GET">
+        <label for="search_query">Recherche :</label>
+        <input type="text" class="form-control" name="search_query" placeholder="Type here...">
+        <button type="submit" class="btn btn-primary">Rechercher</button>
+    </form>
+
+    <form action="{{ path('app_evenement_index') }}" method="GET">
+        <label for="club_intitule">Filtrer par club :</label>
+        <input type="text" class="form-control" id="club_intitule" name="club_intitule">
+        <button type="submit" class="btn btn-primary">Filtrer</button>
+    </form>
+    <form action="{{ path('app_evenement_index') }}" method="GET">
+        <label for="sort_field">Trier par :</label>
+        <select name="sort_field" class="form-control" >
+            <option value="titre" {% if sortField == 'titre' %}selected{% endif %}>Titre</option>
+            <option value="dateDebut" {% if sortField == 'dateDebut' %}selected{% endif %}>Date</option>
+            <option value="id" {% if sortField == 'id' %}selected{% endif %}>ID</option>
+        </select>
+        <select name="sort_order" class="form-control" >
+            <option value="asc" {% if sortOrder == 'asc' %}selected{% endif %}>Croissant</option>
+            <option value="desc" {% if sortOrder == 'desc' %}selected{% endif %}>Décroissant</option>
+        </select>
+        <button type="submit" class="btn btn-primary">Trier</button>
+    </form>
+
+{% endblock %}
+
 {% block body %}
     <h1>Evenement index</h1>
-
+    {# Afficher les messages flash de succès #}
+    {% for message in app.flashes('success') %}
+    <div class="alert alert-success" role="alert">
+        {{ message }}
+    </div>
+    {%  endfor %}
     <table class="table">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Titre</th>
-                <th>Description</th>
-                <th>Lieu</th>
-                <th>DateDebut</th>
-                <th>DateFin</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <th>Titre</th>
+            <th>Description</th>
+            <th>Lieu</th>
+            <th>DateDebut</th>
+            <th>DateFin</th>
+            <th>Actions</th>
+        </tr>
         </thead>
         <tbody>
-        {% for message in app.flashes('success') %}
-            <div class="alert alert-success" role="alert">
-                {{ message }}
-            </div>
+        {% if clubIntitule %}
+            <h2>Événements pour le club "{{ clubIntitule }}"</h2>
+        {% endif %}
+        {% if events is not empty %}
+            {% for event in events %}
+                <tr>
+                    <td>{{ event.id }}</td>
+                    <td>{{ event.titre }}</td>
+                    <td>{{ event.description }}</td>
+                    <td>{{ event.lieu }}</td>
+                    <td>{{ event.dateDebut|date("m/d/Y") ? event.dateDebut|date("m/d/Y") : '' }}</td>
+                    <td>{{ event.dateFin ? event.dateFin|date('Y-m-d') : '' }}</td>
+                    <td>
+                        <a href="{{ path('app_evenement_show', {'id': event.id}) }}">show</a>
+                        <a href="{{ path('app_evenement_edit', {'id': event.id}) }}">edit</a>
+                    </td>
+                </tr>
             {% endfor %}
-        {% for evenement in evenements %}
-            <tr>
-                <td>{{ evenement.id }}</td>
-                <td>{{ evenement.titre }}</td>
-                <td>{{ evenement.description }}</td>
-                <td>{{ evenement.lieu }}</td>
-                <td>{{ evenement.dateDebut|date("m/d/Y") ? evenement.dateDebut|date("m/d/Y") : '' }}</td>
-                <td>{{ evenement.dateFin ? evenement.dateFin|date('Y-m-d') : '' }}</td>
-                <td>
-                    <a href="{{ path('app_evenement_show', {'id': evenement.id}) }}">show</a>
-                    <a href="{{ path('app_evenement_edit', {'id': evenement.id}) }}">edit</a>
-                </td>
-            </tr>
         {% else %}
             <tr>
-                <td colspan="7">no records found</td>
+                <td colspan="7">
+                    {% if clubIntitule %}
+                        Aucun événement trouvé pour le club "{{ clubIntitule }}".
+                    {% else %}
+                        Aucun événement trouvé.
+                    {% endif %}
+                </td>
             </tr>
-        {% endfor %}
+        {% endif %}
         </tbody>
     </table>
 

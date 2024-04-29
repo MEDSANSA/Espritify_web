@@ -6,18 +6,18 @@
     <title>Weekly Events Catalog</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: Roboto;
             padding: 20px;
         }
         .event {
             margin-bottom: 20px;
-            border-bottom: 1px solid #ccc;
+            border-bottom: 1px solid #a12c2f;
             padding-bottom: 10px;
         }
         .event-title {
             font-size: 20px;
             font-weight: bold;
-            color: #333;
+            color: #a12c2f;
             margin-bottom: 5px;
         }
         .event-club {
@@ -27,10 +27,13 @@
         .event-description {
             color: #777;
         }
+        .event-start {
+            color: #a12c2f;
+        }
     </style>
 </head>
 <body>
-<h1>Weekly Events Catalog</h1>
+<h1 class="event-start">Weekly Events Catalog</h1>
 {% for event in events %}
         <div class="event">
             <div class="event-title">{{ event.titre }}</div>

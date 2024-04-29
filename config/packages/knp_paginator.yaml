@@ -1,0 +1,9 @@
+knp_paginator:
+  page_range: 5                       # Nombre de pages à afficher dans la barre de pagination
+  default_options:
+    page_name: page                 # Nom du paramètre de la requête qui contient le numéro de page
+    sort_field_name: sort           # Nom du paramètre de la requête qui contient le champ de tri
+    sort_direction_name: direction  # Nom du paramètre de la requête qui contient la direction de tri
+    distinct: true                  # Utiliser DISTINCT pour compter les résultats
+  template:
+    pagination: '@KnpPaginator/Pagination/sliding.html.twig'  # Template par défaut pour la pagination

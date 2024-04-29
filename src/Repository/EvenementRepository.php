@@ -56,7 +56,6 @@ class EvenementRepository extends ServiceEntityRepository
     public function findEventsForWeek(\DateTime $startDate): array
     {
         // Logique pour récupérer les événements pour la semaine à partir de $startDate
-        // Par exemple :
          $endDate = clone $startDate;
          $endDate->modify('+7 days');
          return $this->createQueryBuilder('e')
@@ -67,7 +66,29 @@ class EvenementRepository extends ServiceEntityRepository
              ->getQuery()
              ->getResult();
     }
+    public function findEventsByClub($clubId)
+    {
+        return $this->createQueryBuilder('e')
+            ->leftJoin('e.id_club', 'c')
+            ->andWhere('c.id = :clubId')
+            ->setParameter('clubId', $clubId)
+            ->getQuery()
+            ->getResult();
+    }
+    public function searchByAttributes($attributes)
+    {
+        $queryBuilder = $this->createQueryBuilder('e');
 
+        // Boucle sur les attributs pour ajouter des conditions de recherche dynamiquement
+        foreach ($attributes as $key => $value) {
+            if (!empty($value)) {
+                $queryBuilder->andWhere("e.$key LIKE :$key")
+                    ->setParameter($key, "%$value%");
+            }
+        }
+
+        return $queryBuilder->getQuery()->getResult();
+    }
 //    /**
 //     * @return Evenement[] Returns an array of Evenement objects
 //     */

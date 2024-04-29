@@ -408,7 +408,7 @@ class Utilisateur
     /**
      * @return Collection<int, ParticipationEvenement>
      */
-    public function getParticipantionEvenement(): Collection
+    public function getParticipationEvenement(): Collection
     {
         return $this->participationEvenement;
     }

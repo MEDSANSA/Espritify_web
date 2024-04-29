@@ -69,6 +69,7 @@
                         </div>
                     </div>
                     <div class="col-lg-12">
+
                         <div class="row grid">
                             {% for evenement in evenements %}
                                 <div class="col-lg-4 templatemo-item-col all soon">
@@ -80,6 +81,9 @@
                                         <div class="down-content">
                                             <div class="price">
                                                 <img src="{{ asset("assets/img/logos/icons8-ruban.png")}}" style="height: 30px; width: 30px; vertical-align: middle;"><span>{{ evenement.idClub }}</span>
+                                            </div>
+                                            <div class="price">
+                                                <img src="{{ asset("assets/img/logos/icons8-ruban.png")}}" style="height: 30px; width: 30px; vertical-align: middle;"><span>{{ evenement.titre }}</span>
                                             </div>
                                             <div class="date">
                                                 <h5> <img src="{{ asset("assets/img/logos/icons8-ruban3.png")}}" style="height: 30px; width: 30px; vertical-align: middle;"> {{ evenement.dateDebut|date }} <span>TO</span></h5>

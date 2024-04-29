@@ -2746,7 +2746,7 @@ progress {
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.4rem;
-  color: #495057;
+  color: #a12c2f;
   background-color: #fff;
   background-clip: padding-box;
   border: 1px solid #d2d6da;
@@ -2795,7 +2795,7 @@ progress {
   padding: 0.5rem 0.75rem;
   margin: -0.5rem -0.75rem;
   margin-inline-end: 0.75rem;
-  color: #495057;
+  color: #a12c2f;
   background-color: #fff;
   pointer-events: none;
   border-color: inherit;
@@ -3707,19 +3707,19 @@ fieldset:disabled .btn {
 
 .btn-primary {
   --bs-btn-color: #fff;
-  --bs-btn-bg: #cb0c9f;
-  --bs-btn-border-color: #cb0c9f;
+  --bs-btn-bg: #a12c2f;
+  --bs-btn-border-color: #a12c2f;
   --bs-btn-hover-color: #fff;
-  --bs-btn-hover-bg: #ad0a87;
-  --bs-btn-hover-border-color: #a20a7f;
+  --bs-btn-hover-bg: #a12c2f;
+  --bs-btn-hover-border-color: #a12c2f;
   --bs-btn-focus-shadow-rgb: 211, 48, 173;
   --bs-btn-active-color: #fff;
-  --bs-btn-active-bg: #a20a7f;
-  --bs-btn-active-border-color: #980977;
+  --bs-btn-active-bg: #a12c2f;
+  --bs-btn-active-border-color: #a12c2f;
   --bs-btn-active-shadow: none;
   --bs-btn-disabled-color: #fff;
-  --bs-btn-disabled-bg: #cb0c9f;
-  --bs-btn-disabled-border-color: #cb0c9f;
+  --bs-btn-disabled-bg: #a12c2f;
+  --bs-btn-disabled-border-color: #a12c2f;
 }
 
 .btn-secondary {
@@ -20462,13 +20462,13 @@ fieldset:disabled .btn {
 
 .btn-primary:hover,
 .btn.bg-gradient-primary:hover {
-  background-color: #cb0c9f;
-  border-color: #cb0c9f;
+  background-color: #a12c2f;
+  border-color: #a12c2f;
 }
 
 .btn-primary .btn.bg-outline-primary,
 .btn.bg-gradient-primary .btn.bg-outline-primary {
-  border: 1px solid #cb0c9f;
+  border: 1px solid #a12c2f;
 }
 
 .btn-primary:not(:disabled):not(.disabled).active,
@@ -20477,8 +20477,8 @@ fieldset:disabled .btn {
 .btn.bg-gradient-primary:not(:disabled):not(.disabled).active,
 .btn.bg-gradient-primary:not(:disabled):not(.disabled):active,
 .show>.btn.bg-gradient-primary.dropdown-toggle {
-  color: color-yiq(#cb0c9f);
-  background-color: #cb0c9f;
+  color: color-yiq(#a12c2f);
+  background-color: #a12c2f;
 }
 
 .btn-primary.focus,

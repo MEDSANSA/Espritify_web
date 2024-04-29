@@ -10,8 +10,7 @@ class ParticipationEvenement
 {
 
     #[ORM\Id]
-
-    #[ORM\ManyToOne(inversedBy: 'participationEvenements')]
+    #[ORM\ManyToOne(inversedBy: 'participationEvenement')]
     #[ORM\JoinColumn(name: 'id_user', referencedColumnName: 'id')]
     private ?Utilisateur $id_user = null;
     #[ORM\Id]

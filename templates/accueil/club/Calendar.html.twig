@@ -1,11 +1,107 @@
-<!DOCTYPE html>
-<html lang='en'>
-<head>
-    <meta charset='utf-8' />
+{% extends 'base.html.twig' %}
+{% block title %}Calendrier!{% endblock %}
+ {% block header %}
+     <header class="header-area header-sticky">
+         <div class="container">
+             <div class="row">
+                 <div class="col-12">
+                     <nav class="main-nav">
+                         <!-- ***** Logo Start ***** -->
+                         <a href="index.html" class="logo">
+                             Espritify
+                         </a>
+                         <!-- ***** Logo End ***** -->
+                         <!-- ***** Menu Start ***** -->
+                         <ul class="nav">
+                             <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
+                             <li><a href="{{path('app_meetings')}}">Meetings</a></li>
+                             <li class="scroll-to-section"><a href="#apply">Apply Now</a></li>
+                             <li class="has-sub">
+                                 <a href="{{path('app_club_details')}}">Clubs</a>
+                                 <ul class="sub-menu">
+                                     <li><a href="{{path('calendar')}}">Calendrier des évènements</a></li>
+                                     <li><a href="{{path('catalogue')}}">Catalogue</a></li>
+                                     <li><a href="{{path('mes_participations')}}">Mes participations</a></li>
+
+                                 </ul>
+                             </li>
+                             <li class="scroll-to-section"><a href="#courses">Courses</a></li>
+                             <li class="scroll-to-section"><a href="#contact">Contact Us</a></li>
+                         </ul>
+                         <a class='menu-trigger'>
+                             <span>Menu</span>
+                         </a>
+                         <!-- ***** Menu End ***** -->
+                     </nav>
+                 </div>
+             </div>
+         </div>
+     </header>
+ {% endblock %}
+
+
+{% block banner %}
+{% endblock %}
+
+{% block body %}
+        <section class="heading-page header-text" id="top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h6>Here are our upcoming meetings</h6>
+                        <h2>Upcoming Meetings</h2>
+                    </div>
+                </div>
+            </div>
+        </section>
+<section class="meetings-page" id="meetings">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">  <div id='calendar'></div>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="pagination">
+            <ul>
+                <li><a href="#">1</a></li>
+                <li class="active"><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+            </ul>
+        </div>
+    </div>
+
+</section>
+
+
+    {% block footer %}
+
+    {% endblock %}
+
+
+
+
+
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-
+    <style>
+        .event-past {
+            background-color: red;
+            color: white;
+        }
+        .event-current {
+            background-color: green;
+            color: white;
+        }
+        .event-future {
+            background-color: orange;
+            color: black;
+        }
+    </style>
     <script>
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -13,13 +109,19 @@
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
                 events: '/api/events', // Endpoint pour récupérer les événements depuis la base de données
+                eventContent: function(arg) {
+                    var eventTitle = arg.event.title;
+                    var eventClass = getEventClass(arg.event.start);
+                    return { html: '<div class="' + eventClass + '">' + eventTitle + '</div>' };
+                },
                 dateClick: function(info) {
                     // Ouvrir un formulaire de création d'événement avec la date sélectionnée
                     openEventForm(info.dateStr);
                 }
             });
             calendar.render();
-            function openEventForm(date) {
+
+           /* function openEventForm(date) {
                 // Créer une fenêtre modale Bootstrap pour afficher le formulaire de création d'événement
                 var modal = `
         <div class="modal fade" id="eventModal" tabindex="-1" aria-labelledby="eventModalLabel" aria-hidden="true">
@@ -99,12 +201,33 @@
                         // Afficher un message d'erreur à l'utilisateur
                     });
             }
+*/
 
+            //afficher les evenements selon la date
+            function getEventClass(eventDate) {
+                var currentDate = new Date();
+                eventDate = new Date(eventDate);
+
+                // Supprimer les informations sur l'heure pour comparer uniquement les dates
+                var currentDateWithoutTime = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+                var eventDateWithoutTime = new Date(eventDate.getFullYear(), eventDate.getMonth(), eventDate.getDate());
+
+                if (eventDateWithoutTime < currentDateWithoutTime) {
+                    return 'event-past';
+                } else if (eventDateWithoutTime > currentDateWithoutTime) {
+                    return 'event-future';
+                } else {
+                    return 'event-current';
+                }
+            }
         });
 
     </script>
-</head>
-<body>
-<div id='calendar'></div>
-</body>
-</html>
+
+{% endblock %}
+
+
+
+
+
+

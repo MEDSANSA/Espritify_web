@@ -17,14 +17,17 @@ use chillerlan\QRCode\QROptions;
 
 
 
+
 #[Route('/club')]
 class ClubController extends AbstractController
 {
+
+    //composer require chillerlan/php-qrcode
     #[Route('/', name: 'app_club_index', methods: ['GET'])]
-    public function index(ClubRepository $clubRepository): Response
+    public function index(Request $request, ClubRepository $clubRepository): Response
     {
             $clubs = $clubRepository->findAll();
-
+            //creation d'un dossier pour stocker les QRcodes généré
            $qrCodeDirectory = $this->getParameter('kernel.project_dir') . '/public/qrcodes';
               if (!file_exists($qrCodeDirectory)) {
                   mkdir($qrCodeDirectory, 0777, true);
@@ -33,7 +36,7 @@ class ClubController extends AbstractController
               // Generate and save QR code images for each club
              foreach ($clubs as $club) {
                    // Ensure the Facebook URL is not empty
-                   $fbUrl = $club->getPageFb();
+                    $fbUrl = $club->getPageFb();
                     $instaUrl = $club->getPageInsta();
 
                    if (empty($fbUrl)&&empty($instaUrl)) {
@@ -43,11 +46,9 @@ class ClubController extends AbstractController
                   // Instantiate QR code options
                              $options = new QROptions([
                                         'version' => 5, // QR code version
-                                        // You can set other options here, such as error correction level, size, etc.
                                     ]);
-        $qrCode = new QRCode($options);
+             $qrCode = new QRCode($options);
 
-                                     // Instantiate QR code with options
               $qrCodeData = $qrCode->render($fbUrl);
               $qrCodeDataInsta = $qrCode->render($instaUrl);
 
@@ -63,14 +64,14 @@ class ClubController extends AbstractController
                 $decodedSvgContentInsta = base64_decode($svgContentInsta);
 
 
-                // Save the decoded SVG XML content to a file
+                // Les des fichiers images QRcode
                 $fbImagePath = 'qr_code_fb_' . uniqid() . '.svg';
                 $instaImagePath = 'qr_code_insta_' . uniqid() . '.svg';
-
+                //Cela permet de sauvegarder les codes QR en tant que fichiers sur le serveur
                 file_put_contents($qrCodeDirectory . '/' . $fbImagePath, $decodedSvgContent);
                 file_put_contents($qrCodeDirectory . '/' . $instaImagePath, $decodedSvgContentInsta);
 
-                // Assign QR code image path to the club entity
+                // pour les afficher dans twig
                 $club->qrCodeFbUrl = $fbImagePath;
                 $club->qrCodeInstaUrl = $instaImagePath;
 
@@ -87,6 +88,8 @@ class ClubController extends AbstractController
             }
 
             }
+
+
         return $this->render('Admin/club/index.html.twig', [
             'clubs' => $clubRepository->findAll(),
             'uploads_directory' => $this->getParameter('uploads_directory'),
@@ -204,6 +207,7 @@ class ClubController extends AbstractController
             // Return the QR code image as a response
             return new Response($qrCode->writeString(), 200, ['Content-Type' => $qrCode->getContentType()]);
         }
+
 
 
 }

@@ -2,43 +2,45 @@
 
 {% block title %}meetings!{% endblock %}
  {% block header %}
-    <header class="header-area header-sticky">
-      <div class="container">
-          <div class="row">
-              <div class="col-12">
-                  <nav class="main-nav">
-                      <!-- ***** Logo Start ***** -->
-                      <a href="index.html" class="logo">
-                          Espritify
-                      </a>
-                      <!-- ***** Logo End ***** -->
-                      <!-- ***** Menu Start ***** -->
-                      <ul class="nav">
-                          <li class="scroll-to-section"><a href="{{path('app_accueil')}}" >Home</a></li>
-                          <li><a href="#top" class="active">Meetings</a></li>
-                          <li class="scroll-to-section"><a href="#apply">Apply Now</a></li>
-                          <li class="has-sub">
-                              <a href="javascript:void(0)">Pages</a>
-                              <ul class="sub-menu">
-                                  <li><a href="{{path('app_meetings')}}">Upcoming Meetings</a></li>
-                                  <li><a href="{{path('app_meeting-details')}}">Meeting Details</a></li>
-                              </ul>
-                          </li>
-                          <li class="scroll-to-section"><a href="#courses">Courses</a></li>
-                          <li class="scroll-to-section"><a href="#contact">Contact Us</a></li>
-                      </ul>
-                      <a class='menu-trigger'>
-                          <span>Menu</span>
-                      </a>
-                      <!-- ***** Menu End ***** -->
-                  </nav>
-              </div>
-          </div>
-      </div>
-  </header>
+   <header class="header-area header-sticky">
+     <div class="container">
+       <div class="row">
+         <div class="col-12">
+           <nav class="main-nav">
+             <!-- ***** Logo Start ***** -->
+             <a href="index.html" class="logo">
+               Espritify
+             </a>
+             <!-- ***** Logo End ***** -->
+             <!-- ***** Menu Start ***** -->
+             <ul class="nav">
+               <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
+               <li><a href="{{path('app_meetings')}}">Meetings</a></li>
+               <li class="scroll-to-section"><a href="#apply">Apply Now</a></li>
+               <li class="has-sub">
+                 <a href="{{path('app_club_details')}}">Clubs</a>
+                 <ul class="sub-menu">
+                   <li><a href="{{path('calendar')}}">Calendrier des évènements</a></li>
+                   <li><a href="{{path('catalogue')}}">Catalogue</a></li>
+                   <li><a href="{{path('mes_participations')}}">Mes participations</a></li>
 
+                 </ul>
+               </li>
+               <li class="scroll-to-section"><a href="#courses">Courses</a></li>
+               <li class="scroll-to-section"><a href="#contact">Contact Us</a></li>
+             </ul>
+             <a class='menu-trigger'>
+               <span>Menu</span>
+             </a>
+             <!-- ***** Menu End ***** -->
+           </nav>
+         </div>
+       </div>
+     </div>
+   </header>
     {% endblock %}
 {% block banner %}
+
 {% endblock %}
     {% block body %}
 
@@ -70,15 +72,27 @@
             </div>
             <div class="col-lg-12">
               <div class="row grid">
-              {% for club in clubs %}
+                {# Afficher les messages flash d'erreur #}
+                {% for message in app.flashes('error') %}
+                  <div class="alert alert-danger" role="alert">
+                    {{ message }}
+                  </div>
+                {% endfor %}
+
+                {# Afficher les messages flash de succès #}
+                {% for message in app.flashes('success') %}
+                  <div class="alert alert-success" role="alert">
+                    {{ message }}
+                  </div>
+                {% endfor %}
+              {% for club in pagination %}
                 <div class="col-lg-8 templatemo-item-col all soon">
                   <div class="meeting-item">
                     <div class="thumb">
                       <a href="{{path('app_evenements_details', {'id': club.id})}}"><img src="{{ asset('/uploads/brochures/' ~ club.logo)}}" height="200" width="100"alt=""></a>
                     </div>
                     <div class="down-content">
-                      <div class="date">
-                      </div>
+
                         <h4><img src="{{ asset("assets/img/logos/icons8-ruban.png")}}" style="height: 30px; width: 30px; vertical-align: middle;"> <a href="{{path('app_meeting-details')}}">{{ club.intitule }}</h4></a>
                         <div></br></div>
                       <h4><img src="{{ asset("assets/img/logos/icons8-email-50.png")}}" style="height: 30px; width: 30px; vertical-align: middle;">{{ club.emailClub }}</h4>
@@ -104,10 +118,10 @@
             <div class="col-lg-12">
               <div class="pagination">
                 <ul>
-                  <li><a href="#">1</a></li>
-                  <li class="active"><a href="#">2</a></li>
-                  <li><a href="#">3</a></li>
-                  <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+
+
+                  <li> {{ knp_pagination_render(pagination) }}</li>
+
                 </ul>
               </div>
             </div>
