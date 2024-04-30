@@ -164,15 +164,18 @@ public function coursdetail($id, EntityManagerInterface $entityManager): Respons
    
    
     
-    #[Route('/CoursFilter', name: 'app_admin_cours_filter', methods:['GET'])]
-    public function getCoursFilter(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/cours/CoursFilter', name: 'app_cours_filter', methods: ['GET'])]
+public function getCoursFilter(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $categorieId = $request->query->get('idCat');
-        $courses = $entityManager->getRepository(Cours::class)->findBy(['idCat' => $categorieId]);
-    
-        $jsonData = $this->jsonCours($courses);
-    
-        return new JsonResponse($jsonData, JsonResponse::HTTP_OK, [], true);
+        $categorieId = $request->query->get('title');
+        $courses = $entityManager->getRepository(Cours::class)
+        ->createQueryBuilder('q')
+        ->where('q.title LIKE :searchTerm OR q.contenu LIKE :searchTerm')
+        ->setParameter('searchTerm', '%' . $categorieId . '%')
+        ->getQuery()
+        ->getResult();
+        
+        return new JsonResponse($this->jsonCours($courses));
     }
     
     public function jsonCours($cours)
@@ -181,7 +184,8 @@ public function coursdetail($id, EntityManagerInterface $entityManager): Respons
         foreach ($cours as $cour) {
             // Assuming you have some properties you want to include in the response
             $data[] = [
-                'titre' => $cour->getTitle(),
+                'id' => $cour->getId(),
+                'title' => $cour->getTitle(),
                 'contenu' => $cour->getContenu(),
                 'etat' => $cour->isEtat(),
                 'rate' => $cour->getRate(),

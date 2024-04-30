@@ -29,7 +29,7 @@
                     <select class="form-select form-select-sm me-2" id="filterSelect" aria-label="Default select example" style="width: 200px; height:40px;">
                         <option selected disabled>Filter by Category</option>
                         {% for cours in cours %}
-                            <option value="{{ cours.idCat }}">{{ cours.idCat }}</option>
+                            <option value="{{ cours.title }}">{{ cours.title }}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -100,41 +100,50 @@ document.getElementById('filterSelect').addEventListener('change', function() {
     // Clear existing table rows
     tableBody.innerHTML = '';
 
-    // Send AJAX request to fetch dossier de stage records for the selected offer
-    fetch('{{ path('app_admin_cours_filter') }}?idCat=' + selectedCategorieId)
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-        if (data.length === 0) {
-            // If no data, create a single row with message
-            var noDataRow = document.createElement('tr');
-            var noDataCell = document.createElement('td');
-            noDataCell.textContent = "No records found";
-            noDataCell.style.textAlign = "center";
-            noDataCell.colSpan = 6; // Span across all columns
-            noDataRow.appendChild(noDataCell);
-            tableBody.appendChild(noDataRow);
-        } else {
-            // Add new table rows based on fetched data
-            data.forEach(course => {
-                console.log(course)
-                var row = document.createElement('tr');
-                // Create table cells and populate them with dossier data
-                var titleCell = document.createElement('td');
-                titleCell.textContent = course.title;
-                row.appendChild(titleCell);
-                var contenuCell = document.createElement('td');
-                contenuCell.textContent = course.contenu;
-                row.appendChild(contenuCell);
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '{{ path('app_cours_filter') }}?title=' + selectedCategorieId, true);
+    xhr.onload = function() {
+        if (xhr.status >= 200 && xhr.status < 400) {
+            // Mettre à jour la page avec les nouvelles données
 
-                // Append the row to the table body
+            var response = xhr.responseText;
+            console.log(response);
+
+            var responseData = JSON.parse(response);
+            responseData.forEach(cours => {
+                console.log(cours);
+                var row = document.createElement('tr');
+
+                var IdCoursCell = document.createElement('td');
+                IdCoursCell.textContent = cours.id;
+                row.appendChild(IdCoursCell);
+
+                var TitleCell = document.createElement('td');
+                TitleCell.textContent = cours.title;
+                row.appendChild(TitleCell);
+
+                var ConetntCell = document.createElement('td');
+                ConetntCell.textContent = cours.contenu;
+                row.appendChild(ConetntCell);
+
+                var StateCell = document.createElement('td');
+                StateCell.textContent = cours.etat;
+                row.appendChild(StateCell);
+
+                var RateCell = document.createElement('td');
+                StateCell.RateCell = cours.rate;
+                row.appendChild(RateCell);
+
+                var IdCatCell = document.createElement('td');
+                IdCatCell.textContent = cours.categorie;
+                row.appendChild(IdCatCell);
+
                 tableBody.appendChild(row);
+
             });
         }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
-});
+    };
+    xhr.send();
+    });
 </script>
 {% endblock %}

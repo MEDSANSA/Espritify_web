@@ -71,7 +71,9 @@
                 <div class="card gr-1">
                     <div class="txt">
                         <h1>{{courses.title}}</h1>
-                        <img src="{{ asset('uploads/' ~ courses.contenu) }}" alt="">
+                        <img src="{{ asset('uploads/' ~ courses.contenu) | imagine_filter('thumbnail') }}" alt="thumbnail">
+                                                 <img src="{{ asset('uploads/' ~ courses.contenu) }}" alt="">
+
                     </div>
                     <div class="mt-5">
                         <div class="progress">
