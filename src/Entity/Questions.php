@@ -2,69 +2,35 @@
 
 namespace App\Entity;
 
+use App\Repository\QuestionsRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * Questions
- *
- * @ORM\Table(name="questions")
- * @ORM\Entity
- */
+#[ORM\Entity(repositoryClass: QuestionsRepository::class)]
 class Questions
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id_question", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idQuestion;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id_question = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="contenu", type="string", length=255, nullable=false)
-     * @Assert\NotBlank(message="Le contenu de la question est obligatoire.")
-     */
-    private $contenu;
+    #[ORM\Column(length: 255)]
+    private ?string $contenu = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="rep1", type="string", length=255, nullable=false)
-     * @Assert\NotBlank(message="La reponse de la question est obligatoire.")
-     */
-    private $rep1;
+    #[ORM\Column(length: 255)]
+    private ?string $rep1 = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="rep2", type="string", length=255, nullable=false)
-     * @Assert\NotBlank(message="La reponse de la question est obligatoire.")
-     */
-    private $rep2;
+    #[ORM\Column(length: 255)]
+    private ?string $rep2 = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="rep3", type="string", length=255, nullable=false)
-     * @Assert\NotBlank(message="La reponse de la question est obligatoire.")
-     */
-    private $rep3;
+    #[ORM\Column(length: 255)]
+    private ?string $rep3 = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="bon_rep", type="string", length=255, nullable=false)
-     * @Assert\NotBlank(message="La reponse de la question est obligatoire.")
-     */
-    private $bonRep;
+    #[ORM\Column(length: 255, name:'bonneReponse')]
+    private ?string $bonneReponse = null;
 
-    public function getIdQuestion(): ?int
+    public function getId(): ?int
     {
-        return $this->idQuestion;
+        return $this->id_question;
     }
 
     public function getContenu(): ?string
@@ -115,21 +81,15 @@ class Questions
         return $this;
     }
 
-    public function getBonRep(): ?string
+    public function getBonneReponse(): ?string
     {
-        return $this->bonRep;
+        return $this->bonneReponse;
     }
 
-    public function setBonRep(string $bonRep): static
+    public function setBonneReponse(string $bonneReponse): static
     {
-        $this->bonRep = $bonRep;
+        $this->bonneReponse = $bonneReponse;
 
         return $this;
     }
-
-    public function __toString()
-    {
-        return $this->contenu;
-    }
-
 }

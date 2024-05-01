@@ -2,56 +2,48 @@
 
 namespace App\Entity;
 
+use App\Repository\QuizzRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * Quizz
- *
- * @ORM\Table(name="quizz", indexes={@ORM\Index(name="fk_id_question", columns={"id_question"})})
- * @ORM\Entity
- */
+#[ORM\Entity(repositoryClass: QuizzRepository::class)]
 class Quizz
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id_quizz", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idQuizz;
+    #[ORM\ManyToOne(inversedBy: 'quizzs')]
+    
+    #[ORM\JoinColumn(name: 'id_question', referencedColumnName: 'id_question')]
+    private ?Questions $id_question = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="sujet", type="string", length=255, nullable=false)
-     * @Assert\NotBlank(message="Le sujet de la quizz est obligatoire.")
-     */
-    private $sujet;
+    #[ORM\Column( length: 255)]
+    private ?string $sujet = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="string", length=255, nullable=false)
-     * @Assert\NotBlank(message="La description de la quizz est obligatoire.")
-     */
-    private $description;
+    #[ORM\Column(length: 255)]
+    private ?string $description = null;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id_quizz = null;
 
-    /**
-     * @var \Questions
-     *
-     * @ORM\ManyToOne(targetEntity="Questions")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_question", referencedColumnName="id_question")
-     * })
-     * @Assert\NotBlank(message="La Question de la quizz est obligatoire.")
-     */
-    private $idQuestion;
+    #[ORM\OneToMany(targetEntity: Certification::class, mappedBy: 'id_quizz')]
+    private Collection $certifications;
 
-    public function getIdQuizz(): ?int
+    public function __construct()
     {
-        return $this->idQuizz;
+        $this->certifications = new ArrayCollection();
+    }
+
+   
+    public function getIdQuestion(): ?Questions
+    {
+        return $this->id_question;
+    }
+
+    public function setIdQuestion(?Questions $id_question): static
+    {
+        $this->id_question = $id_question;
+
+        return $this;
     }
 
     public function getSujet(): ?string
@@ -78,17 +70,45 @@ class Quizz
         return $this;
     }
 
-    public function getIdQuestion(): ?Questions
+    public function getIdQuizz(): ?int
     {
-        return $this->idQuestion;
+        return $this->id_quizz;
     }
 
-    public function setIdQuestion(?Questions $idQuestion): static
+    public function setIdQuizz(int $id_quizz): static
     {
-        $this->idQuestion = $idQuestion;
+        $this->id_quizz = $id_quizz;
 
         return $this;
     }
 
+    /**
+     * @return Collection<int, Certification>
+     */
+    public function getCertifications(): Collection
+    {
+        return $this->certifications;
+    }
 
+    public function addCertification(Certification $certification): static
+    {
+        if (!$this->certifications->contains($certification)) {
+            $this->certifications->add($certification);
+            $certification->setIdQuizz($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCertification(Certification $certification): static
+    {
+        if ($this->certifications->removeElement($certification)) {
+            // set the owning side to null (unless already changed)
+            if ($certification->getIdQuizz() === $this) {
+                $certification->setIdQuizz(null);
+            }
+        }
+
+        return $this;
+    }
 }

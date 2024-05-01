@@ -1,0 +1,131 @@
+{% extends 'back.html.twig' %}
+{% block title %} Complaints {% endblock %}
+{% block search %} 
+   <form action="{{ path('app_admin_reclamation') }}" method="GET" class="input-group">
+    <button type="submit">
+        <span class="input-group-text text-body">
+            <i class="fas fa-search" aria-hidden="true"></i>
+        </span>
+    </button>
+    <input type="text" class="form-control" name="q" placeholder="Type here..." value="{{ searchTerm|default('') }}" />
+    &nbsp;&nbsp;
+    <div style="display: flex; flex-direction: column; margin-left: 10px;">
+        <label for="show_non_traite">
+            <input type="checkbox" name="show_non_traite" id="show_non_traite" {{ showNonTraite ? 'checked' : '' }} /> 
+            non treated only
+        </label>
+        <label for="show_traite">
+            <input type="checkbox" name="show_traite" id="show_traite" {{ showTraite ? 'checked' : '' }} /> 
+            treated only
+        </label>
+    </div>
+</form>
+
+{% endblock %}
+{% block body %}
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card mb-4">
+            <div class="card-header pb-0">
+                <h6>Complaints table</h6>
+            <div class="card-body px-0 pt-0 pb-2">
+                <div class="table-responsive p-0">
+                    <table class="table align-items-center mb-0">
+                        <thead>
+                            <tr>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">First Name</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Last Name</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Title</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Description </th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date </th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">status </th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">options </th>
+                                <th class="text-secondary opacity-7"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for reclamation in Reclamation %}
+                                {% set user = reclamation.getIdUser() %}
+                                <tr>
+                                    <td>
+                                        <div class="d-flex flex-column justify-content-center">
+                                            <p class="text-xs font-weight-bold mb-0">{{ user.getNom() }}</p>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <p class="text-xs font-weight-bold mb-0">{{ user.getNom() }}</p>
+                                    </td>
+                                    <td class="align-middle text-center text-sm">
+                                        <p class="text-xs font-weight-bold mb-0">{{ reclamation.titre}}</p>
+                                    </td>
+                                    <td class="align-middle text-center text-sm">
+                                        <p class="text-xs font-weight-bold mb-0">{{ reclamation.description}}</p>
+                                    </td>
+                                    <td class="align-middle text-center text-sm">
+                                        <p class="text-xs font-weight-bold mb-0">{{ reclamation.date|date('Y-m-d') }}</p>
+                                    </td>
+                                    <td class="align-middle text-center">
+                                        <span class="text-secondary text-xs font-weight-bold">{{ reclamation.etat}}</span>
+                                    </td>
+                                    <td class="align-middle">
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                        <a href="#" class="text-secondary font-weight-bold text-xs answer-btn" data-toggle="modal" data-target="#myModal" data-id="{{ reclamation.id }}" data-original-title="Edit compliant">Answer</a>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                        <a href="{{ path('app_admin_reclamation_delete', {'id': reclamation.id}) }}" class="text-secondary font-weight-bold text-xs delete-reclamation" data-id="{{ reclamation.getId() }}" data-toggle="tooltip" data-original-title="Delete Complaint">Delete</a>
+                                        
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="MyModalTitle">Insert Response </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="responseForm" action="{{ path('app_admin_reclamation') }}" method="post">
+                    {{ form_start(form) }}
+                    <div class="mb-3">
+                        {{ form_label(form.titre) }}
+                        {{ form_widget(form.titre, { 'attr': {'class': 'form-control'} }) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(form.description) }}
+                        {{ form_widget(form.description, { 'attr': {'class': 'form-control'} }) }}
+                    </div>
+                    <input type="hidden" name="reclamation_id" id="reclamation_id_input">
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                    {{ form_end(form) }}
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function () {
+        $(".answer-btn").click(function () {
+            var reclamationId = $(this).data('id');
+            $("#reclamation_id_input").val(reclamationId);
+        });
+    });
+</script>
+{% endblock %}
+

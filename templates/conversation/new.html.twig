@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Conversation{% endblock %}
+
+{% block body %}
+     <br><br><br>
+     <h2 style="font-size: 28px; color: #b45757;text-align: center;"><br><br>
+        Start Your own Discussion Here !...</h2>
+    <br><br><br>
+    <div style="position: relative; width: 1500px; margin: 0 auto; background-color: #FFFFFF; border: 10px solid #d7bfbf; border-radius: 10px; padding: 20px; box-sizing: border-box; font-family: Arial, sans-serif; box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);">
+      {% if app.session.flashBag.has('error') %}
+    <div class="alert alert-danger">
+        {% for message in app.session.flashBag.get('error') %}
+            {{ message }}
+        {% endfor %}
+    </div>
+{% endif %}
+
+{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+    <div style="margin-bottom: 20px;">
+        {{ form_widget(form.titre, {'attr': {'class': 'form-control', 'placeholder': 'Conversation Title...'}}) }}
+    </div>
+    <div style="margin-bottom: 20px;">
+        <span style="font-size: 13px; color: red;">{{ form_errors(form.titre) }}</span>
+    </div>
+    <div style="margin-bottom: 20px;">
+        {{ form_widget(form.description, {'attr': {'class': 'form-control', 'placeholder': 'Conversation Description...'}}) }}
+    </div>
+    <div style="margin-bottom: 20px;">
+        <span style="font-size: 13px; color: red;">{{ form_errors(form.description) }}</span>
+    </div>
+    <div style="text-align: center;">
+        <button type="submit" class="btn main-button-red" style="background-color: #b45757; border-color: #b45757;">Start!</button>
+    </div>
+{{ form_end(form) }}
+{% endblock %}

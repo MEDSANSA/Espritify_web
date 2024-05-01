@@ -1,0 +1,146 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Conversation index{% endblock %}
+
+{% block body %}
+    <br><br><br><br><br>
+    <body>
+    {% for conversation in conversations %}
+        <div style="position: relative; width: 1500px; margin: 0 auto; background-color: #FFFFFF; border: 10px solid #d7bfbf; border-radius: 10px; padding: 20px; box-sizing: border-box; font-family: Arial, sans-serif; box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);">
+        {% set user = conversation.getIdUser() %}
+            {% if user and user.getId() == 56 %}
+            <div style="position: absolute; top: 10px; right: 10px;">
+                <a href="{{ path('app_conversation_delete', {'id': conversation.id}) }}">
+                    <img src="\assets\front\assets\images\poubelle.png" alt="Delete" style="width: 20px; height: 20px;">
+                     </a>
+                    <a href="#" class="text-secondary font-weight-bold text-xs answer-btn" data-toggle="modal" data-target="#myModal" data-id="{{ conversation.id }}" data-original-title="Edit compliant">
+                    <img src="\assets\front\assets\images\edit.png" alt="Delete" style="width: 20px; height: 20px;">
+                </a>
+                
+            </div>
+             {% endif %}
+
+            <img src="\assets\front\assets\images\utilisateur.png" alt="User" style="width: 50px; height: 51px;">
+            <p style="font-size: 21px; color: #b45757; text-align: center; position: absolute; top: 10px; left: 50%; transform: translateX(-50%);">{{ conversation.titre }}</p>
+            <p style="font-size: 18px; color: #000; text-align: left; position: relative; left: 300px; top: 30px;">Content: {{ conversation.description }}</p>
+            <br><br><br>
+            <p style="font-size: 13px; color: #b7a8a8; position: absolute; top: 10px; right: 60px;">{{ conversation.date ? conversation.date|date('Y-m-d H:i') : '' }}</p>
+            <hr style="stroke: #d7bfbf;">
+            <div style="text-align: center;">
+                <div class="main-button-red">
+                    <a href="{{ path('app_message_show_by_id_conv', {'id_conv': conversation.id}) }}">Show Details</a>
+
+                {% set session_key = 'liked_conversations' %}
+                {% set liked_conversations = app.session.get(session_key, []) %}
+                {% if conversation.id in liked_conversations %}
+        <!-- If the conversation is liked, show "Dislike" -->
+        <a href="{{ path('app_conversation_dislike', {'id': conversation.id}) }}">Dislike</a>
+    {% else %}
+        <!-- If the conversation is not liked, show "Like" -->
+        <a href="{{ path('app_conversation_like', {'id': conversation.id}) }}">Like</a>
+    {% endif %}
+                </div>
+            </div>
+           <div style="position: absolute; bottom: 10px; left: 10px; font-size: 16px; color: #e63946; display: flex; align-items: center; gap: 10px;">
+        <span>Likes: {{ conversation.likes }}</span>
+    </div>
+            {# Fetching and displaying user's name and surname #}
+            {% set user = conversation.getIdUser() %}
+            <p style="font-size: 18px; color: #b7a8a8; position: absolute; top: 40px; left: 100px;">
+                {{ user.getNom() }} {{ user.getPrenom() }}:
+            </p>
+        </div>
+        
+    {% else %}
+        <p>no records found</p>
+    {% endfor %}
+    <h2 style="font-size: 28px; color: #b45757;text-align: center;"> Having Questions Or Need Help ?<br><br>
+     <a  href="{{ path('app_conversation_new')}}" style="font-size: 28px; color: #b45757;text-align: center;"> Start Your Own Conversation Here !</a>
+    </div>
+    </body>
+    </html>
+    <script>
+document.addEventListener("DOMContentLoaded", function() {
+    const likeButtons = document.querySelectorAll(".like-button");
+
+    likeButtons.forEach(button => {
+        button.addEventListener("click", function() {
+            const conversationId = this.dataset.id;
+
+            // Check local storage to see if this conversation has already been liked
+            let likedConversations = JSON.parse(localStorage.getItem("likedConversations")) || [];
+
+            if (likedConversations.includes(conversationId)) {
+                alert("You have already liked this conversation.");
+                return;
+            }
+
+            // Perform the like action
+            fetch(`/like/${conversationId}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            .then(response => {
+                if (response.status === 200) {
+                    return response.json();
+                }
+                throw new Error("Unexpected error");
+            })
+            .then(data => {
+                document.getElementById("likes-" + conversationId).innerText = data.likes;
+
+                // Add the conversation ID to local storage
+                likedConversations.push(conversationId);
+                localStorage.setItem("likedConversations", JSON.stringify(likedConversations));
+            })
+            .catch(error => alert(error.message));
+        });
+    });
+});
+</script>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="MyModalTitle">Modify </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                
+             {{ form_start(form1) }}
+                    <div class="mb-3">
+                        {{ form_label(form1.titre) }}
+                        {{ form_widget(form1.titre, { 'attr': {'class': 'form-control'} }) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(form1.description) }}
+                        {{ form_widget(form1.description, { 'attr': {'class': 'form-control'} }) }}
+                    </div>
+                    <input type="hidden" name="reclamation_id" id="reclamation_id_input">
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                    {{ form_end(form1) }}
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function () {
+        $(".answer-btn").click(function () {
+            var reclamationId = $(this).data('id');
+            $("#reclamation_id_input").val(reclamationId);
+        });
+    });
+</script>
+
+{% endblock %}
