@@ -1,0 +1,226 @@
+{% extends 'basefront.html.twig' %}
+
+{% block title %}internships{% endblock %}
+ {% block header %} 
+    <header class="header-area header-sticky">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <nav class="main-nav">
+                        <!-- ***** Logo Start ***** -->
+                        <a href="{{path('app_acceuil')}}" class="logo">
+                            Espritify
+                        </a>
+                        <!-- ***** Logo End ***** -->
+                        <!-- ***** Menu Start ***** -->
+                        <ul class="nav">
+                            <li class="scroll-to-section"><a href="{{path('app_acceuil')}}" class="active">Home</a></li>
+                            <li class="scroll-to-section"><a href="{{path('app_quizz')}}" class="active">Quizz</a></li>
+                            <li class="has-sub">
+                                <a href="javascript:void(0)">Other Quizzes</a>
+                                <ul class="sub-menu">
+                                    <li><a class="dropdown-item" href="{{ path('app_other_quizzes', {'category': 9}) }}">General Knowledge</a></li>
+                                    <li><a class="dropdown-item" href="{{ path('app_other_quizzes', {'category': 10}) }}">Books</a></li>
+                                    <li><a class="dropdown-item" href="{{ path('app_other_quizzes', {'category': 21}) }}">Sport</a></li>
+                                    <li><a class="dropdown-item" href="{{ path('app_other_quizzes', {'category': 25}) }}">Art</a></li>
+                                    <li><a class="dropdown-item" href="{{ path('app_other_quizzes', {'category': 30}) }}">Science:Gadgets</a></li>
+                                    <li><a class="dropdown-item" href="{{ path('app_other_quizzes', {'category': 18}) }}">Science:Computers</a></li>
+                                    <li><a class="dropdown-item" href="{{ path('app_other_quizzes', {'category': 32}) }}">Cartoon</a></li>
+                                </ul>
+                            </li>
+                            <li class="scroll-to-section"><a href="{{path('app_cours')}}">Courses</a></li>
+                                   <li class="scroll-to-section"><a  data-toggle="modal" data-target="#myModal">Voice Assistant</a></li>
+                                   <li class="has-sub">
+                              <a href="javascript:void(0)" href="#top" class="active">Internships</a>
+                              <ul class="sub-menu">
+                                  <li><a  href="{{path('app_internships')}}">Available Internships</a></li>
+                                  <li><a href="{{path('app_upcoming')}}">MY Interviews</a></li>
+                                  <li><a href="{{path('app_myinternships')}}">MY Internships</a></li>
+                              </ul>
+                          </li>
+                            <li class="scroll-to-section"><a href="#apply">Apply Now</a></li>
+
+                            
+                            <li class="scroll-to-section"><a href="#contact">Contact Us</a></li>
+                        </ul>
+                        <a class='menu-trigger'>
+                            <span>Menu</span>
+                        </a>
+                        <!-- ***** Menu End ***** -->
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header> 
+  
+    {% endblock %}
+{% block banner %}
+{% endblock %}
+    {% block body %}
+    <script>
+       $('#myModal').on('shown.bs.modal', function () {
+  $('#myInput').trigger('focus')
+})
+    </script>
+    <script>
+    $(document).ready(function() {
+        $('#add').submit(function(e) {
+            if (!$(this).valid()) {
+                e.preventDefault();
+                return false;
+            }
+        });
+    });
+</script>
+   <link rel="stylesheet" href="{{ asset("assets/front/assets/css/fontawesome.css")}}">
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalCenterTitle" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="MyModalTitle">Voice Assistant</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                                        <!-- (X) NOT IMPORTANT -->
+                                        <h1 id="cbtitle">Espritifia!</h1>
+                                    <img src="{{ asset("assets/front/assets/images/robot.png")}}" alt="">
+                                     <div id="cbwrap">
+                                       
+                                        <button id="start-recognition" class="btn bg-gradient-primary">Start Recognition <i class="fa-solid fa-microphone"></i></button>
+                                        <button id="stop-recognition" class="btn bg-gradient-primary" disabled>Stop Recognition <i class="fa-solid fa-stop"></i></button>
+                                        
+                                        <a href="{{ path('app_internships') }}" id="internships-link" style="display: none;"></a>
+
+                                        <!-- (A) SPEECH BUBBLES -->
+                                        <div class="speech up" ><textarea id="speech-input" class="speech up"  readonly></textarea></div>
+                                        <div class="speech down"><textarea id="speech-output" class="speech up"  readonly></textarea></div>
+                                        
+                                        
+                                        <script>
+                                        const speechInput = document.getElementById('speech-input');
+                                        const speechOutput = document.getElementById('speech-output');
+                                        let recognition;
+
+                                        document.getElementById('start-recognition').addEventListener('click', startRecognition);
+                                        document.getElementById('stop-recognition').addEventListener('click', stopRecognition);
+
+                                        function startRecognition() {
+                                            speechInput.value = '';
+                                            speechOutput.value = '';
+                                            recognition = new window.webkitSpeechRecognition();
+                                            recognition.continuous = true;
+                                            recognition.lang = 'en-US';
+
+                                            recognition.onresult = function(event) {
+                                                const transcript = event.results[event.results.length - 1][0].transcript;
+                                                speechInput.value += transcript;
+
+                                                // Check if recognized speech contains specific phrases
+                                                if (transcript.toLowerCase().includes('hello')) {
+                                                    respond('Hey to you too');
+                                                }
+                                                if (transcript.toLowerCase().includes('who are you')) {
+                                                    respond('I am espritify voice assistant!');
+                                                }
+                                                if (transcript.toLowerCase().includes('how are you')) {
+                                                    respond('I am fine what about you!');
+                                                }
+                                                if (transcript.toLowerCase().includes('internships')) {
+                                                    navigateToInternships();
+                                                }
+                                            };
+
+                                            recognition.start();
+                                            document.getElementById('start-recognition').disabled = true;
+                                            document.getElementById('stop-recognition').disabled = false;
+                                        }
+
+                                        function stopRecognition() {
+                                            if (recognition) {
+                                                recognition.stop();
+                                                document.getElementById('start-recognition').disabled = false;
+                                                document.getElementById('stop-recognition').disabled = true;
+                                            }
+                                        }
+
+                                        function respond(message) {
+                                            // Display response message in textarea
+                                            speechOutput.value += '\n' + message + '\n';
+                                        }
+                                        function navigateToInternships() {
+                                            // Trigger click event on the anchor link for /internships
+                                            document.getElementById('internships-link').click();
+                                        }
+
+                                            </script>
+                                      </div>
+
+                          </div>
+                          
+                        </div>
+                      </div>
+                    </div>
+  <section class="heading-page header-text" id="top">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <h6>Here are our Available Internships</h6>
+          <h2>Available Internships</h2>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="meetings-page" id="meetings">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="filters">
+                <ul>
+                 <a  href="{{path('app_internships')}}"><li data-filter="*"  class="active">All Internships {{ offreStage.getTotalItemCount }}</li></a>
+                  <a  href="{{path('app_myinternships')}}"><li data-filter=".soon">My Internships {{ dossier.getTotalItemCount }}</li></a>
+                  <li data-filter=".imp">Important</li>
+                  <li data-filter=".att">Attractive</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="col-lg-12">
+              <div class="row grid">
+              {% for i in offreStage %}
+             
+                <div class="col-lg-4 templatemo-item-col all soon"> 
+                  <div class="meeting-item">
+                  
+                    <div class="down-content"><a href="{{path('app_internship-details' , {'id': i.id})}}">
+                   
+                      <a href="{{path('app_internship-details' , {'id': i.id})}}"><h4>{{i.titre}}</h4></a>
+                      <p><b>Description: </b> <br>{{i.description}}</p>
+    </a>
+                    </div>
+                  </div> 
+                </div>
+                
+                {% endfor %}<div class="col-lg-12">
+              <div class="pagination">
+                <ul><li class="active">
+                  {{ knp_pagination_render(offreStage) }}</li>
+           
+                  
+                  
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+   
+
+    {% endblock %}

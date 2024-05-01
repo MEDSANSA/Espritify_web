@@ -10,7 +10,10 @@
     <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900" rel="stylesheet">
     <!-- Bootstrap core CSS -->
     <link href="{{ asset("assets/front/vendor/bootstrap/css/bootstrap.min.css")}}" rel="stylesheet">
-
+   <link rel="stylesheet" href="{{ asset("assets/front/assets/css/fontawesome.css")}}">
+    <link rel="stylesheet" href="{{ asset("assets/front/assets/css/templatemo-edu-meeting.css")}}">
+    <link rel="stylesheet" href="{{ asset("assets/front/assets/css/owl.css")}}">
+    <link rel="stylesheet" href="{{ asset("assets/front/assets/css/lightbox.css")}}">
     <style>
         @import url('https://fonts.googleapis.com/css?family=Oswald:300,400,500,700');
         @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800');
@@ -169,7 +172,64 @@ $gr-3:linear-gradient(170deg, #C86DD7 0%, #3023AE 100%);
         }
     </style>
 
+<link rel="stylesheet" href="{{ asset("assets/front/assets/css/lightbox.css")}}">
+            <style > /* (A) SPEECH BOX */
+        .speech {
+        /* (A1) FONT & COLORS */
+        font-size: 1.2em;
+        color: #fff;
+        background: rgba(154,3,3,255);
 
+        /* (A2) DIMENSIONS */
+        padding: 20px;
+        border-radius: 10px;
+        max-width: 600px;
+        }
+
+        /* (B) USE ::AFTER TO CREATE THE "CALLOUT" */
+        .speech::after {
+        display: block; width: 0; content: "";
+        border: 15px solid transparent;
+        }
+        
+        /* (C) "CALLOUT" DIRECTIONS */
+        .speech.up::after {
+        border-bottom-color: rgba(154,3,3,255);
+        border-top: 0;
+        }
+        .speech.down::after {
+        border-top-color: rgba(154,3,3,255);
+        border-bottom: 0;
+        }
+        .speech.left::after {
+        border-right-color: rgba(154,3,3,255);
+        border-left: 0;
+        }
+        .speech.right::after {
+        border-left-color: rgba(154,3,3,255);
+        border-right: 0;
+        }
+
+        /* (D) POSITION THE CALLOUT */
+        .speech {
+        position: relative;
+        margin: 30px;
+        }
+        .speech::after { position: absolute; }
+        .speech.up::after {
+        top: -15px; left: calc(50% - 15px);
+        }
+        .speech.down::after {
+        bottom: -15px; left: calc(50% - 15px);
+        }
+        .speech.left::after {
+        left: -15px; top: calc(50% - 15px);
+        }
+        .speech.right::after {
+        right: -15px; top: calc(50% - 15px);
+        }
+
+      </style>
     <!-- Additional CSS Files -->
     <link rel="stylesheet" href="{{ asset("assets/front/assets/css/fontawesome.css")}}">
     <link rel="stylesheet" href="{{ asset("assets/front/assets/css/templatemo-edu-meeting.css")}}">
@@ -269,6 +329,15 @@ $gr-3:linear-gradient(170deg, #C86DD7 0%, #3023AE 100%);
                                 </ul>
                             </li>
                             <li class="scroll-to-section"><a href="{{path('app_cours')}}">Courses</a></li>
+                                   <li class="scroll-to-section"><a  data-toggle="modal" data-target="#myModal">Voice Assistant</a></li>
+                                   <li class="has-sub">
+                              <a href="javascript:void(0)" href="#top" class="active">Internships</a>
+                              <ul class="sub-menu">
+                                  <li><a  href="{{path('app_internships')}}">Available Internships</a></li>
+                                  <li><a href="{{path('app_upcoming')}}">MY Interviews</a></li>
+                                  <li><a href="{{path('app_myinternships')}}">MY Internships</a></li>
+                              </ul>
+                          </li>
                             <li class="scroll-to-section"><a href="#apply">Apply Now</a></li>
 
                             
@@ -313,7 +382,98 @@ $gr-3:linear-gradient(170deg, #C86DD7 0%, #3023AE 100%);
     </section>
     {% endblock %}
     {% block body %}
+ <link rel="stylesheet" href="{{ asset("assets/front/assets/css/fontawesome.css")}}">
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalCenterTitle" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="MyModalTitle">Voice Assistant</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                                        <!-- (X) NOT IMPORTANT -->
+                                        <h1 id="cbtitle">Espritifia!</h1>
+                                    <img src="{{ asset("assets/front/assets/images/robot.png")}}" alt="">
+                                     <div id="cbwrap">
+                                       
+                                        <button id="start-recognition" class="btn bg-gradient-primary">Start Recognition <i class="fa-solid fa-microphone"></i></button>
+                                        <button id="stop-recognition" class="btn bg-gradient-primary" disabled>Stop Recognition <i class="fa-solid fa-stop"></i></button>
+                                        
+                                        <a href="{{ path('app_internships') }}" id="internships-link" style="display: none;"></a>
 
+                                        <!-- (A) SPEECH BUBBLES -->
+                                        <div class="speech up" ><textarea id="speech-input" class="speech up"  readonly></textarea></div>
+                                        <div class="speech down"><textarea id="speech-output" class="speech up"  readonly></textarea></div>
+                                        
+                                        
+                                        <script>
+                                        const speechInput = document.getElementById('speech-input');
+                                        const speechOutput = document.getElementById('speech-output');
+                                        let recognition;
+
+                                        document.getElementById('start-recognition').addEventListener('click', startRecognition);
+                                        document.getElementById('stop-recognition').addEventListener('click', stopRecognition);
+
+                                        function startRecognition() {
+                                            speechInput.value = '';
+                                            speechOutput.value = '';
+                                            recognition = new window.webkitSpeechRecognition();
+                                            recognition.continuous = true;
+                                            recognition.lang = 'en-US';
+
+                                            recognition.onresult = function(event) {
+                                                const transcript = event.results[event.results.length - 1][0].transcript;
+                                                speechInput.value += transcript;
+
+                                                // Check if recognized speech contains specific phrases
+                                                if (transcript.toLowerCase().includes('hello')) {
+                                                    respond('Hey to you too');
+                                                }
+                                                if (transcript.toLowerCase().includes('who are you')) {
+                                                    respond('I am espritify voice assistant!');
+                                                }
+                                                if (transcript.toLowerCase().includes('how are you')) {
+                                                    respond('I am fine what about you!');
+                                                }
+                                                if (transcript.toLowerCase().includes('internships')) {
+                                                    navigateToInternships();
+                                                }
+                                            };
+
+                                            recognition.start();
+                                            document.getElementById('start-recognition').disabled = true;
+                                            document.getElementById('stop-recognition').disabled = false;
+                                        }
+
+                                        function stopRecognition() {
+                                            if (recognition) {
+                                                recognition.stop();
+                                                document.getElementById('start-recognition').disabled = false;
+                                                document.getElementById('stop-recognition').disabled = true;
+                                            }
+                                        }
+
+                                        function respond(message) {
+                                            // Display response message in textarea
+                                            speechOutput.value += '\n' + message + '\n';
+                                        }
+                                        function navigateToInternships() {
+                                            // Trigger click event on the anchor link for /internships
+                                            document.getElementById('internships-link').click();
+                                        }
+
+                                            </script>
+                                      </div>
+
+                          </div>
+                          
+                        </div>
+                      </div>
+                    </div>
     <section class="services">
         <div class="container">
             <div class="row">

@@ -1,11 +1,8 @@
 {% extends 'basefront.html.twig' %}
-{%block style %}
 
-{%endblock%}
-
-{% block title %}meeting details!{% endblock %}
-{% block header %}
-<header class="header-area header-sticky">
+{% block title %}internships{% endblock %}
+ {% block header %} 
+    <header class="header-area header-sticky">
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -55,76 +52,83 @@
             </div>
         </div>
     </header>
-{% endblock %}
-
+    {% endblock %}
 {% block banner %}
 {% endblock %}
-
-{% block body %}
-
-<section class="heading-page header-text" id="top">
+    {% block body %}
+    
+  <section class="heading-page header-text" id="top">
     <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <h6>Get all details</h6>
-                <h2>Online Teaching and Learning Tools</h2>
-            </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <h6>Here are our Upcoming Interviews</h6>
+          <h2>Upcoming Interviews</h2>
         </div>
+      </div>
     </div>
-</section>
+  </section>
 
-<section class="meetings-page" id="cours">
+  <section class="meetings-page" id="meetings">
     <div class="container">
-        <div class="row">
-      {% block search %} 
-    <form action="{{ path('app_cours') }}" method="GET" class="input-group">
-        <button type="submit"><span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span></button>
-        <input type="text" class="form-control" name="q" placeholder="Type here..." >
-    </form>
-    {% endblock %}
-            {%for courses in cours%}
-            <div class="col-md-6 col-lg-4 column">
-                <div class="card gr-1">
-                    <div class="txt">
-                        <h1>{{courses.title}}</h1>
-                        <img src="{{ asset('uploads/' ~ courses.contenu) | imagine_filter('thumbnail') }}" alt="thumbnail">
-                                                 <img src="{{ asset('uploads/' ~ courses.contenu) }}" alt="">
-
-                    </div>
-                    <div class="mt-5">
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" style="width: {{courses.rate * 2}}0%; background:rgb(189,9,9);" aria-valuenow="70"
-                                aria-valuemin="0" aria-valuemax="100" ></div>
-                        </div>
-                    </div>
-                    <a href="{{ path('cours_detail', {'id': courses.id}) }}" >more</a>
-                    <div class="ico-card">
-                        <i class="fa fa-graduation-cap" aria-hidden="true"></i>
-                    </div>
-                </div>
-            </div>
-            
-
-            {%endfor%}
-            <div class="pagination">
-                <ul><li class="active">
-                  {{ knp_pagination_render(cours) }}</li>
-              
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="filters">
+                <ul>
+                  <li data-filter="*"  class="active">All upcoming Interviews {{ interviews.getTotalItemCount }}</li>
+                  <li data-filter=".soon">Soon</li>
+                  <li data-filter=".imp">Important</li>
+                  <li data-filter=".att">Attractive</li>
                 </ul>
               </div>
+            </div>
+
+            <div class="col-lg-12">
+              <div class="row grid">
+              {% if interviews is empty %}
+              <div class="col-lg-4 templatemo-item-col all soon"> 
+                <div class="meeting-item">
+                    <div class="down-content">
+                    <p>No records found</p>
+                    </div>
+                </div>
+              </div>
+            {% else %}
+             {% for i in interviews %}
+                <div class="col-lg-4 templatemo-item-col all soon"> 
+                    <div class="meeting-item">
+                        <div class="down-content">
+                            <h4>{{i.type}}</h4>
+                            <p><b>Internship: </b> <br>{{i.idStage.titre}}</p>
+                            <p><b>Company Name: </b> <br>{{i.idStage.nomSoc}}</p>
+                            <p><b>Description: </b> <br>{{i.description}}</p>
+                            <p><b>Place: </b> <br>{{i.lieu}}</p>
+                            <p><b>Date: </b> <br>{{i.date | date}}</p>
+                            <p><b>State: </b> <br>{{i.etat}}</p>
+                             {% if i.type == 'en ligne' %}
+                             <div class="filters">
+                    <a class="btn bg-gradient-primary">      <li data-filter=".imp">Passer entretien</li></a></div>
+                {% endif %}
+                        </div>
+                    </div> 
+                </div>
+            {% endfor %}
+        {% endif %}
+<div class="col-lg-12">
+              <div class="pagination">
+                <ul><li class="active">
+                  {{ knp_pagination_render(interviews) }}</li>
+           
+                  
+                  
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
+   
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-<script>
-    $(document).ready(function() {
-        $('a[data-toggle="modal"]').click(function() {
-            var imageSrc = $(this).data('image');
-            $('#modalImage').attr('src', imageSrc);
-            $('#myModal').modal('show');
-        });
-    });
-</script>
-
-{% endblock %}
+    {% endblock %}
