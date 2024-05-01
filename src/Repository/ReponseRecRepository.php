@@ -20,7 +20,14 @@ class ReponseRecRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, ReponseRec::class);
     }
-
+    public function findReponseById_Rec(int $userRec): ?ReponseRec
+    {
+        return $this->createQueryBuilder('r')
+            ->where('r.id_rec = :userRec')
+            ->setParameter('userRec', $userRec)
+            ->getQuery()
+            ->getOneOrNullResult();  // Use getOneOrNullResult for a single result
+    }
 //    /**
 //     * @return ReponseRec[] Returns an array of ReponseRec objects
 //     */

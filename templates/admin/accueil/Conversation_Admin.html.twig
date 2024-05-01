@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+{% block title %} Complaints {% endblock %}
+{% block search %} 
+
+   <form action="{{ path('app_admin_conversation') }}" method="GET" class="input-group">
+    <button type="submit">
+        <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
+    </button>
+    <div>
+    <input type="text" class="form-control" name="q" placeholder="Type here..." value="{{ app.request.query.get('q') }}">
+    </div>
+    &nbsp;&nbsp;
+    <div>
+    <input type="checkbox" name="sort_likes" value="1" {{ app.request.query.get('sort_likes') ? 'checked' : '' }}>
+    most interactions
+    </div>
+</form>
+{% endblock %}
+{% block body %}
+<div class="row">
+        <div class="col-12">
+          <div class="card mb-4">
+            <div class="card-header pb-0">
+              <h6>Publication table</h6>
+            <Last Name          <div class="card-body px-0 pt-0 pb-2">
+              <div cTitletable-responsive p-0">
+
+                <table class="table align-items-center mb-0">
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">First Name</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Last Name</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Title</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Description </th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date </th>
+                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">likes </th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">options </th>
+                      <th class="text-secondary opacity-7"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for conversation in conversations %}
+                  {% set user = conversation.getIdUser() %}
+                    <tr>
+                    <td>
+                          <div class="d-flex flex-column justify-content-center">
+
+                            <p class="text-xs font-weight-bold mb-0"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ user.getNom() }}</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <p class="text-xs font-weight-bold mb-0">&nbsp;&nbsp;&nbsp;&nbsp;{{ user.getNom() }}</p>
+                      
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0">{{ conversation.titre}}</p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0">{{ conversation.description}}</p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0">{{ conversation.date|date('Y-m-d') }}</p>
+                      </td>
+                        <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0">{{ conversation.likes}}</p>
+                      </td>
+                    
+                     <td class="align-middle">
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;&nbsp;
+                     <a href="{{ path('app_admin_conversation_delete', {'id': conversation.id}) }}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Delete Complaint">Delete</a>
+                     &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+                     <a href="{{ path('app_admin_conversation_comments', {'id': conversation.id}) }}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Delete Complaint">Show Comments</a>
+                    </td>
+                    </tr>
+                     {% endfor %}
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {% endblock %}

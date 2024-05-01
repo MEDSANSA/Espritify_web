@@ -15,4 +15,6 @@ return [
     EightPoints\Bundle\GuzzleBundle\EightPointsGuzzleBundle::class => ['all' => true],
     Knp\Bundle\PaginatorBundle\KnpPaginatorBundle::class => ['all' => true],
     Liip\ImagineBundle\LiipImagineBundle::class => ['all' => true],
+    Flasher\Symfony\FlasherSymfonyBundle::class => ['all' => true],
+    Flasher\Pnotify\Symfony\FlasherPnotifySymfonyBundle::class => ['all' => true],
 ];

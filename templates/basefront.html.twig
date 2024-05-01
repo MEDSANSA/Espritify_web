@@ -338,6 +338,12 @@ $gr-3:linear-gradient(170deg, #C86DD7 0%, #3023AE 100%);
                                   <li><a href="{{path('app_myinternships')}}">MY Internships</a></li>
                               </ul>
                           </li>
+                           <li><a href="{{path('app_conversation_index')}}"  class="active">Live Chat</a></li>
+                            <li>
+                          <a href="{{ path('app_notifs') }}">
+                          <i class="fas fa-bell"></i> <!-- FontAwesome bell icon -->
+                          </a>
+                          </li>
                             <li class="scroll-to-section"><a href="#apply">Apply Now</a></li>
 
                             
@@ -1086,83 +1092,74 @@ $gr-3:linear-gradient(170deg, #C86DD7 0%, #3023AE 100%);
         </div>
     </section>
 
-    <section class="contact-us" id="contact">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-9 align-self-center">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <form id="contact" action="" method="post">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <h2>Let's get in touch</h2>
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <fieldset>
-                                            <input name="name" type="text" id="name" placeholder="YOURNAME...*"
-                                                required="">
-                                        </fieldset>
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <fieldset>
-                                            <input name="email" type="text" id="email" pattern="[^ @]*@[^ @]*"
-                                                placeholder="YOUR EMAIL..." required="">
-                                        </fieldset>
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <fieldset>
-                                            <input name="subject" type="text" id="subject" placeholder="SUBJECT...*"
-                                                required="">
-                                        </fieldset>
-                                    </div>
-                                    <div class="col-lg-12">
-                                        <fieldset>
-                                            <textarea name="message" type="text" class="form-control" id="message"
-                                                placeholder="YOUR MESSAGE..." required=""></textarea>
-                                        </fieldset>
-                                    </div>
-                                    <div class="col-lg-12">
-                                        <fieldset>
-                                            <button type="submit" id="form-submit" class="button">SEND MESSAGE
-                                                NOW</button>
-                                        </fieldset>
-                                    </div>
+  
+  <section class="contact-us" id="contact">
+      <div class="container">
+        <div class="row">
+            <div class="col-lg-9 align-self-center">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div id="contact" >
+                            {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <h2>Tap in Your Complaints Details</h2>
                                 </div>
-                            </form>
+                               
+                                <div class="col-lg-12">
+                                    
+                                    {{ form_widget(form.titre, {'attr': {'class' : 'form-control', 'placeholder': 'Title ...'}}) }}
+
+                                     <span style="font-size: 13px; color: red;">{{ form_errors(form.titre) }}</span>
+                                </div>
+                                <div class="col-lg-12">
+                                   
+                                    {{ form_widget(form.description, {'attr': {'class' : 'form-control', 'placeholder': ' Description...'}}) }}
+                                     <span style="font-size: 13px; color: red;">{{ form_errors(form.description) }}</span>
+                                </div>
+                                <div class="col-lg-12">
+                                    <fieldset>
+                                        <button type="submit" id="form-submit" class="button">SEND NOW</button>
+                                    </fieldset>
+                                </div>
+                            </div>
+                            {{ form_end(form) }}
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3">
-                    <div class="right-info">
-                        <ul>
-                            <li>
-                                <h6>Phone Number</h6>
-                                <span>010-020-0340</span>
-                            </li>
-                            <li>
-                                <h6>Email Address</h6>
-                                <span>info@meeting.edu</span>
-                            </li>
-                            <li>
-                                <h6>Street Address</h6>
-                                <span>Rio de Janeiro - RJ, 22795-008, Brazil</span>
-                            </li>
-                            <li>
-                                <h6>Website URL</h6>
-                                <span>www.meeting.edu</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
             </div>
+        <div class="col-lg-3">
+          <div class="right-info">
+            <ul>
+              <li>
+                <h6>Phone Number</h6>
+                <span>010-020-0340</span>
+              </li>
+              <li>
+                <h6>Email Address</h6>
+                <span>info@meeting.edu</span>
+              </li>
+              <li>
+                <h6>Street Address</h6>
+                <span>Rio de Janeiro - RJ, 22795-008, Brazil</span>
+              </li>
+              <li>
+                <h6>Website URL</h6>
+                <span>www.meeting.edu</span>
+              </li>
+            </ul>
+          </div>
         </div>
-        {% endblock %}
-        {% block footer %}
-        <div class="footer">
-            <p>Copyright © 2024 Teletubies, All Rights Reserved.
-        </div>
-        {% endblock %}
-    </section>
+      </div>
+    </div>
+    {% endblock %}
+    {% block footer %}
+    <div class="footer">
+      <p>Copyright © 2024 Teletubies, All Rights Reserved. 
+    </div>
+    {% endblock %}
+  </section>
+
 </body>
 
 </html>

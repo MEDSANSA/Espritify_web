@@ -17,12 +17,12 @@ class Message
     #[ORM\ManyToOne(inversedBy: 'messages')]
       
     #[ORM\JoinColumn(name: 'id_user', referencedColumnName: 'id')]
-    private ?utilisateur $id_user = null;
+    private ?Utilisateur $id_user = null;
 
     #[ORM\ManyToOne(inversedBy: 'messages')]
       
     #[ORM\JoinColumn(name: 'id_conv', referencedColumnName: 'id')]
-    private ?conversation $id_conv = null;
+    private ?Conversation $id_conv = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE,  options: ['default' => 'CURRENT_TIMESTAMP', 'columnDefinition' => 'datetime DEFAULT CURRENT_TIMESTAMP'])]
     private ?\DateTimeInterface $date = null;

@@ -20,7 +20,26 @@ class ReclamationRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Reclamation::class);
     }
-
+    public function findReclamationsByUserAndEtat(int $userId): array
+    {
+        return $this->createQueryBuilder('r')
+            ->where('r.id_user = :userId')
+            ->andWhere('r.etat = :etat')
+            ->setParameter('userId', $userId)
+            ->setParameter('etat', 'traité')
+            ->getQuery()
+            ->getResult();
+    }
+    public function findReclamationsByUserAndEtatNonTraite(int $userId): array
+    {
+        return $this->createQueryBuilder('r')
+            ->where('r.id_user = :userId')
+            ->andWhere('r.etat = :etat')
+            ->setParameter('userId', $userId)
+            ->setParameter('etat', 'non traité')
+            ->getQuery()
+            ->getResult();
+    }
 //    /**
 //     * @return Reclamation[] Returns an array of Reclamation objects
 //     */
