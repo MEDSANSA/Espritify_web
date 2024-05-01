@@ -1,0 +1,149 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Courses index{% endblock %}
+
+{% block body %}
+    <div class="row">
+    <div class="col-md-12 mb-lg-0 mb-4">
+     {% for label, messages in app.session.flashbag.all() %}
+                <div class="alert alert-{{ label }}">
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        <div class="card mt-4">
+            <div class="row">  
+                <div class="col-6 d-flex align-items-center">
+                    <h4>Courses table</h4>
+                    
+                </div>
+                <div class="col-6 text-end">
+                    <a class="btn bg-gradient-dark mb-0" href="{{ path('app_cours_new') }}"><i class="fas fa-plus"></i> Add Course</a>
+                </div>
+            </div>
+            <div class="card-body p-3">
+            <div class="btn-group" role="group" aria-label="Sort by idCat">
+                    <a href="{{ path('app_cours_index', {'sort_order': 'asc'}) }}" class="btn btn-secondary"><i class="fa fa-sort-alpha-asc" aria-hidden="true"></i></a>
+                    <a href="{{ path('app_cours_index', {'sort_order': 'desc'}) }}" class="btn btn-secondary"><i class="fa fa-sort-alpha-desc" aria-hidden="true"></i></a>
+                    <select class="form-select form-select-sm me-2" id="filterSelect" aria-label="Default select example" style="width: 200px; height:40px;">
+                        <option selected disabled>Filter by Category</option>
+                        {% for cours in cours %}
+                            <option value="{{ cours.title }}">{{ cours.title }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="table-responsive p-0">
+                    <table class="table align-items-center mb-0">
+                        <thead>
+                            <tr>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Id</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                    Title</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Conetnt</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    State</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Rate</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Category</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cours_table">
+                            {% for cours in cours %}
+                            <tr>
+                                <td>
+                                    <p class="text-xs font-weight-bold mb-0">{{ cours.id }}</p>
+                                </td>
+                                <td>
+                                    <p class="text-xs font-weight-bold mb-0">{{ cours.title }}</p>
+                                </td>
+                                <td>
+                                    <p class="text-xs font-weight-bold mb-0">{{ cours.contenu }}</p>
+                                </td>
+                                <td>
+                                    <p class="text-xs font-weight-bold mb-0">{{ cours.etat }}</p>
+                                </td>
+                                <td>    
+                                    <p class="text-xs font-weight-bold mb-0">{{ cours.rate }}</p>
+                                </td>
+                                <td>
+                                    <p class="text-xs font-weight-bold mb-0">{{ cours.idCat }}</p>
+                                </td>
+                                <td>
+                                    <a class="btn btn-link text-dark px-3 mb-0" href="{{ path('app_cours_edit', {'id': cours.id}) }}"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit</a>
+                                    {{ include('cours/_delete_form.html.twig') }}
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="7">no data found</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('filterSelect').addEventListener('change', function() {
+    var selectedCategorieId = this.value;
+    var tableBody = document.getElementById('cours_table');
+
+    // Clear existing table rows
+    tableBody.innerHTML = '';
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '{{ path('app_cours_filter') }}?title=' + selectedCategorieId, true);
+    xhr.onload = function() {
+        if (xhr.status >= 200 && xhr.status < 400) {
+            // Mettre à jour la page avec les nouvelles données
+
+            var response = xhr.responseText;
+            console.log(response);
+
+            var responseData = JSON.parse(response);
+            responseData.forEach(cours => {
+                console.log(cours);
+                var row = document.createElement('tr');
+
+                var IdCoursCell = document.createElement('td');
+                IdCoursCell.textContent = cours.id;
+                row.appendChild(IdCoursCell);
+
+                var TitleCell = document.createElement('td');
+                TitleCell.textContent = cours.title;
+                row.appendChild(TitleCell);
+
+                var ConetntCell = document.createElement('td');
+                ConetntCell.textContent = cours.contenu;
+                row.appendChild(ConetntCell);
+
+                var StateCell = document.createElement('td');
+                StateCell.textContent = cours.etat;
+                row.appendChild(StateCell);
+
+                var RateCell = document.createElement('td');
+                StateCell.RateCell = cours.rate;
+                row.appendChild(RateCell);
+
+                var IdCatCell = document.createElement('td');
+                IdCatCell.textContent = cours.categorie;
+                row.appendChild(IdCatCell);
+
+                tableBody.appendChild(row);
+
+            });
+        }
+    };
+    xhr.send();
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,102 @@
+{% extends 'basefront.html.twig' %}
+{%block style %}
+
+{%endblock%}
+
+{% block title %}meeting details!{% endblock %}
+{% block header %}
+<header class="header-area header-sticky">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <nav class="main-nav">
+                        <!-- ***** Logo Start ***** -->
+                        <a href="{{path('app_acceuil')}}" class="logo">
+                            Espritify
+                        </a>
+                        <!-- ***** Logo End ***** -->
+                        <!-- ***** Menu Start ***** -->
+                        <ul class="nav">
+                            <li class="scroll-to-section"><a href="{{path('app_acceuil')}}" class="active">Home</a></li>
+                            <li class="scroll-to-section"><a href="{{path('app_quizz')}}" class="active">Quizz</a></li>
+                            <li class="has-sub">
+                                <a href="javascript:void(0)">Other Quizzes</a>
+                                <ul class="sub-menu">
+                                    <li><a class="dropdown-item" href="{{ path('app_other_quizzes', {'category': 9}) }}">General Knowledge</a></li>
+                                    <li><a class="dropdown-item" href="{{ path('app_other_quizzes', {'category': 10}) }}">Books</a></li>
+                                    <li><a class="dropdown-item" href="{{ path('app_other_quizzes', {'category': 21}) }}">Sport</a></li>
+                                    <li><a class="dropdown-item" href="{{ path('app_other_quizzes', {'category': 25}) }}">Art</a></li>
+                                    <li><a class="dropdown-item" href="{{ path('app_other_quizzes', {'category': 30}) }}">Science:Gadgets</a></li>
+                                    <li><a class="dropdown-item" href="{{ path('app_other_quizzes', {'category': 18}) }}">Science:Computers</a></li>
+                                    <li><a class="dropdown-item" href="{{ path('app_other_quizzes', {'category': 32}) }}">Cartoon</a></li>
+                                </ul>
+                            </li>
+                            <li class="scroll-to-section"><a href="{{path('app_cours')}}">Courses</a></li>
+                            <li class="scroll-to-section"><a href="#apply">Apply Now</a></li>
+
+                            
+                            <li class="scroll-to-section"><a href="#contact">Contact Us</a></li>
+                        </ul>
+                        <a class='menu-trigger'>
+                            <span>Menu</span>
+                        </a>
+                        <!-- ***** Menu End ***** -->
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+{% endblock %}
+
+{% block banner %}
+{% endblock %}
+
+{% block body %}
+
+<section class="heading-page header-text" id="top">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h6>Get all details</h6>
+                <h2>Online Teaching and Learning Tools</h2>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="meetings-page" id="cours">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-lg-4 column">
+                <div class="card gr-1">
+                    <div class="txt">
+                        <h1>{{course.title}}</h1>
+                        <p>{{course.contenu}}</p>
+                    </div>
+                    <div class="mt-5">
+                         <img src="{{ asset('uploads/' ~ course.contenu) }}" alt="">
+                    </div>
+                    <a href="#" >more</a>
+                    <div class="ico-card">
+                        <i class="fa fa-graduation-cap" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </div>
+            
+
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function() {
+        $('a[data-toggle="modal"]').click(function() {
+            var imageSrc = $(this).data('image');
+            $('#modalImage').attr('src', imageSrc);
+            $('#myModal').modal('show');
+        });
+    });
+</script>
+
+{% endblock %}

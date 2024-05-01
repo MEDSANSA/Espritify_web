@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Category{% endblock %}
+
+{% block body %}
+     <div class="d-flex justify-content-between align-items-center">
+        <h1>Create New Category</h1>
+        <a class="btn btn-round btn-sm mb-0 btn-outline-primary" href="{{ path('app_categorie_index') }}">Back to list</a>
+    </div>
+
+    {{ include('categorie/_form.html.twig') }}
+
+{% endblock %}

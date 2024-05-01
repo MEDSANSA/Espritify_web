@@ -1,0 +1,51 @@
+{% extends 'basefront.html.twig' %}
+
+{% block title %}Quiz{% endblock %}
+{% block banner %}{% endblock %}
+
+{% block body %}
+<section class="meetings-page" id="quizz">
+    <div class="container mt-5">
+        <form id="quiz-form" method="post" action="{{path('trivia_quiz_submit')}}">
+        <label for="category">Select Category:</label>
+            <div class="d-flex justify-content-center row">
+                <div class="col-md-10 col-lg-10">
+                    <!-- Quiz questions -->
+                    <div class="border">
+                        <div class="question bg-white p-3 border-bottom">
+                            <ul>
+                                {% set questionCounter = 1 %}
+                                {% for question in questions %}
+
+                                <div class="d-flex flex-row align-items-center question-title">
+                                    <h3 class="text-danger">Q.{{ loop.index }}</h3>
+                                    <h5 class="mt-1 ml-2">{{ question.question }}</h5>
+                                </div>
+                                {% for answer in question.incorrect_answers %}
+                                <div class="ans ml-2">
+                                    <label class="radio">
+                                        <input type="radio" name="{{ questionCounter }}" value="{{ answer }}" required>
+                                        <span>{{ answer }}</span>
+                                    </label>
+                                </div>
+                                {% endfor %}
+                                <div class="ans ml-2">
+                                    <label class="radio">
+                                        <input type="radio" name="{{ questionCounter }}" value="{{ question.correct_answer }}" required>
+                                        <span>{{ question.correct_answer }}</span>
+                                    </label>
+                                </div>
+                                {% set questionCounter = questionCounter + 1 %}
+                                {% endfor %}
+                        </div>
+                        <!-- Buttons for previous, submit, and next -->
+                        <div class="d-flex flex-row justify-content-between align-items-center p-3 bg-white">
+                            <button type="submit" class="btn btn-primary btn-danger">Repondre</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}
