@@ -341,7 +341,7 @@ class accueilController extends AbstractController
           
         ]);
     }
-
+//filtre
     #[Route('/admin/getDossierByOffreId/{offreId}', name: 'app_admin_dossier_stageee')]
     public function getDossierByOffreId($offreId, DossierStageRepository $dossierStageRepository): JsonResponse
 {
