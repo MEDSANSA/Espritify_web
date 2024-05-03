@@ -6,46 +6,57 @@ use App\Repository\UtilisateurRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
-class Utilisateur
+class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255,nullable:true)]
-    private ?string $nom = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    /*#[Assert\NotBlank(allowNull: true,message: "nom est obligatoire")]
+    */ private ?string $nom = null;
 
-    #[ORM\Column(length: 255,nullable:true)]
-    private ?string $prenom = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    /*#[Assert\NotBlank(allowNull: true,message: "pernom est obligatoire")]
+    */ private ?string $prenom = null;
 
-    #[ORM\Column(length: 255, nullable:true)]
-    private ?string $email = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    /*#[Assert\NotBlank(allowNull: true,message: "email est obligatoire")]
+    */ private ?string $email = null;
 
-    #[ORM\Column(length: 255 ,nullable:true)]
-    private ?string $mdp = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    /*#[Assert\NotBlank(allowNull: true,message: "mtps est obligatoire")]
+    */ private ?string $mdp = null;
 
-    #[ORM\Column(nullable:true)]
-    private ?int $tel = null;
+    #[ORM\Column(nullable: true)]
 
-    #[ORM\Column(length: 255,nullable:true)]
+    /*#[Assert\NotBlank(allowNull: true,message: "telephone est obligatoire")]
+    */ private ?int $tel = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+
     private ?string $image = null;
 
-    #[ORM\Column(length: 255, nullable:true)]
-    private ?string $rank = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    /*#[Assert\NotBlank(allowNull: true,message: "mtps est obligatoire")]
+    */ private ?string $rank = null;
 
-    #[ORM\Column(nullable:true)]
+    #[ORM\Column(nullable: true)]
     private ?int $score = null;
 
-    #[ORM\Column(length: 255, nullable:true)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $nom_societe = null;
 
-    #[ORM\Column(length: 255, nullable:true)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $niveau = null;
 
-    #[ORM\Column(length: 255, nullable:true)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $role = null;
 
     #[ORM\OneToMany(targetEntity: Certification::class, mappedBy: 'id_user')]
@@ -74,6 +85,9 @@ class Utilisateur
 
     #[ORM\OneToMany(targetEntity: Reclamation::class, mappedBy: 'id_user')]
     private Collection $reclamations;
+
+    #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    private  $resetToken;
 
     public function __construct()
     {
@@ -129,6 +143,36 @@ class Utilisateur
         return $this;
     }
 
+    public function getSalt(): ?string
+    {
+        return null;
+    }
+    private ?string $password ;
+    public function eraseCredentials()
+    {
+        // Implement this method to remove sensitive data from the user.
+        // For example, clear any plaintext passwords or API keys stored in the user entity.
+
+        // In this example, let's set the password property to null.
+        $this->password = null;
+    }
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
+    }
+
+    public function getUsername(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setUsername(string $email): static
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
     public function getMdp(): ?string
     {
         return $this->mdp;
@@ -139,6 +183,26 @@ class Utilisateur
         $this->mdp = $mdp;
 
         return $this;
+    }
+
+    public function getPassword(): ?string
+    {
+        return $this->mdp;
+    }
+
+    public function setPassword(string $mdp): static
+    {
+        $this->mdp = $mdp;
+
+        return $this;
+    }
+
+    public function getRoles(): array
+    {
+        // Customize this method to return an array of roles granted to the user.
+        // Typically, you might have a roles property in your user entity that stores the roles.
+        // Here, we'll return a hard-coded example for demonstration purposes.
+        return ['ROLE_USER'];
     }
 
     public function getTel(): ?int
@@ -491,6 +555,18 @@ class Utilisateur
                 $reclamation->setIdUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getResetToken(): ?string
+    {
+        return $this->resetToken;
+    }
+
+    public function setResetToken(?string $resetToken): self
+    {
+        $this->resetToken = $resetToken;
 
         return $this;
     }

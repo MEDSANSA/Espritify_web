@@ -10,7 +10,28 @@
 
 <body class="g-sidenav-show  bg-gray-100">
 
-
+<div class="container-fluid py-4">
+      <div class="row">
+        <div class="col-12">
+          <div class="card mb-4">
+           <div class="card-header pb-0">
+    <div class="row">
+        <div class="col-md-6">
+            <h6>Internship Offers Available</h6>
+        </div>
+        <div class="col-md-6">
+            <div class="d-flex justify-content-end align-items-center">
+                <select class="form-select form-select-sm me-2" id="filterSelect" aria-label="Default select example" style="width: 200px;">
+                    <option selected disabled>Filter by Internship offers</option>
+                    {% for offre in offreStage %}
+                    <option value="{{ offre.id }}">{{ offre.titre }}</option>
+                    {% endfor %}
+                </select>
+                <button class="btn bg-gradient-primary" data-toggle="modal" data-target="#myModal">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
 
             <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalCenterTitle" aria-hidden="true">
                       <div class="modal-dialog modal-dialog-centered" role="document">

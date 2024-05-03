@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="{{ asset("assets/front/assets/css/templatemo-edu-meeting.css")}}">
     <link rel="stylesheet" href="{{ asset("assets/front/assets/css/owl.css")}}">
     <link rel="stylesheet" href="{{ asset("assets/front/assets/css/lightbox.css")}}">
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css?family=Oswald:300,400,500,700');
         @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800');
@@ -308,13 +309,13 @@ $gr-3:linear-gradient(170deg, #C86DD7 0%, #3023AE 100%);
                 <div class="col-12">
                     <nav class="main-nav">
                         <!-- ***** Logo Start ***** -->
-                        <a href="{{path('app_acceuil')}}" class="logo">
+                        <a href="{{path('app_front')}}" class="logo">
                             Espritify
                         </a>
                         <!-- ***** Logo End ***** -->
                         <!-- ***** Menu Start ***** -->
                         <ul class="nav">
-                            <li class="scroll-to-section"><a href="{{path('app_acceuil')}}" class="active">Home</a></li>
+                            <li class="scroll-to-section"><a href="{{path('app_front')}}" class="active">Home</a></li>
                             <li class="scroll-to-section"><a href="{{path('app_quizz')}}" class="active">Quizz</a></li>
                             <li class="has-sub">
                                 <a href="javascript:void(0)">Other Quizzes</a>
@@ -339,15 +340,17 @@ $gr-3:linear-gradient(170deg, #C86DD7 0%, #3023AE 100%);
                               </ul>
                           </li>
                            <li><a href="{{path('app_conversation_index')}}"  class="active">Live Chat</a></li>
+                            
+                            <li class="scroll-to-section"><a href="#apply">Apply Now</a></li>
+
+                            
+                            <li class="scroll-to-section"><a href="#contact">Contact Us</a></li>
                             <li>
                           <a href="{{ path('app_notifs') }}">
                           <i class="fas fa-bell"></i> <!-- FontAwesome bell icon -->
                           </a>
                           </li>
-                            <li class="scroll-to-section"><a href="#apply">Apply Now</a></li>
-
-                            
-                            <li class="scroll-to-section"><a href="#contact">Contact Us</a></li>
+                            <li class="scroll-to-section"><a href="#contact"><i class="fa-solid fa-user"></i></a></li>
                         </ul>
                         <a class='menu-trigger'>
                             <span>Menu</span>

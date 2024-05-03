@@ -45,7 +45,7 @@ class UtilisateurController extends AbstractController
     #[Route('/{id}', name: 'app_utilisateur_show', methods: ['GET'])]
     public function show(Utilisateur $utilisateur): Response
     {
-        return $this->render('utilisateur/show.html.twig', [
+        return $this->render('security/show.html.twig', [
             'utilisateur' => $utilisateur,
         ]);
     }
@@ -62,7 +62,7 @@ class UtilisateurController extends AbstractController
             return $this->redirectToRoute('app_utilisateur_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('utilisateur/edit.html.twig', [
+        return $this->renderForm('security/edit-profile.html.twig', [
             'utilisateur' => $utilisateur,
             'form' => $form,
         ]);

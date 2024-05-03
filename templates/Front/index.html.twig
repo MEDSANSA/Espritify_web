@@ -9,13 +9,13 @@
                 <div class="col-12">
                     <nav class="main-nav">
                         <!-- ***** Logo Start ***** -->
-                        <a href="{{path('app_acceuil')}}" class="logo">
+                        <a href="{{path('app_front')}}" class="logo">
                             Espritify
                         </a>
                         <!-- ***** Logo End ***** -->
                         <!-- ***** Menu Start ***** -->
                         <ul class="nav">
-                            <li class="scroll-to-section"><a href="{{path('app_acceuil')}}" class="active">Home</a></li>
+                            <li class="scroll-to-section"><a href="{{path('app_front')}}" class="active">Home</a></li>
                             <li class="scroll-to-section"><a href="{{path('app_quizz')}}" class="active">Quizz</a></li>
                             <li class="has-sub">
                                 <a href="javascript:void(0)">Other Quizzes</a>
@@ -38,6 +38,12 @@
                                   <li><a href="{{path('app_upcoming')}}">MY Interviews</a></li>
                                   <li><a href="{{path('app_myinternships')}}">MY Internships</a></li>
                               </ul>
+                          </li>
+                           <li><a href="{{path('app_conversation_index')}}"  class="active">Live Chat</a></li>
+                            <li>
+                          <a href="{{ path('app_notifs') }}">
+                          <i class="fas fa-bell"></i> <!-- FontAwesome bell icon -->
+                          </a>
                           </li>
                             <li class="scroll-to-section"><a href="#apply">Apply Now</a></li>
 

@@ -31,13 +31,13 @@ use Doctrine\ORM\EntityManagerInterface;
 class AccueilController extends AbstractController
 {
     #[Route('/front', name: 'app_front')]
-    public function indexe(Request $request, EntityManagerInterface $entityManager,UtilisateurRepository $UtilisateurRepository): Response
+    public function indexe(Request $request, EntityManagerInterface $entityManager, UtilisateurRepository $UtilisateurRepository): Response
     {
         $currentDate = new \DateTime();
         $user = $UtilisateurRepository->findOneBy(['id' => 58]);
         $reclamation = new Reclamation();
-        $reclamation->setEtat("non traité"); 
-        $reclamation->setIdUser($user);    
+        $reclamation->setEtat("non traité");
+        $reclamation->setIdUser($user);
         $reclamation->setDate($currentDate);
         $form = $this->createForm(ReclamationType::class, $reclamation);
         $form->handleRequest($request);
@@ -47,7 +47,6 @@ class AccueilController extends AbstractController
             $entityManager->flush();
             pnotify()->addSuccess('Your complaint has been addded successfully !.');
             return $this->redirectToRoute('app_front', [], Response::HTTP_SEE_OTHER);
-            
         }
 
         return $this->renderForm('basefront.html.twig', [
@@ -55,7 +54,7 @@ class AccueilController extends AbstractController
             'form' => $form,
         ]);
     }
-    #[Route('/acceuil', name: 'app_acceuil')]
+    #[Route('/acceuil', name: 'app_app')]
     public function acceuil(): Response
     {
         return $this->render('Front/index.html.twig', [
@@ -218,13 +217,13 @@ class AccueilController extends AbstractController
     }
 
     #[Route('/accueil', name: 'app_accueil')]
-    public function index(Request $request, EntityManagerInterface $entityManager,UtilisateurRepository $UtilisateurRepository,): Response
-    {        
+    public function index(Request $request, EntityManagerInterface $entityManager, UtilisateurRepository $UtilisateurRepository,): Response
+    {
         $currentDate = new \DateTime();
         $user = $UtilisateurRepository->findOneBy(['id' => 58]);
         $reclamation = new Reclamation();
-        $reclamation->setEtat("non traité"); 
-        $reclamation->setIdUser($user);    
+        $reclamation->setEtat("non traité");
+        $reclamation->setIdUser($user);
         $reclamation->setDate($currentDate);
         $form = $this->createForm(ReclamationType::class, $reclamation);
         $form->handleRequest($request);
@@ -234,7 +233,6 @@ class AccueilController extends AbstractController
             $entityManager->flush();
             pnotify()->addSuccess('Your complaint has been addded successfully !.');
             return $this->redirectToRoute('app_accueil', [], Response::HTTP_SEE_OTHER);
-            
         }
 
         return $this->renderForm('base.html.twig', [
@@ -262,36 +260,34 @@ class AccueilController extends AbstractController
     {
         return $this->render("accueil/test.html.twig", ['list' => $utilisateurRepository->findAll()]);
     }
-// aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    // aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 
 
 
     #[Route('/accueil/notifications', name: 'app_notifs')]
-    public function notification(Request $request, EntityManagerInterface $entityManager,UtilisateurRepository $UtilisateurRepository,ReclamationRepository $reclamationRepository,ReponseRecRepository $ReponseRecRepository): Response
+    public function notification(Request $request, EntityManagerInterface $entityManager, UtilisateurRepository $UtilisateurRepository, ReclamationRepository $reclamationRepository, ReponseRecRepository $ReponseRecRepository): Response
     {
 
         $reclamationstraité = $reclamationRepository->findReclamationsByUserAndEtat(56);
-        $reclamationsnontraité= $reclamationRepository->findReclamationsByUserAndEtatNonTraite(56);
-        foreach ($reclamationstraité as $rec)
-         {
-            $reponse=$ReponseRecRepository->findReponseById_Rec($rec->getId());
-            $message='Status : Treated
+        $reclamationsnontraité = $reclamationRepository->findReclamationsByUserAndEtatNonTraite(56);
+        foreach ($reclamationstraité as $rec) {
+            $reponse = $ReponseRecRepository->findReponseById_Rec($rec->getId());
+            $message = 'Status : Treated
             Response :
-            '. $reponse->getDescription();
-            pnotify()->addSuccess($message,$rec->getTitre());
+            ' . $reponse->getDescription();
+            pnotify()->addSuccess($message, $rec->getTitre());
         }
-        foreach ($reclamationsnontraité as $rec)
-         {
-            $title= $rec->getTitre();
+        foreach ($reclamationsnontraité as $rec) {
+            $title = $rec->getTitre();
             $message = ' Status : Pending ... 
-            We will reply as soon as possible ' ;
-            pnotify()->addWarning($message,$title);
+            We will reply as soon as possible ';
+            pnotify()->addWarning($message, $title);
         }
         $currentDate = new \DateTime();
         $user = $UtilisateurRepository->findOneBy(['id' => 56]);
         $reclamation = new Reclamation();
-        $reclamation->setEtat("non traité"); 
-        $reclamation->setIdUser($user);    
+        $reclamation->setEtat("non traité");
+        $reclamation->setIdUser($user);
         $reclamation->setDate($currentDate);
         $form = $this->createForm(ReclamationType::class, $reclamation);
         $form->handleRequest($request);
@@ -301,7 +297,6 @@ class AccueilController extends AbstractController
             $entityManager->flush();
             pnotify()->addSuccess('Your complaint has been addded successfully !.');
             return $this->redirectToRoute('app_front', [], Response::HTTP_SEE_OTHER);
-            
         }
         return $this->renderForm('basefront.html.twig', [
             'controller_name' => 'AccueilController',

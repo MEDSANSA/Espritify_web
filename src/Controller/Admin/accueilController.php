@@ -265,7 +265,7 @@ class accueilController extends AbstractController
     {
         // Récupérer les entretiens depuis le repository
         $entretiens = $entretienRepository->findAll();
-
+        //dd($entretiens);
         // Trier les entretiens par description
         usort($entretiens, function ($a, $b) {
             return $a->getDescription() <=> $b->getDescription();
@@ -284,7 +284,7 @@ class accueilController extends AbstractController
     #[Route('/admin/editInterview/{idUser}/{idOffre}', name: 'app_admin_edit_interview')]
     public function edit_interview($idUser,$idOffre,ManagerRegistry $manager, Request $req, EntretienRepository $entretienRepository): Response
     {  
-       
+       //dd($idUser);
         $em= $manager->getManager(); //Doctrine manager
         $entretien = $entretienRepository->findByUserIdAndOffreId($idUser,$idOffre); 
         $form= $this->createForm(EntretienType::class,$entretien );
