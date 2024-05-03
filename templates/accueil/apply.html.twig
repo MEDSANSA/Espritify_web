@@ -1,0 +1,158 @@
+{% extends 'basefront.html.twig' %}
+
+{% block title %}Apply{% endblock %}
+ {% block header %} 
+    <header class="header-area header-sticky">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <nav class="main-nav">
+                        <!-- ***** Logo Start ***** -->
+                        <a href="{{path('app_front')}}" class="logo">
+                            Espritify
+                        </a>
+                        <!-- ***** Logo End ***** -->
+                        <!-- ***** Menu Start ***** -->
+                        <ul class="nav">
+                            <li class="scroll-to-section"><a href="{{path('app_front')}}" class="active">Home</a></li>
+                            <li class="scroll-to-section"><a href="{{path('app_quizz')}}" class="active">Quizz</a></li>
+                            <li class="has-sub">
+                                <a href="javascript:void(0)">Other Quizzes</a>
+                                <ul class="sub-menu">
+                                    <li><a class="dropdown-item" href="{{ path('app_other_quizzes', {'category': 9}) }}">General Knowledge</a></li>
+                                    <li><a class="dropdown-item" href="{{ path('app_other_quizzes', {'category': 10}) }}">Books</a></li>
+                                    <li><a class="dropdown-item" href="{{ path('app_other_quizzes', {'category': 21}) }}">Sport</a></li>
+                                    <li><a class="dropdown-item" href="{{ path('app_other_quizzes', {'category': 25}) }}">Art</a></li>
+                                    <li><a class="dropdown-item" href="{{ path('app_other_quizzes', {'category': 30}) }}">Science:Gadgets</a></li>
+                                    <li><a class="dropdown-item" href="{{ path('app_other_quizzes', {'category': 18}) }}">Science:Computers</a></li>
+                                    <li><a class="dropdown-item" href="{{ path('app_other_quizzes', {'category': 32}) }}">Cartoon</a></li>
+                                </ul>
+                            </li>
+                            <li class="scroll-to-section"><a href="{{path('app_cours')}}">Courses</a></li>
+                                   <li class="scroll-to-section"><a  data-toggle="modal" data-target="#myModal">Voice Assistant</a></li>
+                                   <li class="has-sub">
+                              <a href="javascript:void(0)" href="#top" class="active">Internships</a>
+                              <ul class="sub-menu">
+                                  <li><a  href="{{path('app_internships')}}">Available Internships</a></li>
+                                  <li><a href="{{path('app_upcoming')}}">MY Interviews</a></li>
+                                  <li><a href="{{path('app_myinternships')}}">MY Internships</a></li>
+                              </ul>
+                          </li>
+                           <li><a href="{{path('app_conversation_index')}}"  class="active">Live Chat</a></li>
+                            <li>
+                          <a href="{{ path('app_notifs') }}">
+                          <i class="fas fa-bell"></i> <!-- FontAwesome bell icon -->
+                          </a>
+                          </li>
+                            <li class="scroll-to-section"><a href="#apply">Apply Now</a></li>
+
+                            
+                            <li class="scroll-to-section"><a href="#contact">Contact Us</a></li>
+                        </ul>
+                        <a class='menu-trigger'>
+                            <span>Menu</span>
+                        </a>
+                        <!-- ***** Menu End ***** -->
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+  
+    {% endblock %}
+{% block banner %}
+{% endblock %}
+
+{% block body %}
+<section class="heading-page header-text" id="top">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <h6>Apply Now!</h6>
+          <h2>{{offreStage.titre}}</h2>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<section class="contact-us" id="contact">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-9 align-self-center">
+          <div class="row">
+            <div class="col-lg-12">
+              <form id="contact" action="{{path('app_apply', {'id': offreStage.id})}}" method="post" enctype="multipart/form-data" novalidate>
+                <div class="row">
+                  <div class="col-lg-12">
+                      <h2>{{ offreStage.titre }}</h2>
+                  </div>
+                <div class="col-lg-6">
+                  <fieldset>
+                      <label for="dossier_stage_cv">Choose a CV</label>
+                      <input name="dossier_stage[cv]" type="file" id="dossier_stage_cv" required=""/>
+                  </fieldset>
+                </div>
+                <div class="col-lg-6">
+                    <fieldset>
+                        <label for="dossier_stage_convention">Choose an Internship convention</label>
+                        <input name="dossier_stage[convention]" type="file" id="dossier_stage_convention" required=""/>
+                    </fieldset>
+                </div>
+                <div class="col-lg-6">
+                    <fieldset>
+                        <label for="dossier_stage_copie_cin">Choose an ID CARD COPY</label>
+                        <input name="dossier_stage[copie_cin]" type="file" id="dossier_stage_copie_cin" required=""/>
+                    </fieldset>
+                </div>
+                <div class="col-lg-12">
+                    <fieldset>
+                        <button type="submit" id="form-submit" class="button">Apply</button>
+                    </fieldset>
+                </div>
+                </div>
+                <br></br>
+                {% if form_errors(form.cv) %}
+                <div class="alert alert-danger">
+                    {{ form_errors(form.cv) }}
+                </div>
+            {% endif %}
+            {% if form_errors(form.convention) %}
+                <div class="alert alert-danger">
+                    {{ form_errors(form.convention) }}
+                </div>
+            {% endif %}
+            {% if form_errors(form.copie_cin) %}
+                <div class="alert alert-danger">
+                    {{ form_errors(form.copie_cin) }}
+                </div>
+            {% endif %}
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <div class="right-info">
+            <ul>
+              <li>
+                <h6>Phone Number</h6>
+                <span>010-020-0340</span>
+              </li>
+              <li>
+                <h6>Email Address</h6>
+                <span>info@meeting.edu</span>
+              </li>
+              <li>
+                <h6>Street Address</h6>
+                <span>Rio de Janeiro - RJ, 22795-008, Brazil</span>
+              </li>
+              <li>
+                <h6>Website URL</h6>
+                <span>www.meeting.edu</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+{% endblock %}

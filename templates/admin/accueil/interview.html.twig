@@ -1,0 +1,293 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}
+<title>
+    Internships
+</title>
+{% endblock %}
+{% block body %}
+
+<body class="g-sidenav-show  bg-gray-100">
+
+    <!-- End Navbar -->
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-header pb-0">
+                        <h6>Internship Offers Available</h6> <button data-toggle="modal"
+                            data-target="#myModal">Add</button>
+                    </div>
+                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+                        aria-labelledby="myModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="MyModalTitle">Add Interview</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="contact" action="{{ path('app_admin_add_entretien') }}" method="post"
+                                        enctype="multipart/form-data" novalidate>
+                                        {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+
+                                        <!-- Render all form errors -->
+                                        {% if form_errors(form) %}
+                                        <div class="alert alert-danger">
+                                            {{ form_errors(form) }}
+                                        </div>
+                                        {% endif %}
+
+                                        <div class="mb-3">
+                                            {{ form_label(form.type, 'Type') }}
+                                            {{ form_widget(form.type, {'attr': {'class': 'form-control'}}) }}
+
+                                        </div>
+
+                                        <div class="mb-3">
+                                            {{ form_label(form.description, 'Description') }}
+                                            {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+
+                                        </div>
+
+                                        <div class="mb-3">
+                                            {{ form_label(form.date, 'Date') }}
+                                            {{ form_widget(form.date, {'attr': {'class': 'form-control'}}) }}
+
+                                        </div>
+
+                                        <div class="mb-3">
+                                            {{ form_label(form.lieu, 'Place') }}
+                                            {{ form_widget(form.lieu, {'attr': {'class': 'form-control'}}) }}
+
+                                        </div>
+
+                                        <div class="mb-3">
+                                            {{ form_label(form.etat, 'State') }}
+                                            {{ form_widget(form.etat, {'attr': {'class': 'form-control'}}) }}
+
+                                        </div>
+
+                                        <div class="mb-3">
+                                            {{ form_label(form.id_user, 'User', {'label_attr': {'class': 'form-label'}})
+                                            }}
+                                            {{ form_widget(form.id_user, {'attr': {'class': 'form-select'}}) }}
+                                        </div>
+
+                                        <div class="mb-3">
+                                            {{ form_label(form.id_stage, 'Offre stage', {'label_attr': {'class':
+                                            'form-label'}}) }}
+                                            {{ form_widget(form.id_stage, {'attr': {'class': 'form-select'}}) }}
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            {{ form_end(form) }}
+                                        </div>
+                                    </form>
+
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body px-0 pt-0 pb-2">
+                        <div class="table-responsive p-0">
+                            <table class="table align-items-center mb-0">
+                                <thead>
+                                    <tr>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Student</th>
+                                        <th
+                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Internship Company</th>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            Description</th>
+                                        <th
+                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Date</th>
+                                        <th
+                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Place</th>
+                                        <th
+                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            State</th>
+                                        <th class="text-secondary opacity-7">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    {% for i in entretien %}
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex px-2 py-1">
+                                                <div>
+                                                    <img src="{{ asset('assets/back//img/team-2.jpg')}}"
+                                                        class="avatar avatar-sm me-3" alt="user1">
+                                                </div>
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <h6 class="mb-0 text-sm">{{i.idUser.nom}} {{i.idUser.prenom}}</h6>
+                                                    <p class="text-xs text-secondary mb-0">{{i.idUser.email}}</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0">{{i.idStage.titre}}</p>
+                                            <p class="text-xs text-secondary mb-0">{{i.idStage.descSoc}}</p>
+                                        </td>
+                                        <td class="align-middle text-center text-sm">
+                                            <span class="badge badge-sm bg-gradient-success">{{i.description}}</span>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <span class="text-secondary text-xs font-weight-bold">{{
+                                                i.date|date('Y-m-d') }}</span>
+
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <span class="text-secondary text-xs font-weight-bold"> {{i.lieu}} </span>
+                                        </td>
+                                        <td class="align-middle text-center text-sm">
+                                            <span class="badge badge-sm bg-gradient-success">{{i.etat}}</span>
+                                        </td>
+                                        <td class="align-middle">
+                                            <a class="btn bg-gradient-primary " type="button"
+                                                href="{{ path('app_admin_edit_interview', {'idUser': i.idUser.id , 'idOffre': i.idStage.id}) }}">
+                                                Edit
+                                            </a>
+                                            <a class="btn bg-gradient-secondary delete-btn" type="button"
+                                                data-toggle="modal"
+                                                href="{{ path('app_admin_delete_entretien', {'idUser': i.idUser.id , 'idOffre': i.idStage.id}) }}">
+                                                delete
+                                            </a>
+                                        </td>
+                                    </tr>
+
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="myModal{{ i.idUser }}" tabindex="-1" role="dialog"
+                                        aria-labelledby="myModalCenterTitle" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="MyModalTitle">Edit Internship Offer</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form role="form"
+                                                        action="{{ path('app_admin_edit_interview', {'idUser': i.idUser , 'idOffre': i.idStage}) }}"
+                                                        method="post" enctype="multipart/form-data">
+                                                        <label for="entretien_type">Type</label>
+                                                        <div class="mb-3">
+                                                            <input name="entretien[type]" type="text"
+                                                                class="form-control" value="{{ i.type }}"
+                                                                aria-label="type" aria-describedby="type">
+                                                        </div>
+                                                        <label for="entretien_description">Interview Description</label>
+                                                        <div class="mb-3">
+                                                            <input name="entretien[description]" type="text"
+                                                                class="form-control" value="{{ i.description }}"
+                                                                aria-label="description" aria-describedby="description">
+                                                        </div>
+                                                        <label>Date</label>
+                                                        <div class="mb-3">
+                                                            <input name="entretien[date]" type="text"
+                                                                class="class='input-group date'"
+                                                                value="{{ i.date|date('Y-m-d') }}" aria-label="date"
+                                                                aria-describedby="date">
+                                                        </div>
+
+                                                        <label>Place</label>
+                                                        <div class="mb-3">
+                                                            <input name="entretien[lieu]" type="text"
+                                                                class="form-control" value="{{ i.lieu }}"
+                                                                aria-label="lieu" aria-describedby="lieu">
+                                                        </div>
+                                                        <label>State of the Interview</label>
+                                                        <div class="mb-3">
+                                                            <input name="entretien[etat]" type="text"
+                                                                class="form-control" value="{{ i.etat }}"
+                                                                aria-label="etat" aria-describedby="etat">
+                                                        </div>
+
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-dismiss="modal">Close</button>
+                                                            <button type="submit" class="btn bg-gradient-primary">Save
+                                                                changes</button>
+                                                        </div>
+                                                    </form>
+
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    {% endfor %}
+                                    <script>
+                                        document.addEventListener('click', function (event) {
+                                            // Check if the clicked element has the delete-btn class
+                                            if (event.target.classList.contains('delete-btn')) {
+                                                // Prevent the default link behavior
+                                                event.preventDefault();
+
+                                                // Ask for confirmation
+                                                if (confirm('Are you sure you want to delete this item?')) {
+                                                    // Redirect to the delete route
+                                                    window.location.href = event.target.getAttribute('href');
+                                                }
+                                            }
+                                        });
+                                    </script>
+                                    <script>
+                                        document.addEventListener('click', function (event) {
+                                            // Check if the clicked element has the delete-btn class
+                                            if (event.target.classList.contains('update-btn')) {
+                                                // Prevent the default link behavior
+                                                event.preventDefault();
+
+                                                // Ask for confirmation
+                                                if (confirm('Are you sure you want to update this item?')) {
+                                                    // Redirect to the delete route
+                                                    window.location.href = event.target.getAttribute('href');
+                                                }
+                                            }
+                                        });
+                                    </script>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+    <script>
+        // Prevent modal closure if there are form errors
+        $('#myModal').on('hide.bs.modal', function (event) {
+            if ($('#contact').find('.form_errors').length) {
+                event.preventDefault();
+            }
+        });
+    </script>
+
+
+    </div>
+    </main>
+
+</body>
+{% endblock %}

@@ -7,15 +7,19 @@
         "php": ">=7.2.5",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "consoletvs/profanity": "*",
         "doctrine/annotations": "^2.0",
         "doctrine/doctrine-bundle": "^2.11",
         "doctrine/doctrine-migrations-bundle": "^3.3",
         "doctrine/orm": "^2.19",
         "eightpoints/guzzle-bundle": "^8.5",
-        "guzzlehttp/guzzle": "^7.8",
+        "guzzlehttp/guzzle": "*",
         "knplabs/knp-paginator-bundle": "^5.9",
         "laracasts/flash": "^3.2",
         "liip/imagine-bundle": "^2.12",
+        "markrogoyski/math-php": "*",
+        "php-flasher/flasher-pnotify-laravel": "*",
+        "php-flasher/flasher-pnotify-symfony": "*",
         "phpdocumentor/reflection-docblock": "^5.3",
         "phpstan/phpdoc-parser": "^1.26",
         "sensio/framework-extra-bundle": "^6.2",
@@ -45,8 +49,10 @@
         "symfony/validator": "5.4.*",
         "symfony/web-link": "5.4.*",
         "symfony/yaml": "5.4.*",
+        "symfonycasts/verify-email-bundle": "^1.15",
         "twig/extra-bundle": "^2.12|^3.0",
-        "twig/twig": "^2.12|^3.0"
+        "twig/twig": "^2.12|^3.0",
+        "twilio/sdk": "^8.0"
     },
     "config": {
         "allow-plugins": {

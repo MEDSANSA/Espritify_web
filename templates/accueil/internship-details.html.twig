@@ -1,0 +1,132 @@
+{% extends 'basefront.html.twig' %}
+
+{% block title %}Internship details{% endblock %}
+ {% block header %} 
+    <header class="header-area header-sticky">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <nav class="main-nav">
+                        <!-- ***** Logo Start ***** -->
+                        <a href="{{path('app_front')}}" class="logo">
+                            Espritify
+                        </a>
+                        <!-- ***** Logo End ***** -->
+                        <!-- ***** Menu Start ***** -->
+                        <ul class="nav">
+                            <li class="scroll-to-section"><a href="{{path('app_front')}}" class="active">Home</a></li>
+                            <li class="scroll-to-section"><a href="{{path('app_quizz')}}" class="active">Quizz</a></li>
+                            <li class="has-sub">
+                                <a href="javascript:void(0)">Other Quizzes</a>
+                                <ul class="sub-menu">
+                                    <li><a class="dropdown-item" href="{{ path('app_other_quizzes', {'category': 9}) }}">General Knowledge</a></li>
+                                    <li><a class="dropdown-item" href="{{ path('app_other_quizzes', {'category': 10}) }}">Books</a></li>
+                                    <li><a class="dropdown-item" href="{{ path('app_other_quizzes', {'category': 21}) }}">Sport</a></li>
+                                    <li><a class="dropdown-item" href="{{ path('app_other_quizzes', {'category': 25}) }}">Art</a></li>
+                                    <li><a class="dropdown-item" href="{{ path('app_other_quizzes', {'category': 30}) }}">Science:Gadgets</a></li>
+                                    <li><a class="dropdown-item" href="{{ path('app_other_quizzes', {'category': 18}) }}">Science:Computers</a></li>
+                                    <li><a class="dropdown-item" href="{{ path('app_other_quizzes', {'category': 32}) }}">Cartoon</a></li>
+                                </ul>
+                            </li>
+                            <li class="scroll-to-section"><a href="{{path('app_cours')}}">Courses</a></li>
+                                   <li class="scroll-to-section"><a  data-toggle="modal" data-target="#myModal">Voice Assistant</a></li>
+                                   <li class="has-sub">
+                              <a href="javascript:void(0)" href="#top" class="active">Internships</a>
+                              <ul class="sub-menu">
+                                  <li><a  href="{{path('app_internships')}}">Available Internships</a></li>
+                                  <li><a href="{{path('app_upcoming')}}">MY Interviews</a></li>
+                                  <li><a href="{{path('app_myinternships')}}">MY Internships</a></li>
+                              </ul>
+                          </li>
+                           <li><a href="{{path('app_conversation_index')}}"  class="active">Live Chat</a></li>
+                            <li>
+                          <a href="{{ path('app_notifs') }}">
+                          <i class="fas fa-bell"></i> <!-- FontAwesome bell icon -->
+                          </a>
+                          </li>
+                            <li class="scroll-to-section"><a href="#apply">Apply Now</a></li>
+
+                            
+                            <li class="scroll-to-section"><a href="#contact">Contact Us</a></li>
+                        </ul>
+                        <a class='menu-trigger'>
+                            <span>Menu</span>
+                        </a>
+                        <!-- ***** Menu End ***** -->
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+    {% endblock %}
+{% block banner %}
+{% endblock %}
+
+{% block body %}
+
+ <section class="heading-page header-text" id="top">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <h6>Get all details</h6>
+          <h2>{{offreStage.titre}}</h2>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="meetings-page" id="meetings">
+    <div class="container">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="meeting-single-item">
+                <div class="down-content">
+                  <a href=""><h4>{{offreStage.titre}}</h4></a>
+                 
+                  <p class="description">
+                    {{offreStage.description}}
+                   </p>
+                  <div class="row">
+                    <div class="col-lg-4">
+                      <div class="hours">
+                        <h5>Skills needed</h5>
+                        <p>{{offreStage.competance}}</p>
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="location">
+                        <h5>Location</h5>
+                        <p>{{offreStage.type}}</p>
+                       
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="book now">
+                        <h5>Company name</h5>
+                        <p>{{offreStage.nomSoc}}</p>
+                      </div>
+                    </div>
+                    <div class="col-lg-12">
+                      <div class="share">
+                        <h5>Description of the company:</h5>
+                       <p>{{offreStage.descSoc}}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-12">
+              <div class="main-button-red">
+                <a href="{{path('app_apply', {'id': offreStage.id})}}">Apply now</a>
+              </div>
+            </div>
+          </div>
+      </div>
+    
+  </section>
+{% endblock %}
+
+  
+
+    

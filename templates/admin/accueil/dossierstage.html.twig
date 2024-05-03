@@ -1,0 +1,384 @@
+{% extends 'base.html.twig' %}
+
+
+ {% block title %}
+  <title>
+    Internships
+  </title>
+  {% endblock %}
+  {% block body %}
+
+<body class="g-sidenav-show  bg-gray-100">
+
+<div class="container-fluid py-4">
+      <div class="row">
+        <div class="col-12">
+          <div class="card mb-4">
+           <div class="card-header pb-0">
+    <div class="row">
+        <div class="col-md-6">
+            <h6>Internship Offers Available</h6>
+        </div>
+        <div class="col-md-6">
+            <div class="d-flex justify-content-end align-items-center">
+                <select class="form-select form-select-sm me-2" id="filterSelect" aria-label="Default select example" style="width: 200px;">
+                    <option selected disabled>Filter by Internship offers</option>
+                    {% for offre in offreStage %}
+                    <option value="{{ offre.id }}">{{ offre.titre }}</option>
+                    {% endfor %}
+                </select>
+                <button class="btn bg-gradient-primary" data-toggle="modal" data-target="#myModal">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalCenterTitle" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="MyModalTitle">Add Internship Offer</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                           <form method="post"  action="{{ path('app_admin_add_dossier') }}" enctype="multipart/form-data" novalidate>
+                             {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+
+                              <div class="mb-3">
+                                  {{ form_label(form.cv, 'Student CV', {'label_attr': {'class': 'form-label'}}) }}
+                                  {{ form_widget(form.cv, {'attr': {'class': 'form-control'}}) }}
+                              </div>
+
+                              <div class="mb-3">
+                                  {{ form_label(form.convention, 'Internship folder Convention', {'label_attr': {'class': 'form-label'}}) }}
+                                  {{ form_widget(form.convention, {'attr': {'class': 'form-control'}}) }}
+                              </div>
+
+                              <div class="mb-3">
+                                  {{ form_label(form.copie_cin, 'ID Card Copy', {'label_attr': {'class': 'form-label'}}) }}
+                                  {{ form_widget(form.copie_cin, {'attr': {'class': 'form-control'}}) }}
+                              </div>
+
+                              <div class="mb-3">
+                                  {{ form_label(form.id_user, 'User', {'label_attr': {'class': 'form-label'}}) }}
+                                  {{ form_widget(form.id_user, {'attr': {'class': 'form-select'}}) }}
+                              </div>
+
+                              <div class="mb-3">
+                                  {{ form_label(form.id_offre, 'Offre stage', {'label_attr': {'class': 'form-label'}}) }}
+                                  {{ form_widget(form.id_offre, {'attr': {'class': 'form-select'}}) }}
+                              </div>
+
+                             
+
+                              {{ form_end(form) }}
+                          </form>
+
+                           
+                        </form>
+
+                          </div>
+                          
+                        </div>
+                      </div>
+                    </div>
+
+            <div class="card-body px-0 pt-0 pb-2">
+              <div class="table-responsive p-0">
+                <table class="table align-items-center mb-0">
+                  <thead>
+                    <tr>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Student</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Internship company</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">CV</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Convention</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID card Copy</th>
+
+                      <th class="text-secondary opacity-7">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="stageTableBody">
+                   
+                    {% for i in dossierStage %}
+                    <tr>
+                      <td>
+                        <div class="d-flex px-2 py-1">
+                          <div>
+                            <img src="{{ asset('assets/back//img/team-2.jpg')}}" class="avatar avatar-sm me-3" alt="user1">
+                          </div>
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">{{i.idUser.nom}}  {{i.idUser.prenom}}</h6>
+                            <p class="text-xs text-secondary mb-0">{{i.idUser.email}}</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <p class="text-xs font-weight-bold mb-0">{{i.idOffre.titre}}</p>
+                        <p class="text-xs text-secondary mb-0">{{i.idOffre.descSoc}}</p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <span class="text-secondary text-xs font-weight-bold">
+                          <img src="{{ asset('uploads/' ~ i.cv) }}" alt="CV Image" style="max-width: 200px; max-height: 200px;">
+                          
+                      </span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">
+                            <img src="{{ asset('uploads/' ~ i.convention) }}" alt="Convention Image" style="max-width: 200px; max-height: 200px;">
+                            
+                        </span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold"> 
+                            <img src="{{ asset('uploads/' ~ i.copieCin) }}" alt="ID Card Image" style="max-width: 200px; max-height: 200px;">
+
+                        </span>
+                      </td>
+                      <td class="align-middle">
+                        <a class="btn bg-gradient-primary " type="button"  data-target="#myModal{{ i.idUser }}" href="{{ path('app_admin_edit_dossier', {'idUser': i.idUser , 'idOffre': i.idOffre}) }}" >
+                            Edit
+                        </a>
+                        <a class="btn bg-gradient-secondary delete-btn" type="button"  data-toggle="modal" href="{{ path('app_admin_delete_dossier', {'idUser': i.idUser , 'idOffre': i.idOffre}) }}" >
+                            delete
+                        </a>
+                      </td>
+                    </tr>
+                    
+
+                
+    
+                    {% endfor %}
+
+                  <script>
+                    document.getElementById('filterSelect').addEventListener('change', function() {
+                      var selectedOfferId = this.value;
+                      var tableBody = document.getElementById('stageTableBody');
+
+                      // Clear existing table rows
+                      tableBody.innerHTML = '';
+
+                      // Send AJAX request to fetch dossier de stage records for the selected offer
+                      fetch('/admin/getDossierByOffreId/' + selectedOfferId)
+                        .then(response => response.json())
+                        .then(data => {
+                          if (data.length === 0) {
+                                  // If no data, create a single row with message
+                                  var noDataRow = document.createElement('tr');
+                                  var noDataCell = document.createElement('td');
+                                  noDataCell.textContent = "No records found";
+                                  noDataCell.style.textAlign = "center";
+                                  noDataCell.colSpan = 6; // Span across all columns
+                                  noDataRow.appendChild(noDataCell);
+                                  tableBody.appendChild(noDataRow);
+                              } else {
+                          // Add new table rows based on fetched data
+                          data.forEach(dossier => {
+                            console.log(dossier)
+                            var row = document.createElement('tr');
+                            // Create table cells and populate them with dossier data
+                            var nomCell = document.createElement('td');
+                            nomCell.textContent = dossier.nom;
+                            var userCell = document.createElement('td');
+                                  userCell.innerHTML = `
+                                      <div class="d-flex px-2 py-1">
+                                          <div>
+                                              <img src="{{ asset('assets/back//img/team-2.jpg')}}" class="avatar avatar-sm me-3" alt="user1">
+                                          </div>
+                                          <div class="d-flex flex-column justify-content-center">
+                                              <h6 class="mb-0 text-sm">${dossier.nom} ${dossier.prenom}</h6>
+                                              <p class="text-xs text-secondary mb-0">${dossier.email}</p>
+                                          </div>
+                                      </div>
+                                  `;
+                                  row.appendChild(userCell);
+
+                                  var offreCell = document.createElement('td');
+                                  offreCell.innerHTML = `
+                                      <p class="text-xs font-weight-bold mb-0">${dossier.titre}</p>
+                                      <p class="text-xs text-secondary mb-0">${dossier.descriptionSoc}</p>
+                                  `;
+                                  row.appendChild(offreCell);
+                                  //CV 
+                                  var cvCell = document.createElement('td');
+                                  var cvSrc = "{{ asset('uploads/') }}" + dossier.cv;
+
+                                  var cvImage = document.createElement('img');
+                                  cvImage.src = cvSrc;
+                                  cvImage.alt = "CV Image";
+                                  cvImage.style.maxWidth = "200px";
+                                  cvImage.style.maxHeight = "200px";
+
+                                  var cvSpan = document.createElement('span');
+                                  cvSpan.className = "text-secondary text-xs font-weight-bold";
+                                  cvSpan.appendChild(cvImage);
+
+                                  cvCell.appendChild(cvSpan);
+                                  row.appendChild(cvCell);
+                                
+                                // convention
+                                var conventionSrc = "{{ asset('uploads/') }}" + dossier.convention;
+
+                                var conventionImage = document.createElement('img');
+                                conventionImage.src = conventionSrc;
+                                conventionImage.alt = "Convention Image";
+                                conventionImage.style.maxWidth = "200px";
+                                conventionImage.style.maxHeight = "200px";
+
+                                var conventionSpan = document.createElement('span');
+                                conventionSpan.className = "text-secondary text-xs font-weight-bold";
+                                conventionSpan.appendChild(conventionImage);
+
+                                var conventionCell = document.createElement('td');
+                                conventionCell.appendChild(conventionSpan);
+                                row.appendChild(conventionCell);
+                                // CIN 
+                                var cinSrc = "{{ asset('uploads/') }}" + dossier.cin;
+
+                                var cinImage = document.createElement('img');
+                                cinImage.src = cinSrc;
+                                cinImage.alt = "ID Card Image";
+                                cinImage.style.maxWidth = "200px";
+                                cinImage.style.maxHeight = "200px";
+
+                                var cinSpan = document.createElement('span');
+                                cinSpan.className = "text-secondary text-xs font-weight-bold";
+                                cinSpan.appendChild(cinImage);
+
+                                var cinCell = document.createElement('td');
+                                cinCell.appendChild(cinSpan);
+                                row.appendChild(cinCell);
+
+                        
+                            // Append the row to the table body
+                            tableBody.appendChild(row);
+                          });
+                              }
+                        })
+                        .catch(error => {
+                          console.error('Error:', error);
+                        });
+                    });
+                  </script>
+                    <script>
+                        document.addEventListener('click', function (event) {
+                            // Check if the clicked element has the delete-btn class
+                            if (event.target.classList.contains('delete-btn')) {
+                                // Prevent the default link behavior
+                                event.preventDefault();
+
+                                // Ask for confirmation
+                                if (confirm('Are you sure you want to delete this item?')) {
+                                    // Redirect to the delete route
+                                    window.location.href = event.target.getAttribute('href');
+                                }
+                            }
+                        });
+                    </script>
+                    <script>
+                        document.addEventListener('click', function (event) {
+                            // Check if the clicked element has the delete-btn class
+                            if (event.target.classList.contains('update-btn')) {
+                                // Prevent the default link behavior
+                                event.preventDefault();
+
+                                // Ask for confirmation
+                                if (confirm('Are you sure you want to update this item?')) {
+                                    // Redirect to the delete route
+                                    window.location.href = event.target.getAttribute('href');
+                                }
+                            }
+                        });
+                    </script>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div><!-- Include necessary JavaScript libraries and initialize the modal -->
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
+
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script>
+       $('#myModal').on('shown.bs.modal', function () {
+  $('#myInput').trigger('focus')
+})
+    </script>
+   
+        
+    <!-- Modal -->
+    <!-- Button trigger modal -->
+
+    </div>
+  </main>
+  <div class="fixed-plugin">
+    <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
+      <i class="fa fa-cog py-2"> </i>
+    </a>
+    <div class="card shadow-lg ">
+      <div class="card-header pb-0 pt-3 ">
+        <div class="float-start">
+          <h5 class="mt-3 mb-0">Soft UI Configurator</h5>
+          <p>See our dashboard options.</p>
+        </div>
+        <div class="float-end mt-4">
+          <button class="btn btn-link text-dark p-0 fixed-plugin-close-button">
+            <i class="fa fa-close"></i>
+          </button>
+        </div>
+        <!-- End Toggle Button -->
+      </div>
+      <hr class="horizontal dark my-1">
+      <div class="card-body pt-sm-3 pt-0">
+        <!-- Sidebar Backgrounds -->
+        <div>
+          <h6 class="mb-0">Sidebar Colors</h6>
+        </div>
+        <a href="javascript:void(0)" class="switch-trigger background-color">
+          <div class="badge-colors my-2 text-start">
+            <span class="badge filter bg-gradient-primary active" data-color="primary" onclick="sidebarColor(this)"></span>
+            <span class="badge filter bg-gradient-dark" data-color="dark" onclick="sidebarColor(this)"></span>
+            <span class="badge filter bg-gradient-info" data-color="info" onclick="sidebarColor(this)"></span>
+            <span class="badge filter bg-gradient-success" data-color="success" onclick="sidebarColor(this)"></span>
+            <span class="badge filter bg-gradient-warning" data-color="warning" onclick="sidebarColor(this)"></span>
+            <span class="badge filter bg-gradient-danger" data-color="danger" onclick="sidebarColor(this)"></span>
+          </div>
+        </a>
+        <!-- Sidenav Type -->
+        <div class="mt-3">
+          <h6 class="mb-0">Sidenav Type</h6>
+          <p class="text-sm">Choose between 2 different sidenav types.</p>
+        </div>
+        <div class="d-flex">
+          <button class="btn bg-gradient-primary w-100 px-3 mb-2 active" data-class="bg-transparent" onclick="sidebarType(this)">Transparent</button>
+          <button class="btn bg-gradient-primary w-100 px-3 mb-2 ms-2" data-class="bg-white" onclick="sidebarType(this)">White</button>
+        </div>
+        <p class="text-sm d-xl-none d-block mt-2">You can change the sidenav type just on desktop view.</p>
+        <!-- Navbar Fixed -->
+        <div class="mt-3">
+          <h6 class="mb-0">Navbar Fixed</h6>
+        </div>
+        <div class="form-check form-switch ps-0">
+          <input class="form-check-input mt-1 ms-auto" type="checkbox" id="navbarFixed" onclick="navbarFixed(this)">
+        </div>
+        <hr class="horizontal dark my-sm-4">
+        <a class="btn bg-gradient-dark w-100" href="https://www.creative-tim.com/product/soft-ui-dashboard">Free Download</a>
+        <a class="btn btn-outline-dark w-100" href="https://www.creative-tim.com/learning-lab/bootstrap/license/soft-ui-dashboard">View documentation</a>
+        <div class="w-100 text-center">
+          <a class="github-button" href="https://github.com/creativetimofficial/soft-ui-dashboard" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star creativetimofficial/soft-ui-dashboard on GitHub">Star</a>
+          <h6 class="mt-3">Thank you for sharing!</h6>
+          <a href="https://twitter.com/intent/tweet?text=Check%20Soft%20UI%20Dashboard%20made%20by%20%40CreativeTim%20%23webdesign%20%23dashboard%20%23bootstrap5&amp;url=https%3A%2F%2Fwww.creative-tim.com%2Fproduct%2Fsoft-ui-dashboard" class="btn btn-dark mb-0 me-2" target="_blank">
+            <i class="fab fa-twitter me-1" aria-hidden="true"></i> Tweet
+          </a>
+          <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.creative-tim.com/product/soft-ui-dashboard" class="btn btn-dark mb-0 me-2" target="_blank">
+            <i class="fab fa-facebook-square me-1" aria-hidden="true"></i> Share
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+</body>
+{% endblock %}

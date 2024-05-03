@@ -1,0 +1,65 @@
+{# {% extends 'base.html.twig' %} #}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+/* <section class="section hero" id="home" style="background-image: url('./assets/images/hero-bg.png'); margin: 0%;" aria-label="hero"> */
+    <div class="container">
+        <div class="form-container">
+            <div class="form-title">Register</div>
+            {{ form_start(userForm, {'attr': {'onsubmit': 'return validateForm()'}}) }}
+            <!-- User Information -->
+            <div class="form-section">
+                <div class="form-field">
+                    {{ form_row(userForm.prenom) }}
+                    {{ form_errors(userForm.prenom) }}
+                </div>
+                <br>
+                <div class="form-field">
+                    {{ form_row(userForm.nom) }}
+                    {{ form_errors(userForm.nom) }}
+                </div>
+                <br>
+                <div class="form-field">
+                    {{ form_row(userForm.email) }}
+                    {{ form_errors(userForm.email) }}
+                </div>
+                <br>
+                <div class="form-field">
+                    {{ form_row(userForm.mdp.first, {'attr': {'class': 'form-control password-input', 'style': 'width: 100%;border-radius: 5px; height: 40px; border: 1px solid #ccc;'}}) }}
+                    {{ form_errors(userForm.mdp.first) }}
+                </div>
+                <br>
+                <div class="form-field">
+                    {{ form_row(userForm.mdp.second, {'attr': {'class': 'form-control password-input', 'style': 'width: 100%;height: 40px; border-radius: 5px; border: 1px solid #ccc;'}}) }}
+                </div>
+                <br>
+                <div class="form-field" style="display: flex; justify-content: center;">
+                    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+                    <div class="g-recaptcha" data-sitekey="6LesK4gpAAAAALosDjeMzwqyYcj_4G76QX0a3HdG"></div>
+                </div>
+            </div>
+            <br>
+            <button type="submit" class="btn">Register</button>
+            {{ form_end(userForm) }}
+
+            <div class="form-title">Already Registered? <u><a href="{{ path('app_login') }}" style="display: inline; color: #216aca;" onmouseover="this.style.color='#03d9ff'" onmouseout="this.style.color='#216aca'">Login Here</a></u></div>
+        </div>
+        <figure class="hero-banner">
+/*             <img src="./assets/images/bg.svg" width="587" height="839" alt="hero banner" class="w-100"> */
+            <center><h2>New Here ?</h2></center>
+        </figure>
+    </div>
+</section>
+
+<script>
+    function validateForm() {
+        var recaptchaResponse = grecaptcha.getResponse();
+        if (recaptchaResponse.length === 0) {
+            alert('Please complete the reCAPTCHA verification.');
+            return false;
+        }
+        return true;
+    }
+</script>
+{% endblock %}

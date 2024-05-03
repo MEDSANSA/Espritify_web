@@ -62,6 +62,12 @@
             "ref": "d1227d002b70d1a1f941d91845fcd7ac7fbfc929"
         }
     },
+    "php-flasher/flasher-pnotify-symfony": {
+        "version": "v1.15.14"
+    },
+    "php-flasher/flasher-symfony": {
+        "version": "v1.15.14"
+    },
     "phpunit/phpunit": {
         "version": "9.6",
         "recipe": {
@@ -290,6 +296,9 @@
             "./config/packages/web_profiler.yaml",
             "./config/routes/web_profiler.yaml"
         ]
+    },
+    "symfonycasts/verify-email-bundle": {
+        "version": "v1.15.0"
     },
     "twig/extra-bundle": {
         "version": "v3.8.0"
