@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Club{% endblock %}
+
+{% block body %}
+    <h1>Club</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ club.id }}</td>
+            </tr>
+            <tr>
+                <th>Intitule</th>
+                <td>{{ club.intitule }}</td>
+            </tr>
+            <tr>
+                <th>Logo</th>
+                <td>{{ club.logo }}</td>
+            </tr>
+            <tr>
+                <th>EmailClub</th>
+                <td>{{ club.emailClub }}</td>
+            </tr>
+            <tr>
+                <th>PageFb</th>
+                <td>{{ club.pageFb }}</td>
+            </tr>
+            <tr>
+                <th>PageInsta</th>
+                <td>{{ club.pageInsta }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_club_index') }}">back to list</a>
+
+    <a href="{{ path('app_club_edit', {'id': club.id}) }}">edit</a>
+
+    {{ include('Admin/club/_delete_form.html.twig') }}
+{% endblock %}

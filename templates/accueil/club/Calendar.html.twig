@@ -1,0 +1,274 @@
+{% extends 'basefront.html.twig' %}
+{% block title %}Calendrier!{% endblock %}
+ {% block header %}
+     <header class="header-area header-sticky">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <nav class="main-nav">
+                        <!-- ***** Logo Start ***** -->
+                        <a href="{{path('app_front')}}" class="logo">
+                            Espritify
+                        </a>
+                        <!-- ***** Logo End ***** -->
+                        <!-- ***** Menu Start ***** -->
+                        <ul class="nav">
+                            <li class="scroll-to-section"><a href="{{path('app_front')}}" class="active">Home</a></li>
+                            <li class="scroll-to-section"><a href="{{path('app_quizz')}}">Quizz</a></li>
+                            <li class="has-sub">
+                                <a href="javascript:void(0)">Other Quizzes</a>
+                                <ul class="sub-menu">
+                                    <li><a class="dropdown-item"
+                                            href="{{ path('app_other_quizzes', {'category': 9}) }}">General
+                                            Knowledge</a></li>
+                                    <li><a class="dropdown-item"
+                                            href="{{ path('app_other_quizzes', {'category': 10}) }}">Books</a></li>
+                                    <li><a class="dropdown-item"
+                                            href="{{ path('app_other_quizzes', {'category': 21}) }}">Sport</a></li>
+                                    <li><a class="dropdown-item"
+                                            href="{{ path('app_other_quizzes', {'category': 25}) }}">Art</a></li>
+                                    <li><a class="dropdown-item"
+                                            href="{{ path('app_other_quizzes', {'category': 30}) }}">Science:Gadgets</a>
+                                    </li>
+                                    <li><a class="dropdown-item"
+                                            href="{{ path('app_other_quizzes', {'category': 18}) }}">Science:Computers</a>
+                                    </li>
+                                    <li><a class="dropdown-item"
+                                            href="{{ path('app_other_quizzes', {'category': 32}) }}">Cartoon</a></li>
+                                </ul>
+                            </li>
+                            <li class="scroll-to-section"><a href="{{path('app_cours')}}">Courses</a></li>
+                            <li class="scroll-to-section"><a data-toggle="modal" data-target="#myModal">Voice
+                                    Assistant</a></li>
+                            <li class="has-sub">
+                                <a href="javascript:void(0)" href="#top">Internships</a>
+                                <ul class="sub-menu">
+                                    <li><a href="{{path('app_internships')}}">Available Internships</a></li>
+                                    <li><a href="{{path('app_upcoming')}}">MY Interviews</a></li>
+                                    <li><a href="{{path('app_myinternships')}}">MY Internships</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="{{path('app_conversation_index')}}">Live Chat</a></li>
+
+                            <li class="has-sub">
+                                <a href="{{path('app_club_details')}}">Clubs</a>
+                                <ul class="sub-menu">
+                                    <li><a href="{{path('calendar')}}">Calendrier des évènements</a></li>
+                                    <li><a href="{{path('catalogue')}}">Catalogue</a></li>
+                                    <li><a href="{{path('mes_participations')}}">Mes participations</a></li>
+
+                                </ul>
+                            </li>
+
+
+                            <li class="scroll-to-section"><a href="#contact">Contact Us</a></li>
+                            <li>
+                                <a href="{{ path('app_notifs') }}">
+                                    <i class="fas fa-bell"></i> <!-- FontAwesome bell icon -->
+                                </a>
+                            </li>
+                            <li class="scroll-to-section"><a href="#apply"><i class="fa-solid fa-user"></i></a></li>
+                        </ul>
+                        <a class='menu-trigger'>
+                            <span>Menu</span>
+                        </a>
+                        <!-- ***** Menu End ***** -->
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+ {% endblock %}
+
+
+{% block banner %}
+{% endblock %}
+
+{% block body %}
+        <section class="heading-page header-text" id="top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h6>Here are our upcoming meetings</h6>
+                        <h2>Upcoming Meetings</h2>
+                    </div>
+                </div>
+            </div>
+        </section>
+<section class="meetings-page" id="meetings">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">  <div id='calendar'></div>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="pagination">
+            <ul>
+                <li><a href="#">1</a></li>
+                <li class="active"><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+            </ul>
+        </div>
+    </div>
+
+</section>
+
+
+    {% block footer %}
+
+    {% endblock %}
+
+
+
+
+
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        .event-past {
+            background-color: red;
+            color: white;
+        }
+        .event-current {
+            background-color: green;
+            color: white;
+        }
+        .event-future {
+            background-color: orange;
+            color: black;
+        }
+    </style>
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                events: '/api/events', // Endpoint pour récupérer les événements depuis la base de données
+                eventContent: function(arg) {
+                    var eventTitle = arg.event.title;
+                    var eventClass = getEventClass(arg.event.start);
+                    return { html: '<div class="' + eventClass + '">' + eventTitle + '</div>' };
+                },
+                dateClick: function(info) {
+                    // Ouvrir un formulaire de création d'événement avec la date sélectionnée
+                    openEventForm(info.dateStr);
+                }
+            });
+            calendar.render();
+
+           /* function openEventForm(date) {
+                // Créer une fenêtre modale Bootstrap pour afficher le formulaire de création d'événement
+                var modal = `
+        <div class="modal fade" id="eventModal" tabindex="-1" aria-labelledby="eventModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="eventModalLabel">Créer un nouvel événement</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Formulaire de création d'événement -->
+                        <form id="eventForm">
+                            <div class="mb-3">
+                                <label for="eventTitle" class="form-label">Titre de l'événement</label>
+                                <input type="text" class="form-control" id="eventTitle" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="eventDate" class="form-label">Date de début</label>
+                                <input type="text" class="form-control" id="eventDate" value="${date}" readonly>
+                            </div>
+                            <!-- Ajoutez d'autres champs du formulaire si nécessaire -->
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                        <button type="button" class="btn btn-primary" id="saveEventBtn">Enregistrer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+                // Ajouter la fenêtre modale au document
+                document.body.insertAdjacentHTML('beforeend', modal);
+
+                // Afficher la fenêtre modale
+                var eventModal = new bootstrap.Modal(document.getElementById('eventModal'));
+                eventModal.show();
+
+                // Ajouter un gestionnaire d'événement pour le bouton d'enregistrement
+                var saveEventBtn = document.getElementById('saveEventBtn');
+                saveEventBtn.addEventListener('click', saveEvent);
+            }
+
+            function saveEvent() {
+                // Récupérer les données du formulaire
+                var title = document.getElementById('eventTitle').value;
+                var date = document.getElementById('eventDate').value;
+
+                // Envoyer les données au serveur via une requête HTTP POST
+                fetch('/api/events/new', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        titre: title,
+                        dateDebut: date,
+                        // Ajoutez d'autres propriétés de l'événement si nécessaire
+                    }),
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            return response.json();
+                        }
+                        throw new Error('Erreur lors de la création de l\'événement');
+                    })
+                    .then(data => {
+                        // Gérer la réponse du serveur (par exemple, fermer la fenêtre modale et rafraîchir le calendrier)
+                        var eventModal = bootstrap.Modal.getInstance(document.getElementById('eventModal'));
+                        eventModal.hide();
+                        // Rafraîchir le calendrier pour afficher le nouvel événement
+                        // Vous pouvez également ajouter une fonction de rafraîchissement du calendrier ici
+                    })
+                    .catch(error => {
+                        console.error('Erreur:', error);
+                        // Afficher un message d'erreur à l'utilisateur
+                    });
+            }
+*/
+
+            //afficher les evenements selon la date
+            function getEventClass(eventDate) {
+                var currentDate = new Date();
+                eventDate = new Date(eventDate);
+
+                // Supprimer les informations sur l'heure pour comparer uniquement les dates
+                var currentDateWithoutTime = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+                var eventDateWithoutTime = new Date(eventDate.getFullYear(), eventDate.getMonth(), eventDate.getDate());
+
+                if (eventDateWithoutTime < currentDateWithoutTime) {
+                    return 'event-past';
+                } else if (eventDateWithoutTime > currentDateWithoutTime) {
+                    return 'event-future';
+                } else {
+                    return 'event-current';
+                }
+            }
+        });
+
+    </script>
+
+{% endblock %}
+
+
+
+
+
+

@@ -88,39 +88,60 @@
                         <!-- ***** Menu Start ***** -->
                         <ul class="nav">
                             <li class="scroll-to-section"><a href="{{path('app_front')}}" class="active">Home</a></li>
-                            <li class="scroll-to-section"><a href="{{path('app_quizz')}}" class="active">Quizz</a></li>
+                            <li class="scroll-to-section"><a href="{{path('app_quizz')}}">Quizz</a></li>
                             <li class="has-sub">
                                 <a href="javascript:void(0)">Other Quizzes</a>
                                 <ul class="sub-menu">
-                                    <li><a class="dropdown-item" href="{{ path('app_other_quizzes', {'category': 9}) }}">General Knowledge</a></li>
-                                    <li><a class="dropdown-item" href="{{ path('app_other_quizzes', {'category': 10}) }}">Books</a></li>
-                                    <li><a class="dropdown-item" href="{{ path('app_other_quizzes', {'category': 21}) }}">Sport</a></li>
-                                    <li><a class="dropdown-item" href="{{ path('app_other_quizzes', {'category': 25}) }}">Art</a></li>
-                                    <li><a class="dropdown-item" href="{{ path('app_other_quizzes', {'category': 30}) }}">Science:Gadgets</a></li>
-                                    <li><a class="dropdown-item" href="{{ path('app_other_quizzes', {'category': 18}) }}">Science:Computers</a></li>
-                                    <li><a class="dropdown-item" href="{{ path('app_other_quizzes', {'category': 32}) }}">Cartoon</a></li>
+                                    <li><a class="dropdown-item"
+                                            href="{{ path('app_other_quizzes', {'category': 9}) }}">General
+                                            Knowledge</a></li>
+                                    <li><a class="dropdown-item"
+                                            href="{{ path('app_other_quizzes', {'category': 10}) }}">Books</a></li>
+                                    <li><a class="dropdown-item"
+                                            href="{{ path('app_other_quizzes', {'category': 21}) }}">Sport</a></li>
+                                    <li><a class="dropdown-item"
+                                            href="{{ path('app_other_quizzes', {'category': 25}) }}">Art</a></li>
+                                    <li><a class="dropdown-item"
+                                            href="{{ path('app_other_quizzes', {'category': 30}) }}">Science:Gadgets</a>
+                                    </li>
+                                    <li><a class="dropdown-item"
+                                            href="{{ path('app_other_quizzes', {'category': 18}) }}">Science:Computers</a>
+                                    </li>
+                                    <li><a class="dropdown-item"
+                                            href="{{ path('app_other_quizzes', {'category': 32}) }}">Cartoon</a></li>
                                 </ul>
                             </li>
                             <li class="scroll-to-section"><a href="{{path('app_cours')}}">Courses</a></li>
-                                   <li class="scroll-to-section"><a  data-toggle="modal" data-target="#myModal">Voice Assistant</a></li>
-                                   <li class="has-sub">
-                              <a href="javascript:void(0)" href="#top" class="active">Internships</a>
-                              <ul class="sub-menu">
-                                  <li><a  href="{{path('app_internships')}}">Available Internships</a></li>
-                                  <li><a href="{{path('app_upcoming')}}">MY Interviews</a></li>
-                                  <li><a href="{{path('app_myinternships')}}">MY Internships</a></li>
-                              </ul>
-                          </li>
-                           <li><a href="{{path('app_conversation_index')}}"  class="active">Live Chat</a></li>
-                            <li>
-                          <a href="{{ path('app_notifs') }}">
-                          <i class="fas fa-bell"></i> <!-- FontAwesome bell icon -->
-                          </a>
-                          </li>
-                            <li class="scroll-to-section"><a href="#apply">Apply Now</a></li>
+                            <li class="scroll-to-section"><a data-toggle="modal" data-target="#myModal">Voice
+                                    Assistant</a></li>
+                            <li class="has-sub">
+                                <a href="javascript:void(0)" href="#top">Internships</a>
+                                <ul class="sub-menu">
+                                    <li><a href="{{path('app_internships')}}">Available Internships</a></li>
+                                    <li><a href="{{path('app_upcoming')}}">MY Interviews</a></li>
+                                    <li><a href="{{path('app_myinternships')}}">MY Internships</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="{{path('app_conversation_index')}}">Live Chat</a></li>
 
-                            
+                            <li class="has-sub">
+                                <a href="{{path('app_club_details')}}">Clubs</a>
+                                <ul class="sub-menu">
+                                    <li><a href="{{path('calendar')}}">Calendrier des évènements</a></li>
+                                    <li><a href="{{path('catalogue')}}">Catalogue</a></li>
+                                    <li><a href="{{path('mes_participations')}}">Mes participations</a></li>
+
+                                </ul>
+                            </li>
+
+
                             <li class="scroll-to-section"><a href="#contact">Contact Us</a></li>
+                            <li>
+                                <a href="{{ path('app_notifs') }}">
+                                    <i class="fas fa-bell"></i> <!-- FontAwesome bell icon -->
+                                </a>
+                            </li>
+                            <li class="scroll-to-section"><a href="#apply"><i class="fa-solid fa-user"></i></a></li>
                         </ul>
                         <a class='menu-trigger'>
                             <span>Menu</span>

@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: EvenementRepository::class)]
 class Evenement
@@ -17,24 +19,36 @@ class Evenement
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'evenements')]
-      
+
     #[ORM\JoinColumn(name: 'id_club', referencedColumnName: 'id')]
-    private ?Club $id_club = null;
+    #[Assert\NotBlank]
+    private ?Club $id_club;
+
+    #[ORM\Column(type: "string", length: 255, nullable: false, name: 'titre')]
+    #[Assert\NotBlank(message: 'The title is required.')]
+    private ?string $titre;
 
     #[ORM\Column(length: 255)]
-    private ?string $titre = null;
+    #[Assert\NotBlank(message: 'The description is required.')]
+    private ?string $description;
 
     #[ORM\Column(length: 255)]
-    private ?string $description = null;
+    #[Assert\NotBlank(message: 'Lieu is required.')]
+    private ?string $lieu;
 
-    #[ORM\Column(length: 255)]
-    private ?string $lieu = null;
+    #[ORM\Column(type: Types::DATE_MUTABLE, name: 'date_debut')]
+    #[Assert\NotBlank]
+    #[Assert\DateTimeInterface]
+    private ?\DateTimeInterface $date_debut;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE, name:'dateDebut')]
-    private ?\DateTimeInterface $dateDebut = null;
-
-    #[ORM\Column(type: Types::DATE_MUTABLE, name:'dateFin')]
-    private ?\DateTimeInterface $dateFin = null;
+    #[ORM\Column(type: Types::DATE_MUTABLE, name: 'date_fin')]
+    #[Assert\NotBlank]
+    #[Assert\Expression(
+        "(this.getDateFin() >= this.getDateDebut())",
+        message: "La date de fin doit être postérieure à la date de début"
+    )]
+    #[Assert\DateTimeInterface]
+    private ?\DateTimeInterface $date_fin;
 
     #[ORM\OneToMany(targetEntity: ParticipationEvenement::class, mappedBy: 'id_evenement')]
     private Collection $participationEvenements;
@@ -100,24 +114,24 @@ class Evenement
 
     public function getDateDebut(): ?\DateTimeInterface
     {
-        return $this->dateDebut;
+        return $this->date_debut;
     }
 
-    public function setDateDebut(\DateTimeInterface $dateDebut): static
+    public function setDateDebut(\DateTimeInterface $date_debut): static
     {
-        $this->dateDebut = $dateDebut;
+        $this->date_debut = $date_debut;
 
         return $this;
     }
 
     public function getDateFin(): ?\DateTimeInterface
     {
-        return $this->dateFin;
+        return $this->date_fin;
     }
 
-    public function setDateFin(\DateTimeInterface $dateFin): static
+    public function setDateFin(\DateTimeInterface $date_fin): static
     {
-        $this->dateFin = $dateFin;
+        $this->date_fin = $date_fin;
 
         return $this;
     }

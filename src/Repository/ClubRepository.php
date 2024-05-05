@@ -20,6 +20,32 @@ class ClubRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Club::class);
     }
+    // Méthode pour trier les clubs par un champ spécifique
+    public function findByFieldSorted($field, $order = 'ASC')
+    {
+        return $this->createQueryBuilder('c')
+            ->orderBy('c.'.$field, $order)
+            ->getQuery()
+            ->getResult();
+    }
+
+    // Méthode pour rechercher des les clubs par nom
+    public function searchByAttributes($attributes)
+    {
+        $queryBuilder = $this->createQueryBuilder('c');
+
+        // Boucle sur les attributs pour ajouter des conditions de recherche dynamiquement
+        foreach ($attributes as $key => $value) {
+            if (!empty($value)) {
+                $queryBuilder->andWhere("c.$key LIKE :$key")
+                    ->setParameter($key, "%$value%");
+            }
+        }
+
+        return $queryBuilder->getQuery()->getResult();
+    }
+
+    // Méthode pour récupérer les événements d'un club spécifique
 
 //    /**
 //     * @return Club[] Returns an array of Club objects

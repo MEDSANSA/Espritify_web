@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+{% block title %}Evenement index{% endblock %}
+
+{% block body %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Evenement</title>
+    <!-- Include Leaflet library -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map { height: 300px; weight: 100px; }
+    </style>
+</head>
+<body>
+
+    <h1>Create New Evenement</h1>
+
+    {{ form_start(form,{'attr' : {'novalidate' : 'novalidate' }}) }}
+     {{ form_row(form.id_club) }}
+    {{ form_row(form.titre) }}
+    {{ form_row(form.description) }}
+   {{ form_row(form.date_debut) }}
+    {{ form_row(form.date_fin) }}
+<!-- Recuperer le lieu -->
+{{ form_row(form.lieu,  {'id': 'lieu'}) }}
+
+    <div id="map"></div>
+
+    <button class="btn" type="submit">Submit</button>
+    {{ form_end(form) }}
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+   <script>
+       document.addEventListener('DOMContentLoaded', function() {
+           // Initialize Leaflet map
+           var map = L.map('map').setView([36.8065, 10.1815], 13);
+
+           // Add OpenStreetMap tile layer
+           L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+               attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+           }).addTo(map);
+
+           // Event listener for map clicks
+           map.on('click', function(e) {
+               var lat = e.latlng.lat.toFixed(6);
+               var lng = e.latlng.lng.toFixed(6);
+
+               // Perform reverse geocoding to get the place name from coordinates
+               fetch('https://nominatim.openstreetmap.org/reverse?format=json&lat=' + lat + '&lon=' + lng)
+                   .then(response => response.json())
+                   .then(data => {
+                       // Extract the place name from the response
+                       var placeName = data.display_name;
+
+                       // Update the lieu field with the place name
+                       document.getElementById('lieu').value = placeName;
+                   })
+                   .catch(error => console.error('Error:', error));
+           });
+       });
+   </script>
+    </script>
+</body>
+</html>
+{% endblock  %}

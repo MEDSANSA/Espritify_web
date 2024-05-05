@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Club index{% endblock %}
+{% block search %}
+
+{% endblock %}
+{% block body %}
+
+
+    <h1>Club index</h1>
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Intitule</th>
+                <th>Logo</th>
+                <th>EmailClub</th>
+                 <th>PageFb</th>
+                <th>QRCode</th>
+                <th>PageInsta</th>
+                <th>QRCode</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+        {% for club in clubs %}
+            <tr>
+                <td>{{ club.id }}</td>
+                <td>{{ club.intitule }}</td>
+                <td><img src="{{asset('/uploads/brochures/' ~ club.logo) }}" width="100" height="100"/></td>
+                <td>{{ club.emailClub }}</td>
+                <td><a href="{{ club.pageFb }}">{{ club.pageFb }}</a></td>
+                <td  > <svg style="text-align: center;" width="150" height="150" xmlns="http://www.w3.org/2000/svg">
+                                <image xlink:href="{{ asset('/qrcodes/' ~ club.qrCodeFbUrl) }}" width="100" height="100" />
+                            </svg> </td>
+                 <td><a href="{{ club.pageInsta }}">{{ club.pageInsta }}</a></td>
+                <td> <svg style="center" width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+                                <image xlink:href="{{ asset('/qrcodes/' ~ club.qrCodeInstaUrl) }}" width="100" height="100" />
+                            </svg> </td>
+
+
+                <td>
+                    <a href="{{ path('app_club_show', {'id': club.id}) }}">show</a>
+                    <a href="{{ path('app_club_edit', {'id': club.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_club_new') }}">Create new</a>
+{% endblock %}
