@@ -10,122 +10,149 @@
     <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900" rel="stylesheet">
     <!-- Bootstrap core CSS -->
     <link href="{{ asset("assets/front/vendor/bootstrap/css/bootstrap.min.css")}}" rel="stylesheet">
-   <link rel="stylesheet" href="{{ asset("assets/front/assets/css/fontawesome.css")}}">
+    <link rel="stylesheet" href="{{ asset("assets/front/assets/css/fontawesome.css")}}">
     <link rel="stylesheet" href="{{ asset("assets/front/assets/css/templatemo-edu-meeting.css")}}">
     <link rel="stylesheet" href="{{ asset("assets/front/assets/css/owl.css")}}">
     <link rel="stylesheet" href="{{ asset("assets/front/assets/css/lightbox.css")}}">
-      <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css?family=Oswald:300,400,500,700');
         @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800');
 
 
-$gr-1:linear-gradient(170deg, #01E4F8 0%, #1D3EDE 100%);
-$gr-2:linear-gradient(170deg, #B4EC51 0%, #429321 100%);
-$gr-3:linear-gradient(170deg, #C86DD7 0%, #3023AE 100%);
+        $gr-1: linear-gradient(170deg, #01E4F8 0%, #1D3EDE 100%);
+        $gr-2: linear-gradient(170deg, #B4EC51 0%, #429321 100%);
+        $gr-3: linear-gradient(170deg, #C86DD7 0%, #3023AE 100%);
 
-.gr-1{background: $gr-1;}
-.gr-2{background: $gr-2;}
-.gr-3{background: $gr-3;}
+        .gr-1 {
+            background: $gr-1;
+        }
 
-*{transition: .5s;}
+        .gr-2 {
+            background: $gr-2;
+        }
 
-.h-100{height: 100vh !important;}
-.align-middle{
-  position: relative;
-  top:50%;
-  transform:translateY(-50%);
-}
+        .gr-3 {
+            background: $gr-3;
+        }
 
-.column{
-  margin-top:3rem;
-  padding-left:3rem;
-  &:hover{
-    padding-left:0;
-    .card .txt{
-      margin-left:1rem;
-      h1, p{
-        color:rgba(255,255,255,1);
-        opacity:1;
-      }
-    }
-    a{
-      color:rgba(255,255,255,1);
-      &:after{
-      width: 10%;
-      }
-    }
-  }
-}
-.card{
-  background: linear-gradient(180deg, grey 80%, white);
-  min-height:170px;
-  margin: 0;
-  padding: 1.7rem 1.2rem;
-  border: none;
-  border-radius: 0;
-  color:rgba(255,255,255,1);
-  letter-spacing: .05rem;
-  font-family: 'Oswald', sans-serif;
-  box-shadow: 0 0 21px rgba(0,0,0,.27);
-  .txt{
-    margin-left:-3rem;
-    z-index: 1;
-    h1{
-      font-size:1.5rem;
-      font-weight: 300;
-      text-transform: uppercase;
-    }
-    p{
-      font-size:.7rem;
-      font-family: 'Open Sans', sans-serif;
-      letter-spacing: 0rem;
-      margin-top:33px;
-      opacity:0;
-      color:rgb(189,9,9);
-    }
-  }
-  a{
-    z-index:3;
-    font-size: .7rem;
-    color:rgba(0,0,0,1);
-    margin-left:1rem;
-    position:relative;
-    bottom: -.5rem;
-    text-transform: uppercase;
-    &:after {
-      content:"";
-      display: inline-block;
-      height: 0.5em;
-      width: 0;
-      margin-right: -100%;
-      margin-left: 10px;
-      border-top: 1px solid rgba(255,255,255,1);
-      transition: .5s;
-    }
-  }
-  .ico-card{
-    position:absolute;
-    top: 0;
-    left:0;
-    bottom:0;
-    right: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-  }
-  i{
-    position: relative;
-    right: -50%;
-    top:60%;
-    font-size: 12rem;
-    line-height: 0;
-    opacity: .2;
-    color:rgba(255,255,255,1);
-    z-index: 0;
-   }
-}
-</style>
+        * {
+            transition: .5s;
+        }
+
+        .h-100 {
+            height: 100vh !important;
+        }
+
+        .align-middle {
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .column {
+            margin-top: 3rem;
+            padding-left: 3rem;
+
+            &:hover {
+                padding-left: 0;
+
+                .card .txt {
+                    margin-left: 1rem;
+
+                    h1,
+                    p {
+                        color: rgba(255, 255, 255, 1);
+                        opacity: 1;
+                    }
+                }
+
+                a {
+                    color: rgba(255, 255, 255, 1);
+
+                    &:after {
+                        width: 10%;
+                    }
+                }
+            }
+        }
+
+        .card {
+            background: linear-gradient(180deg, grey 80%, white);
+            min-height: 170px;
+            margin: 0;
+            padding: 1.7rem 1.2rem;
+            border: none;
+            border-radius: 0;
+            color: rgba(255, 255, 255, 1);
+            letter-spacing: .05rem;
+            font-family: 'Oswald', sans-serif;
+            box-shadow: 0 0 21px rgba(0, 0, 0, .27);
+
+            .txt {
+                margin-left: -3rem;
+                z-index: 1;
+
+                h1 {
+                    font-size: 1.5rem;
+                    font-weight: 300;
+                    text-transform: uppercase;
+                }
+
+                p {
+                    font-size: .7rem;
+                    font-family: 'Open Sans', sans-serif;
+                    letter-spacing: 0rem;
+                    margin-top: 33px;
+                    opacity: 0;
+                    color: rgb(189, 9, 9);
+                }
+            }
+
+            a {
+                z-index: 3;
+                font-size: .7rem;
+                color: rgba(0, 0, 0, 1);
+                margin-left: 1rem;
+                position: relative;
+                bottom: -.5rem;
+                text-transform: uppercase;
+
+                &:after {
+                    content: "";
+                    display: inline-block;
+                    height: 0.5em;
+                    width: 0;
+                    margin-right: -100%;
+                    margin-left: 10px;
+                    border-top: 1px solid rgba(255, 255, 255, 1);
+                    transition: .5s;
+                }
+            }
+
+            .ico-card {
+                position: absolute;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                right: 0;
+                width: 100%;
+                height: 100%;
+                overflow: hidden;
+            }
+
+            i {
+                position: relative;
+                right: -50%;
+                top: 60%;
+                font-size: 12rem;
+                line-height: 0;
+                opacity: .2;
+                color: rgba(255, 255, 255, 1);
+                z-index: 0;
+            }
+        }
+    </style>
 
     <style>
         label.radio {
@@ -173,64 +200,80 @@ $gr-3:linear-gradient(170deg, #C86DD7 0%, #3023AE 100%);
         }
     </style>
 
-<link rel="stylesheet" href="{{ asset("assets/front/assets/css/lightbox.css")}}">
-            <style > /* (A) SPEECH BOX */
+    <link rel="stylesheet" href="{{ asset("assets/front/assets/css/lightbox.css")}}">
+    <style>
+        /* (A) SPEECH BOX */
         .speech {
-        /* (A1) FONT & COLORS */
-        font-size: 1.2em;
-        color: #fff;
-        background: rgba(154,3,3,255);
+            /* (A1) FONT & COLORS */
+            font-size: 1.2em;
+            color: #fff;
+            background: rgba(154, 3, 3, 255);
 
-        /* (A2) DIMENSIONS */
-        padding: 20px;
-        border-radius: 10px;
-        max-width: 600px;
+            /* (A2) DIMENSIONS */
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 600px;
         }
 
         /* (B) USE ::AFTER TO CREATE THE "CALLOUT" */
         .speech::after {
-        display: block; width: 0; content: "";
-        border: 15px solid transparent;
+            display: block;
+            width: 0;
+            content: "";
+            border: 15px solid transparent;
         }
-        
+
         /* (C) "CALLOUT" DIRECTIONS */
         .speech.up::after {
-        border-bottom-color: rgba(154,3,3,255);
-        border-top: 0;
+            border-bottom-color: rgba(154, 3, 3, 255);
+            border-top: 0;
         }
+
         .speech.down::after {
-        border-top-color: rgba(154,3,3,255);
-        border-bottom: 0;
+            border-top-color: rgba(154, 3, 3, 255);
+            border-bottom: 0;
         }
+
         .speech.left::after {
-        border-right-color: rgba(154,3,3,255);
-        border-left: 0;
+            border-right-color: rgba(154, 3, 3, 255);
+            border-left: 0;
         }
+
         .speech.right::after {
-        border-left-color: rgba(154,3,3,255);
-        border-right: 0;
+            border-left-color: rgba(154, 3, 3, 255);
+            border-right: 0;
         }
 
         /* (D) POSITION THE CALLOUT */
         .speech {
-        position: relative;
-        margin: 30px;
-        }
-        .speech::after { position: absolute; }
-        .speech.up::after {
-        top: -15px; left: calc(50% - 15px);
-        }
-        .speech.down::after {
-        bottom: -15px; left: calc(50% - 15px);
-        }
-        .speech.left::after {
-        left: -15px; top: calc(50% - 15px);
-        }
-        .speech.right::after {
-        right: -15px; top: calc(50% - 15px);
+            position: relative;
+            margin: 30px;
         }
 
-      </style>
+        .speech::after {
+            position: absolute;
+        }
+
+        .speech.up::after {
+            top: -15px;
+            left: calc(50% - 15px);
+        }
+
+        .speech.down::after {
+            bottom: -15px;
+            left: calc(50% - 15px);
+        }
+
+        .speech.left::after {
+            left: -15px;
+            top: calc(50% - 15px);
+        }
+
+        .speech.right::after {
+            right: -15px;
+            top: calc(50% - 15px);
+        }
+    </style>
     <!-- Additional CSS Files -->
     <link rel="stylesheet" href="{{ asset("assets/front/assets/css/fontawesome.css")}}">
     <link rel="stylesheet" href="{{ asset("assets/front/assets/css/templatemo-edu-meeting.css")}}">
@@ -316,46 +359,62 @@ $gr-3:linear-gradient(170deg, #C86DD7 0%, #3023AE 100%);
                         <!-- ***** Menu Start ***** -->
                         <ul class="nav">
                             <li class="scroll-to-section"><a href="{{path('app_front')}}" class="active">Home</a></li>
-                            <li class="scroll-to-section"><a href="{{path('app_quizz')}}" class="active">Quizz</a></li>
+                            <li class="scroll-to-section"><a href="{{path('app_quizz')}}">Quizz</a></li>
                             <li class="has-sub">
                                 <a href="javascript:void(0)">Other Quizzes</a>
                                 <ul class="sub-menu">
-                                    <li><a class="dropdown-item" href="{{ path('app_other_quizzes', {'category': 9}) }}">General Knowledge</a></li>
-                                    <li><a class="dropdown-item" href="{{ path('app_other_quizzes', {'category': 10}) }}">Books</a></li>
-                                    <li><a class="dropdown-item" href="{{ path('app_other_quizzes', {'category': 21}) }}">Sport</a></li>
-                                    <li><a class="dropdown-item" href="{{ path('app_other_quizzes', {'category': 25}) }}">Art</a></li>
-                                    <li><a class="dropdown-item" href="{{ path('app_other_quizzes', {'category': 30}) }}">Science:Gadgets</a></li>
-                                    <li><a class="dropdown-item" href="{{ path('app_other_quizzes', {'category': 18}) }}">Science:Computers</a></li>
-                                    <li><a class="dropdown-item" href="{{ path('app_other_quizzes', {'category': 32}) }}">Cartoon</a></li>
+                                    <li><a class="dropdown-item"
+                                            href="{{ path('app_other_quizzes', {'category': 9}) }}">General
+                                            Knowledge</a></li>
+                                    <li><a class="dropdown-item"
+                                            href="{{ path('app_other_quizzes', {'category': 10}) }}">Books</a></li>
+                                    <li><a class="dropdown-item"
+                                            href="{{ path('app_other_quizzes', {'category': 21}) }}">Sport</a></li>
+                                    <li><a class="dropdown-item"
+                                            href="{{ path('app_other_quizzes', {'category': 25}) }}">Art</a></li>
+                                    <li><a class="dropdown-item"
+                                            href="{{ path('app_other_quizzes', {'category': 30}) }}">Science:Gadgets</a>
+                                    </li>
+                                    <li><a class="dropdown-item"
+                                            href="{{ path('app_other_quizzes', {'category': 18}) }}">Science:Computers</a>
+                                    </li>
+                                    <li><a class="dropdown-item"
+                                            href="{{ path('app_other_quizzes', {'category': 32}) }}">Cartoon</a></li>
                                 </ul>
                             </li>
                             <li class="scroll-to-section"><a href="{{path('app_cours')}}">Courses</a></li>
-                                   <li class="scroll-to-section"><a  data-toggle="modal" data-target="#myModal">Voice Assistant</a></li>
-                                   <li class="has-sub">
-                              <a href="javascript:void(0)" href="#top" class="active">Internships</a>
-                              <ul class="sub-menu">
-                                  <li><a  href="{{path('app_internships')}}">Available Internships</a></li>
-                                  <li><a href="{{path('app_upcoming')}}">MY Interviews</a></li>
-                                  <li><a href="{{path('app_myinternships')}}">MY Internships</a></li>
-                              </ul>
-                          </li>
-                           <li><a href="{{path('app_conversation_index')}}"  class="active">Live Chat</a></li>
-                            
-                            <li class="scroll-to-section"><a href="#apply">Apply Now</a></li>
+                            <li class="scroll-to-section"><a data-toggle="modal" data-target="#myModal">Voice
+                                    Assistant</a></li>
+                            <li class="has-sub">
+                                <a href="javascript:void(0)" href="#top">Internships</a>
+                                <ul class="sub-menu">
+                                    <li><a href="{{path('app_internships')}}">Available Internships</a></li>
+                                    <li><a href="{{path('app_upcoming')}}">MY Interviews</a></li>
+                                    <li><a href="{{path('app_myinternships')}}">MY Internships</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="{{path('app_conversation_index')}}">Live Chat</a></li>
 
-                            
+                            <li class="has-sub">
+                                <a href="{{path('app_club_details')}}">Clubs</a>
+                                <ul class="sub-menu">
+                                    <li><a href="{{path('calendar')}}">Calendrier des évènements</a></li>
+                                    <li><a href="{{path('catalogue')}}">Catalogue</a></li>
+                                    <li><a href="{{path('mes_participations')}}">Mes participations</a></li>
+
+                                </ul>
+                            </li>
+
+
                             <li class="scroll-to-section"><a href="#contact">Contact Us</a></li>
                             <li>
-                          <a href="{{ path('app_notifs') }}">
-                          <i class="fas fa-bell"></i> <!-- FontAwesome bell icon -->
-                          </a>
-                          </li>
-                            <li class="scroll-to-section"><a href="#contact"><i class="fa-solid fa-user"></i></a></li>
+                                <a href="{{ path('app_notifs') }}">
+                                    <i class="fas fa-bell"></i> <!-- FontAwesome bell icon -->
+                                </a>
+                            </li>
+                            <li class="scroll-to-section"><a href="#apply"><i class="fa-solid fa-user"></i></a></li>
                         </ul>
-                        <a class='menu-trigger'>
-                            <span>Menu</span>
-                        </a>
-                        <!-- ***** Menu End ***** -->
+                        
                     </nav>
                 </div>
             </div>
@@ -375,7 +434,7 @@ $gr-3:linear-gradient(170deg, #C86DD7 0%, #3023AE 100%);
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="caption">
-                            <h6>Hello Students</h6>
+                            <h6>Hello {{user.nom}} {{user.prenom}}</h6>
                             <h2>Welcome to Espritify</h2>
                             <p>Are you tired of traditional learning methods and chaotic environments? Are you
                                 interested in using a single website or desktop application manage all your work, submit
@@ -391,98 +450,103 @@ $gr-3:linear-gradient(170deg, #C86DD7 0%, #3023AE 100%);
     </section>
     {% endblock %}
     {% block body %}
- <link rel="stylesheet" href="{{ asset("assets/front/assets/css/fontawesome.css")}}">
- <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalCenterTitle" aria-hidden="true">
-                      <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h5 class="modal-title" id="MyModalTitle">Voice Assistant</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
-                            </button>
-                          </div>
-                          <div class="modal-body">
-                                        <!-- (X) NOT IMPORTANT -->
-                                        <h1 id="cbtitle">Espritifia!</h1>
-                                    <img src="{{ asset("assets/front/assets/images/robot.png")}}" alt="">
-                                     <div id="cbwrap">
-                                       
-                                        <button id="start-recognition" class="btn bg-gradient-primary">Start Recognition <i class="fa-solid fa-microphone"></i></button>
-                                        <button id="stop-recognition" class="btn bg-gradient-primary" disabled>Stop Recognition <i class="fa-solid fa-stop"></i></button>
-                                        
-                                        <a href="{{ path('app_internships') }}" id="internships-link" style="display: none;"></a>
+    <link rel="stylesheet" href="{{asset(" assets/front/assets/css/fontawesome.css")}}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="MyModalTitle">Voice Assistant</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- (X) NOT IMPORTANT -->
+                    <h1 id="cbtitle">Espritifia!</h1>
+                    <img src="{{ asset("assets/front/assets/images/robot.png")}}" alt="">
+                    <div id="cbwrap">
 
-                                        <!-- (A) SPEECH BUBBLES -->
-                                        <div class="speech up" ><textarea id="speech-input" class="speech up"  readonly></textarea></div>
-                                        <div class="speech down"><textarea id="speech-output" class="speech up"  readonly></textarea></div>
-                                        
-                                        
-                                        <script>
-                                        const speechInput = document.getElementById('speech-input');
-                                        const speechOutput = document.getElementById('speech-output');
-                                        let recognition;
+                        <button id="start-recognition" class="btn bg-gradient-primary">Start Recognition <i
+                                class="fa-solid fa-microphone"></i></button>
+                        <button id="stop-recognition" class="btn bg-gradient-primary" disabled>Stop Recognition <i
+                                class="fa-solid fa-stop"></i></button>
 
-                                        document.getElementById('start-recognition').addEventListener('click', startRecognition);
-                                        document.getElementById('stop-recognition').addEventListener('click', stopRecognition);
+                        <a href="{{ path('app_internships') }}" id="internships-link" style="display: none;"></a>
 
-                                        function startRecognition() {
-                                            speechInput.value = '';
-                                            speechOutput.value = '';
-                                            recognition = new window.webkitSpeechRecognition();
-                                            recognition.continuous = true;
-                                            recognition.lang = 'en-US';
-
-                                            recognition.onresult = function(event) {
-                                                const transcript = event.results[event.results.length - 1][0].transcript;
-                                                speechInput.value += transcript;
-
-                                                // Check if recognized speech contains specific phrases
-                                                if (transcript.toLowerCase().includes('hello')) {
-                                                    respond('Hey to you too');
-                                                }
-                                                if (transcript.toLowerCase().includes('who are you')) {
-                                                    respond('I am espritify voice assistant!');
-                                                }
-                                                if (transcript.toLowerCase().includes('how are you')) {
-                                                    respond('I am fine what about you!');
-                                                }
-                                                if (transcript.toLowerCase().includes('internships')) {
-                                                    navigateToInternships();
-                                                }
-                                            };
-
-                                            recognition.start();
-                                            document.getElementById('start-recognition').disabled = true;
-                                            document.getElementById('stop-recognition').disabled = false;
-                                        }
-
-                                        function stopRecognition() {
-                                            if (recognition) {
-                                                recognition.stop();
-                                                document.getElementById('start-recognition').disabled = false;
-                                                document.getElementById('stop-recognition').disabled = true;
-                                            }
-                                        }
-
-                                        function respond(message) {
-                                            // Display response message in textarea
-                                            speechOutput.value += '\n' + message + '\n';
-                                        }
-                                        function navigateToInternships() {
-                                            // Trigger click event on the anchor link for /internships
-                                            document.getElementById('internships-link').click();
-                                        }
-
-                                            </script>
-                                      </div>
-
-                          </div>
-                          
+                        <!-- (A) SPEECH BUBBLES -->
+                        <div class="speech up"><textarea id="speech-input" class="speech up" readonly></textarea></div>
+                        <div class="speech down"><textarea id="speech-output" class="speech up" readonly></textarea>
                         </div>
-                      </div>
+
+
+                        <script>
+                            const speechInput = document.getElementById('speech-input');
+                            const speechOutput = document.getElementById('speech-output');
+                            let recognition;
+
+                            document.getElementById('start-recognition').addEventListener('click', startRecognition);
+                            document.getElementById('stop-recognition').addEventListener('click', stopRecognition);
+
+                            function startRecognition() {
+                                speechInput.value = '';
+                                speechOutput.value = '';
+                                recognition = new window.webkitSpeechRecognition();
+                                recognition.continuous = true;
+                                recognition.lang = 'en-US';
+
+                                recognition.onresult = function (event) {
+                                    const transcript = event.results[event.results.length - 1][0].transcript;
+                                    speechInput.value += transcript;
+
+                                    // Check if recognized speech contains specific phrases
+                                    if (transcript.toLowerCase().includes('hello')) {
+                                        respond('Hey to you too');
+                                    }
+                                    if (transcript.toLowerCase().includes('who are you')) {
+                                        respond('I am espritify voice assistant!');
+                                    }
+                                    if (transcript.toLowerCase().includes('how are you')) {
+                                        respond('I am fine what about you!');
+                                    }
+                                    if (transcript.toLowerCase().includes('internships')) {
+                                        navigateToInternships();
+                                    }
+                                };
+
+                                recognition.start();
+                                document.getElementById('start-recognition').disabled = true;
+                                document.getElementById('stop-recognition').disabled = false;
+                            }
+
+                            function stopRecognition() {
+                                if (recognition) {
+                                    recognition.stop();
+                                    document.getElementById('start-recognition').disabled = false;
+                                    document.getElementById('stop-recognition').disabled = true;
+                                }
+                            }
+
+                            function respond(message) {
+                                // Display response message in textarea
+                                speechOutput.value += '\n' + message + '\n';
+                            }
+                            function navigateToInternships() {
+                                // Trigger click event on the anchor link for /internships
+                                document.getElementById('internships-link').click();
+                            }
+
+                        </script>
                     </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
     <section class="services">
         <div class="container">
             <div class="row">
@@ -668,98 +732,56 @@ $gr-3:linear-gradient(170deg, #C86DD7 0%, #3023AE 100%);
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="item">
-                                <h3>APPLY FOR BACHELOR DEGREE</h3>
-                                <p>You are allowed to use this edu meeting CSS template for your school or university or
-                                    business. You can feel free to modify or edit this layout.</p>
+                                <h3>Hello and welcome back {{user.nom}} {{user.prenom}}</h3>
+                                <p>These are your account informations we hope you keep them protected and all for you!
+                                </p>
                                 <div class="main-button-red">
-                                    <div class="scroll-to-section"><a href="#contact">Join Us Now!</a></div>
+                                    <div class="scroll-to-section"><a
+                                            href="{{ path('app-edit', {'id': user.id}) }}">Edit information!</a></div>
                                 </div>
+
                             </div>
                         </div>
-                        <div class="col-lg-12">
-                            <div class="item">
-                                <h3>APPLY FOR BACHELOR DEGREE</h3>
-                                <p>You are not allowed to redistribute the template ZIP file on any other template
-                                    website. Please contact us for more information.</p>
-                                <div class="main-button-yellow">
-                                    <div class="scroll-to-section"><a href="#contact">Join Us Now!</a></div>
-                                </div>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="accordions is-first-expanded">
                         <article class="accordion">
                             <div class="accordion-head">
-                                <span>About Edu Meeting HTML Template</span>
+                                <span>Name:</span>
                                 <span class="icon">
-                                    <i class="icon fa fa-chevron-right"></i>
+                                    {{user.nom}}
                                 </span>
                             </div>
-                            <div class="accordion-body">
-                                <div class="content">
-                                    <p>If you want to get the latest collection of HTML CSS templates for your websites,
-                                        you may visit <a rel="nofollow" href="https://www.toocss.com/"
-                                            target="_blank">Too CSS website</a>. If you need a working contact form
-                                        script, please visit <a href="https://templatemo.com/contact"
-                                            target="_parent">our contact page</a> for more info.</p>
-                                </div>
-                            </div>
+
                         </article>
                         <article class="accordion">
                             <div class="accordion-head">
-                                <span>HTML CSS Bootstrap Layout</span>
+                                <span>Lastname: </span>
                                 <span class="icon">
-                                    <i class="icon fa fa-chevron-right"></i>
+                                    {{user.prenom}}
                                 </span>
                             </div>
-                            <div class="accordion-body">
-                                <div class="content">
-                                    <p>Etiam posuere metus orci, vel consectetur elit imperdiet eu. Cras ipsum magna,
-                                        maximus at semper sit amet, eleifend eget neque. Nunc facilisis quam purus, sed
-                                        vulputate augue interdum vitae. Aliquam a elit massa.<br><br>
-                                        Nulla malesuada elit lacus, ac ultricies massa varius sed. Etiam eu metus eget
-                                        nibh consequat aliquet. Proin fringilla, quam at euismod porttitor, odio odio
-                                        tempus ligula, ut feugiat ex erat nec mauris. Donec viverra velit eget lectus
-                                        sollicitudin tincidunt.</p>
-                                </div>
-                            </div>
+
                         </article>
                         <article class="accordion">
                             <div class="accordion-head">
-                                <span>Please tell your friends</span>
+                                <span>Email:</span>
                                 <span class="icon">
-                                    <i class="icon fa fa-chevron-right"></i>
+                                    {{user.email}}
                                 </span>
                             </div>
-                            <div class="accordion-body">
-                                <div class="content">
-                                    <p>Ut vehicula mauris est, sed sodales justo rhoncus eu. Morbi porttitor quam velit,
-                                        at ullamcorper justo suscipit sit amet. Quisque at suscipit mi, non efficitur
-                                        velit.<br><br>
-                                        Cras et tortor semper, placerat eros sit amet, porta est. Mauris porttitor
-                                        sapien et quam volutpat luctus. Nullam sodales ipsum ac neque ultricies varius.
-                                    </p>
-                                </div>
-                            </div>
+
                         </article>
                         <article class="accordion last-accordion">
                             <div class="accordion-head">
-                                <span>Share this to your colleagues</span>
+                                <span>Role: </span>
                                 <span class="icon">
-                                    <i class="icon fa fa-chevron-right"></i>
+                                    {{user.role}}
                                 </span>
                             </div>
-                            <div class="accordion-body">
-                                <div class="content">
-                                    <p>Maecenas suscipit enim libero, vel lobortis justo condimentum id. Interdum et
-                                        malesuada fames ac ante ipsum primis in faucibus.<br><br>
-                                        Sed eleifend metus sit amet magna tristique, posuere laoreet arcu semper. Nulla
-                                        pellentesque ut tortor sit amet maximus. In eu libero ullamcorper, semper nisi
-                                        quis, convallis nisi.</p>
-                                </div>
-                            </div>
+
                         </article>
                     </div>
                 </div>
@@ -1095,73 +1117,76 @@ $gr-3:linear-gradient(170deg, #C86DD7 0%, #3023AE 100%);
         </div>
     </section>
 
-  
-  <section class="contact-us" id="contact">
-      <div class="container">
-        <div class="row">
-            <div class="col-lg-9 align-self-center">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div id="contact" >
-                            {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <h2>Tap in Your Complaints Details</h2>
-                                </div>
-                               
-                                <div class="col-lg-12">
-                                    
-                                    {{ form_widget(form.titre, {'attr': {'class' : 'form-control', 'placeholder': 'Title ...'}}) }}
 
-                                     <span style="font-size: 13px; color: red;">{{ form_errors(form.titre) }}</span>
+    <section class="contact-us" id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9 align-self-center">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div id="contact">
+                                {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <h2>Tap in Your Complaints Details</h2>
+                                    </div>
+
+                                    <div class="col-lg-12">
+
+                                        {{ form_widget(form.titre, {'attr': {'class' : 'form-control', 'placeholder':
+                                        'Title ...'}}) }}
+
+                                        <span style="font-size: 13px; color: red;">{{ form_errors(form.titre) }}</span>
+                                    </div>
+                                    <div class="col-lg-12">
+
+                                        {{ form_widget(form.description, {'attr': {'class' : 'form-control',
+                                        'placeholder': ' Description...'}}) }}
+                                        <span style="font-size: 13px; color: red;">{{ form_errors(form.description)
+                                            }}</span>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <fieldset>
+                                            <button type="submit" id="form-submit" class="button">SEND NOW</button>
+                                        </fieldset>
+                                    </div>
                                 </div>
-                                <div class="col-lg-12">
-                                   
-                                    {{ form_widget(form.description, {'attr': {'class' : 'form-control', 'placeholder': ' Description...'}}) }}
-                                     <span style="font-size: 13px; color: red;">{{ form_errors(form.description) }}</span>
-                                </div>
-                                <div class="col-lg-12">
-                                    <fieldset>
-                                        <button type="submit" id="form-submit" class="button">SEND NOW</button>
-                                    </fieldset>
-                                </div>
+                                {{ form_end(form) }}
                             </div>
-                            {{ form_end(form) }}
                         </div>
                     </div>
                 </div>
+                <div class="col-lg-3">
+                    <div class="right-info">
+                        <ul>
+                            <li>
+                                <h6>Phone Number</h6>
+                                <span>010-020-0340</span>
+                            </li>
+                            <li>
+                                <h6>Email Address</h6>
+                                <span>info@meeting.edu</span>
+                            </li>
+                            <li>
+                                <h6>Street Address</h6>
+                                <span>Rio de Janeiro - RJ, 22795-008, Brazil</span>
+                            </li>
+                            <li>
+                                <h6>Website URL</h6>
+                                <span>www.meeting.edu</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-        <div class="col-lg-3">
-          <div class="right-info">
-            <ul>
-              <li>
-                <h6>Phone Number</h6>
-                <span>010-020-0340</span>
-              </li>
-              <li>
-                <h6>Email Address</h6>
-                <span>info@meeting.edu</span>
-              </li>
-              <li>
-                <h6>Street Address</h6>
-                <span>Rio de Janeiro - RJ, 22795-008, Brazil</span>
-              </li>
-              <li>
-                <h6>Website URL</h6>
-                <span>www.meeting.edu</span>
-              </li>
-            </ul>
-          </div>
         </div>
-      </div>
-    </div>
-    {% endblock %}
-    {% block footer %}
-    <div class="footer">
-      <p>Copyright © 2024 Teletubies, All Rights Reserved. 
-    </div>
-    {% endblock %}
-  </section>
+        {% endblock %}
+        {% block footer %}
+        <div class="footer">
+            <p>Copyright © 2024 Teletubies, All Rights Reserved.
+        </div>
+        {% endblock %}
+    </section>
 
 </body>
 

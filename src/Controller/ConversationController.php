@@ -15,6 +15,7 @@ use ConsoleTVs\Profanity\Builder;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
+use Symfony\Component\Security\Core\Security;
 #[Route('/conversation')]
 class ConversationController extends AbstractController
 {
@@ -27,8 +28,12 @@ class ConversationController extends AbstractController
 
    
     #[Route('/', name: 'app_conversation_index', methods: ['GET', 'POST'])]
-    public function index(ConversationRepository $conversationRepository, UtilisateurRepository $utilisateurRepository, Request $request, EntityManagerInterface $entityManager): Response
+    public function index( Security $security,ConversationRepository $conversationRepository, UtilisateurRepository $utilisateurRepository, Request $request, EntityManagerInterface $entityManager): Response
     {
+        $u = $security->getUser();
+        if (!$u) {
+            return $this->redirectToRoute('app_login');
+        }
         $currentDate = new \DateTime();
         $conversation = new Conversation();
         $user = $utilisateurRepository->findOneBy(['id' => 56]);
@@ -51,7 +56,8 @@ class ConversationController extends AbstractController
                 $this->addFlash('error', 'The title or description contains profane language. Please remove it.');
                 return $this->renderForm('conversation/index.html.twig', [
                     'conversations' => $conversationRepository->findAll(),
-                    'form1' => $editForm
+                    'form1' => $editForm,
+                    'user'=>$u,
                 ]);
             }
     
@@ -68,14 +74,19 @@ class ConversationController extends AbstractController
 
         return $this->renderForm('conversation/index.html.twig', [
             'conversations' => $conversationRepository->findAll(),
-            'form1' => $editForm
+            'form1' => $editForm,
+            'user'=>$u,
         ]);
     }
 
 
     #[Route('/new', name: 'app_conversation_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, ConversationRepository $conversationRepository,UtilisateurRepository $utilisateurRepository): Response
+    public function new(Security $security,Request $request, EntityManagerInterface $entityManager, ConversationRepository $conversationRepository,UtilisateurRepository $utilisateurRepository): Response
     {   
+        $u = $security->getUser();
+        if (!$u) {
+            return $this->redirectToRoute('app_login');
+        }
         $currentDate = new \DateTime();
         $conversation = new Conversation();
         $conversation->setDate($currentDate);
@@ -99,6 +110,7 @@ class ConversationController extends AbstractController
                 return $this->renderForm('conversation/index.html.twig', [
                     'conversations' => $conversationRepository->findAll(),
                     'form' => $createForm,
+                    'user'=>$user,
                    
                 ]);
             }
@@ -110,6 +122,7 @@ class ConversationController extends AbstractController
         return $this->renderForm('conversation/new.html.twig', [
             'conversation' => $conversation,
             'form' => $createForm,
+            'user'=>$user,
         ]);
     }
 
