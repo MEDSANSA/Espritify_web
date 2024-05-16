@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Participations{% endblock %}
+
+{% block body %}
+    <h1>Liste des Participations</h1>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Participant</th>
+            <th>Événement</th>
+            <th>Club</th>
+            <th>Lieu</th>
+            <th>Date début</th>
+            <th>Date fin</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for participation in participations %}
+            <tr>
+                <td>{{ participation.idUser.nom }} {{ participation.idUser.prenom }}</td>
+                <td>{{ participation.idEvenement.titre }}</td>
+                <td>{{ participation.idEvenement.idClub}}</td>
+                <td>{{ participation.idEvenement.lieu }}</td>
+                <td>{{ participation.idEvenement.dateDebut | date}}</td>
+                <td>{{ participation.idEvenement.dateFin | date}}</td>
+
+
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

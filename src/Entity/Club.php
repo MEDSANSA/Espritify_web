@@ -6,6 +6,7 @@ use App\Repository\ClubRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ClubRepository::class)]
 class Club
@@ -15,20 +16,28 @@ class Club
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $intitule = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\NotBlank( message: 'The intitule is required.')]
+    private ?string $intitule;
 
     #[ORM\Column(length: 255)]
-    private ?string $logo = null;
+    #[Assert\NotBlank( message: 'Logo is required.')]
+    private ?string $logo;
 
     #[ORM\Column(length: 255, name:'emailClub')]
-    private ?string $emailClub = null;
+    #[Assert\NotBlank( message: 'The email is required.')]
+    #[Assert\Email(
+            message: 'The email {{ value }} is not a valid email.',
+        )]
+    private ?string $emailClub;
 
     #[ORM\Column(length: 255, name:'pageFb')]
-    private ?string $pageFb = null;
+    #[Assert\NotBlank( message: 'Page facebook is required.')]
+    private ?string $pageFb;
 
     #[ORM\Column(length: 255, name:'pageInsta')]
-    private ?string $pageInsta = null;
+    #[Assert\NotBlank( message: 'Page instagram is required.')]
+    private ?string $pageInsta;
 
     #[ORM\OneToMany(targetEntity: Evenement::class, mappedBy: 'id_club')]
     private Collection $evenements;
@@ -131,5 +140,9 @@ class Club
         }
 
         return $this;
+    }
+    public function __toString(): string
+    {
+        return $this->intitule ?? ''; // Return the 'intitule' property or an empty string if it's null
     }
 }

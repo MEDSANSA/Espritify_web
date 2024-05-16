@@ -20,7 +20,75 @@ class EvenementRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Evenement::class);
     }
+    /**
+     * Récupère les événements ayant lieu pendant la semaine spécifiée.
+     *
+     * @param string $startOfWeek Date de début de la semaine au format 'Y-m-d'.
+     * @return Evenement[] Les événements de la semaine.
+     */
+   /* public function findEventsForWeek(string $startOfWeek): array
+    {
+        $endOfWeek = date('Y-m-d', strtotime($startOfWeek . ' + 6 days'));
 
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.dateDebut BETWEEN :startOfWeek AND :endOfWeek')
+            ->setParameter('startOfWeek', $startOfWeek)
+            ->setParameter('endOfWeek', $endOfWeek)
+            ->getQuery()
+            ->getResult();
+    }
+*/
+   /* public function findEventsForWeek(string $startOfWeek): array
+    {
+        return $this->createQueryBuilder('e')
+            ->select('e.titre, e.description, e.dateDebut, c.intitule as clubName')
+            ->leftJoin('e.club', 'c')
+            ->where('e.dateDebut >= :startOfWeek')
+            ->andWhere('e.dateDebut < :endOfWeek')
+            ->setParameter('startOfWeek', $startOfWeek)
+            ->setParameter('endOfWeek', date('Y-m-d', strtotime($startOfWeek . ' + 1 week')))
+            ->getQuery()
+            ->getResult();
+    }*/
+
+
+
+    public function findEventsForWeek(\DateTime $startDate): array
+    {
+        // Logique pour récupérer les événements pour la semaine à partir de $startDate
+         $endDate = clone $startDate;
+         $endDate->modify('+7 days');
+         return $this->createQueryBuilder('e')
+             ->andWhere('e.date_debut >= :startDate')
+             ->andWhere('e.date_fin < :endDate')
+             ->setParameter('startDate', $startDate)
+             ->setParameter('endDate', $endDate)
+             ->getQuery()
+             ->getResult();
+    }
+    public function findEventsByClub($clubId)
+    {
+        return $this->createQueryBuilder('e')
+            ->leftJoin('e.id_club', 'c')
+            ->andWhere('c.id = :clubId')
+            ->setParameter('clubId', $clubId)
+            ->getQuery()
+            ->getResult();
+    }
+    public function searchByAttributes($attributes)
+    {
+        $queryBuilder = $this->createQueryBuilder('e');
+
+        // Boucle sur les attributs pour ajouter des conditions de recherche dynamiquement
+        foreach ($attributes as $key => $value) {
+            if (!empty($value)) {
+                $queryBuilder->andWhere("e.$key LIKE :$key")
+                    ->setParameter($key, "%$value%");
+            }
+        }
+
+        return $queryBuilder->getQuery()->getResult();
+    }
 //    /**
 //     * @return Evenement[] Returns an array of Evenement objects
 //     */
