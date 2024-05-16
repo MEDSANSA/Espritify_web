@@ -15,7 +15,6 @@ use ConsoleTVs\Profanity\Builder;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
-use Symfony\Component\Security\Core\Security;
 #[Route('/conversation')]
 class ConversationController extends AbstractController
 {
@@ -26,14 +25,10 @@ class ConversationController extends AbstractController
         $this->profanity = $profanity;
     }
 
-   
+
     #[Route('/', name: 'app_conversation_index', methods: ['GET', 'POST'])]
-    public function index( Security $security,ConversationRepository $conversationRepository, UtilisateurRepository $utilisateurRepository, Request $request, EntityManagerInterface $entityManager): Response
+    public function index(ConversationRepository $conversationRepository, UtilisateurRepository $utilisateurRepository, Request $request, EntityManagerInterface $entityManager): Response
     {
-        $u = $security->getUser();
-        if (!$u) {
-            return $this->redirectToRoute('app_login');
-        }
         $currentDate = new \DateTime();
         $conversation = new Conversation();
         $user = $utilisateurRepository->findOneBy(['id' => 56]);
@@ -44,11 +39,11 @@ class ConversationController extends AbstractController
             'attr' => ['name' => 'edit_conversation_form']
         ]);
         $editForm->handleRequest($request);
-        
+
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $titre1 = $editForm->get('titre')->getData();
             $description1 = $editForm->get('description')->getData();
-    
+
             if (
                 $this->profanity->blocker($titre1)->filter() !== $titre1 ||
                 $this->profanity->blocker($description1)->filter() !== $description1
@@ -56,37 +51,31 @@ class ConversationController extends AbstractController
                 $this->addFlash('error', 'The title or description contains profane language. Please remove it.');
                 return $this->renderForm('conversation/index.html.twig', [
                     'conversations' => $conversationRepository->findAll(),
-                    'form1' => $editForm,
-                    'user'=>$u,
+                    'form1' => $editForm
                 ]);
             }
-    
+
             $convID = $request->request->get('reclamation_id');
             $conv = $conversationRepository->find($convID);
             $conv->setTitre($titre1);
             $conv->setDescription($description1);
             $conv->setDate($currentDate);
-    
+
             $entityManager->flush();
-    
+
             return $this->redirectToRoute('app_conversation_index');
         }
 
         return $this->renderForm('conversation/index.html.twig', [
             'conversations' => $conversationRepository->findAll(),
-            'form1' => $editForm,
-            'user'=>$u,
+            'form1' => $editForm
         ]);
     }
 
 
     #[Route('/new', name: 'app_conversation_new', methods: ['GET', 'POST'])]
-    public function new(Security $security,Request $request, EntityManagerInterface $entityManager, ConversationRepository $conversationRepository,UtilisateurRepository $utilisateurRepository): Response
-    {   
-        $u = $security->getUser();
-        if (!$u) {
-            return $this->redirectToRoute('app_login');
-        }
+    public function new(Request $request, EntityManagerInterface $entityManager, ConversationRepository $conversationRepository, UtilisateurRepository $utilisateurRepository): Response
+    {
         $currentDate = new \DateTime();
         $conversation = new Conversation();
         $conversation->setDate($currentDate);
@@ -100,18 +89,17 @@ class ConversationController extends AbstractController
         if ($createForm->isSubmitted() && $createForm->isValid()) {
             $titre = $createForm->get('titre')->getData();
             $description = $createForm->get('description')->getData();
-    
+
             // Check for profanity
             if (
                 $this->profanity->blocker($titre)->filter() !== $titre ||
                 $this->profanity->blocker($description)->filter() !== $description
             ) {
                 $this->addFlash('error', 'The title or description contains profane language. Please remove it.');
-                return $this->renderForm('conversation/index.html.twig', [
+                return $this->renderForm('conversation/new.html.twig', [
                     'conversations' => $conversationRepository->findAll(),
                     'form' => $createForm,
-                    'user'=>$user,
-                   
+
                 ]);
             }
             $entityManager->persist($conversation);
@@ -122,7 +110,6 @@ class ConversationController extends AbstractController
         return $this->renderForm('conversation/new.html.twig', [
             'conversation' => $conversation,
             'form' => $createForm,
-            'user'=>$user,
         ]);
     }
 
@@ -156,31 +143,31 @@ class ConversationController extends AbstractController
     public function delete($id, EntityManagerInterface $entityManager, ConversationRepository $conversationRepository): Response
     {
         $conv = $conversationRepository->find($id);
-        
+
         if (!$conv) {
             throw $this->createNotFoundException('Conversation not found');
         }
-    
+
         $entityManager->remove($conv);
         $entityManager->flush();
         $this->addFlash('success', ' deleted successfully');
         return $this->redirectToRoute('app_conversation_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/like/{id}', name: 'app_conversation_like', methods: ['POST','GET'])]
-    public function likeConversation(ConversationRepository $conversationRepository, UtilisateurRepository $utilisateurRepository, Request $request, EntityManagerInterface $entityManager,Conversation $conversation, EntityManagerInterface $em, SessionInterface $session,$id)
+    #[Route('/like/{id}', name: 'app_conversation_like', methods: ['POST', 'GET'])]
+    public function likeConversation(ConversationRepository $conversationRepository, UtilisateurRepository $utilisateurRepository, Request $request, EntityManagerInterface $entityManager, Conversation $conversation, EntityManagerInterface $em, SessionInterface $session, $id)
     {
         $conversation = new Conversation();
         $user = $utilisateurRepository->findOneBy(['id' => 56]);
         $currentDate = new \DateTime();
         $conversation->setIdUser($user);
         $conversation->setDate($currentDate);
-        $conv=new Conversation();
-      
+        $conv = new Conversation();
+
         $form1 = $this->createForm(ConversationType::class, $conv);
         $form1->handleRequest($request);
 
-        
+
         if ($form1->isSubmitted() && $form1->isValid()) {
 
             $titre1 = $form1->get('titre')->getData();
@@ -193,8 +180,8 @@ class ConversationController extends AbstractController
                 pnotify()->addWarning("'The title or description contains profane language. Please remove it.'");
                 return $this->renderForm('conversation/index.html.twig', [
                     'conversations' => $conversationRepository->findAll(),
-                    'form1'=>$form1
-                    
+                    'form1' => $form1
+
                 ]);
             }
             $convID = $request->request->get('reclamation_id');
@@ -204,8 +191,8 @@ class ConversationController extends AbstractController
             $convv->setTitre($titre1);
             $entityManager->flush();
 
-            
-            
+
+
 
             return $this->redirectToRoute('app_conversation_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -217,7 +204,7 @@ class ConversationController extends AbstractController
         // Check if the user has already liked this conversation
         if (in_array($cv->getId(), $likedConversations)) {
             pnotify()->addWarning('Already liked !');
-        }else {
+        } else {
             $cv->setLikes($cv->getLikes() + 1);
             $likedConversations = array_diff($likedConversations, [$cv->getId()]); // Remove the ID
             $session->set($sessionKey, $likedConversations);
@@ -230,15 +217,15 @@ class ConversationController extends AbstractController
         $likedConversations[] = $cv->getId();
         $session->set($sessionKey, $likedConversations);
 
-        
+
         return $this->renderForm('conversation/index.html.twig', [
             'conversations' => $conversationRepository->findAll(),
-            'form1'=>$form1
+            'form1' => $form1
         ]);
     }
 
-    #[Route('/Dislike/{id}', name: 'app_conversation_dislike', methods: ['POST','GET'])]
-    public function dislikeConversation(ConversationRepository $conversationRepository, UtilisateurRepository $utilisateurRepository, Request $request, EntityManagerInterface $entityManager,Conversation $conversation, EntityManagerInterface $em, SessionInterface $session,$id)
+    #[Route('/Dislike/{id}', name: 'app_conversation_dislike', methods: ['POST', 'GET'])]
+    public function dislikeConversation(ConversationRepository $conversationRepository, UtilisateurRepository $utilisateurRepository, Request $request, EntityManagerInterface $entityManager, Conversation $conversation, EntityManagerInterface $em, SessionInterface $session, $id)
     {
         $conversation = new Conversation();
         $user = $utilisateurRepository->findOneBy(['id' => 56]);
@@ -246,8 +233,8 @@ class ConversationController extends AbstractController
         $conversation->setIdUser($user);
         $conversation->setDate($currentDate);
 
-       
-        $conv=new Conversation();
+
+        $conv = new Conversation();
 
         $form1 = $this->createForm(ConversationType::class, $conv);
         $form1->handleRequest($request);
@@ -263,8 +250,8 @@ class ConversationController extends AbstractController
                 pnotify()->addWarning("'The title or description contains profane language. Please remove it.'");
                 return $this->renderForm('conversation/index.html.twig', [
                     'conversations' => $conversationRepository->findAll(),
-                    'form1'=>$form1
-                    
+                    'form1' => $form1
+
                 ]);
             }
             $convID = $request->request->get('reclamation_id');
@@ -287,12 +274,12 @@ class ConversationController extends AbstractController
             $cv->setLikes($cv->getLikes() - 1);
             $likedConversations = array_diff($likedConversations, [$cv->getId()]); // Remove the ID from the array
             $session->set($sessionKey, $likedConversations); // Update the session
-            $em->flush($cv); 
+            $em->flush($cv);
             pnotify()->addWarning("Like removed!");
         }
         return $this->renderForm('conversation/index.html.twig', [
             'conversations' => $conversationRepository->findAll(),
-            'form1'=>$form1
+            'form1' => $form1
         ]);
     }
 }
