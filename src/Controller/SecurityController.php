@@ -182,7 +182,7 @@ class SecurityController extends AbstractController
         }
 
         
-            return $this->redirectToRoute('app_profile');
+            return $this->redirectToRoute('app_front');
     }
     #[Route('/edit-user/{id}', name: 'app-edit')]
     public function update($id, UtilisateurRepository $userRepository, UserPasswordHasherInterface $userPasswordHasher, Request $request, EntityManagerInterface $entityManager, Security $security): Response

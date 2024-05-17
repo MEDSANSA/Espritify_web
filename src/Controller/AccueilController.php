@@ -92,7 +92,7 @@ class AccueilController extends AbstractController
         $offrestage = $paginatorInterface->paginate(
             $offrestage, /* query NOT result */
             $req->query->getInt('page', 1),
-            1
+            3
         );
         return $this->render('accueil/internships.html.twig', [
             'offreStage' => $offrestage,
